@@ -1,0 +1,149 @@
+[
+{
+  "model": "user.rank",
+  "pk": 1,
+  "fields": {
+    "name": "10 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 2,
+  "fields": {
+    "name": "9 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 3,
+  "fields": {
+    "name": "8 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 4,
+  "fields": {
+    "name": "7 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 5,
+  "fields": {
+    "name": "6 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 6,
+  "fields": {
+    "name": "5 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 7,
+  "fields": {
+    "name": "4 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 8,
+  "fields": {
+    "name": "3 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 9,
+  "fields": {
+    "name": "2 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 10,
+  "fields": {
+    "name": "1 kyu"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 11,
+  "fields": {
+    "name": "1 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 12,
+  "fields": {
+    "name": "2 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 13,
+  "fields": {
+    "name": "3 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 14,
+  "fields": {
+    "name": "4 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 15,
+  "fields": {
+    "name": "5 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 16,
+  "fields": {
+    "name": "6 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 17,
+  "fields": {
+    "name": "7 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 18,
+  "fields": {
+    "name": "8 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 19,
+  "fields": {
+    "name": "9 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 20,
+  "fields": {
+    "name": "10 dan"
+  }
+},
+{
+  "model": "user.rank",
+  "pk": 21,
+  "fields": {
+    "name": "Dosyu"
+  }
+}
+]
