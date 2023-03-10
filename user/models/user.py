@@ -41,7 +41,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
-    #slug =
 
     USERNAME_FIELD = 'username'
 
