@@ -36,7 +36,7 @@ class ProfileFields:
         'phone__number'
     ]
     list_filter = [
-        'birth_date', 'role', 'clubs', 'groups', 'country', 'region', 'city'
+        'birth_date', 'role', 'clubs', 'groups'
     ]
     inlines = [PhoneInline, PhotoInline]
     readonly_fields = ['updated_at', 'avatar_full']

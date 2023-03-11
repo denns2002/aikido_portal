@@ -16,6 +16,7 @@ AUTH_USER_MODEL = 'user.User'
 
 INSTALLED_APPS = [
     'super_inlines',
+    'admincustom.apps.AdmincustomConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,7 +34,6 @@ INSTALLED_APPS = [
     'ckeditor',
 
     'user.apps.UserConfig',
-    'admincustom.apps.AdmincustomConfig',
     'cities.apps.CitiesConfig',
 ]
 
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ["NAME"],
+        'USER': os.environ["USER"],
+        'PASSWORD': os.environ["PASSWORD"],
+        'HOST': os.environ["HOST"],
+        'PORT': os.environ["PORT"],
     }
 }
 
@@ -116,7 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static'),
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 
 # Default primary key field type

@@ -20,7 +20,8 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
 
-    def create_superuser(self, username, email='admin@admin.admin', password='admin'):
+    def create_superuser(self, username, password, **extra_fields):
+        email = username + "@" + username + '.com'
         if password is None:
             raise TypeError('Users should have a password')
         user = self.create_user(username, email, password,
