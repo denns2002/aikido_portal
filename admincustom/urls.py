@@ -7,3 +7,4 @@ admin.site.index_title = 'All tables:'
 urlpatterns = [
     path('', admin.site.urls),
 ]
+
