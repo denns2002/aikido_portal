@@ -19,18 +19,25 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 
-urlpatterns = [
-    path('api/admin/', include('admincustom.urls')),
-    path('api/user/', include('user.urls')),
+api = 'api/'
 
+urlpatterns = [
     # SWAGGER
-    path('api/', schema_view.with_ui('swagger', cache_timeout=0),
-         name='schema-swagger-ui'),
-    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0),
-         name='schema-redoc'),
+    path(api + '', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path(api + 'redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # Admin
+    path(api + 'admin/', include('admincustom.urls')),
+
+    # # Authentication urls
+    # path(api + 'auth/', include('authentication.urls')),
+
+    # # Profile and user info
+    # path(api + 'api/profile/', include('user.urls')),
+
+    # Events
+    path(api + 'api/events/', include('events.urls')),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -35,11 +35,11 @@ class ProfileFields:
         'phone__number'
     ]
     list_filter = [
-        'birth_date', 'role', 'clubs', 'groups'
+        'birth_date', 'role', 'clubs'
     ]
     inlines = [PhoneInline, PhotoInline]
     readonly_fields = ['updated_at', 'avatar_full']
-    filter_horizontal = ["groups", "clubs"]
+    filter_horizontal = ["clubs"]
 
 
 @admin.register(Profile)
@@ -52,7 +52,7 @@ class ProfileInline(ProfileFields, SuperInlineModelAdmin, admin.StackedInline):
     extra = 1
 
 
-models = [Rank, Role, Club, Group, UserRank, Phone, Photo]
+models = [Rank, Role, Phone, Photo]
 
 for model in models:
     admin.site.register(model)

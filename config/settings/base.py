@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'user.apps.UserConfig',
     'cities.apps.CitiesConfig',
+    'clubs.apps.ClubsConfig',
+    'events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [

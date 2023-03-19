@@ -6,13 +6,16 @@ from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 
 from cities.models import *
+from clubs.models.club import Club
 
 
 class Rank(models.Model):
-    RANKS = [(str(x) + ' kyu', str(x) + ' кю') for x in range(10, 0, -1)] \
+    RANKS = [(str(x) + ' kyu child', str(x) + ' кю детский') for x in range(6, 0, -1)] \
+            + [(str(x) + ' kyu', str(x) + ' кю') for x in range(5, 0, -1)] \
             + [(str(x) + ' dan', str(x) + ' дан') for x in range(1, 11)] \
             + [('Dosyu', 'Досю')]
     name = models.CharField(max_length=255, choices=RANKS)
+    price = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -22,28 +25,12 @@ class Role(models.Model):
     ROLES = [
         ('Trainer', 'Trainer'),
         ('Student', 'Student'),
-        ('Free', 'Free')
+        ('Supervisor', 'Supervisor')
     ]
     name = models.CharField(max_length=255, choices=ROLES)
 
     def __str__(self):
         return self.name
-
-
-class Club(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=255)
-    number = models.IntegerField(unique=True)
-    club = models.ForeignKey(Club, null=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return self.club.name + ': №' + str(self.number) + ' - ' + self.name
 
 
 class Profile(models.Model):
@@ -54,14 +41,9 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="photo/%Y/%m/%d/", blank=True, null=True, verbose_name='Avatar')
     birth_date = models.DateField(blank=True, null=True)
     city = models.ForeignKey(City, blank=True, null=True, on_delete=models.SET_NULL)
-    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
-    country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.SET_NULL)
-    current_rank = models.ForeignKey(Rank, blank=True, null=True, on_delete=models.SET_NULL, related_name='current_rank')
-    next_rank = models.ForeignKey(Rank, blank=True, null=True, on_delete=models.SET_NULL, related_name='next_rank')
-    role = models.ForeignKey(Role, blank=True, null=True, on_delete=models.SET_NULL)
+    rank = models.ForeignKey(Rank, blank=True, null=True, on_delete=models.SET_NULL)
+    role = models.ManyToManyField(Role, blank=True)
     clubs = models.ManyToManyField(Club, blank=True)
-    groups = models.ManyToManyField(Group, blank=True)
-    # competitions = models.ManyToManyField()
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=55,  verbose_name="URL", blank=True)
 
@@ -92,12 +74,6 @@ class Profile(models.Model):
         return mark_safe('<img src="%s" width="200" />' % self.get_avatar())
 
     avatar_tag.short_description = 'Avatar'
-
-
-class UserRank(models.Model):
-    rank = models.ManyToManyField(Rank)
-    user = models.ManyToManyField(Profile)
-    data = models.DateTimeField()
 
 
 class Phone(models.Model):
