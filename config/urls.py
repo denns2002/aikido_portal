@@ -5,13 +5,12 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.conf import settings
 
-
 schema_view = get_schema_view(
    openapi.Info(
-      title="Interesnee HR API",
-      default_version='v1',
-      description="Swagger api for all endpoints for HR.",
-      terms_of_service="https://www.google.com/policies/terms/",
+      title="Aikido Potal API",
+      default_version='v0.1',
+      description="be sport",
+      terms_of_service="nope",
       contact=openapi.Contact(email="denis.israfilov2002@mail.ru"),
       # license=openapi.License(name="Test License"),
    ),
@@ -29,8 +28,8 @@ urlpatterns = [
     # Admin
     path(api + 'admin/', include('admincustom.urls')),
 
-    # # Authentication urls
-    # path(api + 'auth/', include('authentication.urls')),
+    # Authentication urls
+    path(api + 'auth/', include('authentication.urls')),
 
     # # Profile and user info
     # path(api + 'api/profile/', include('user.urls')),

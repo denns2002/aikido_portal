@@ -4,6 +4,7 @@ from events.serializers.serializers import EventSerializer
 
 
 class EventListAPIView(ListCreateAPIView):
+    swagger_schema = None
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 

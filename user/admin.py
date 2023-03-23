@@ -17,12 +17,12 @@ class ProfileFields:
     fieldsets = (
         ('Personal Information', {
             'fields': ('slug', 'user', 'first_name', 'last_name', 'mid_name',
-                       'birth_date', 'country', 'region', 'city', 'avatar_full',
+                       'birth_date', 'city', 'avatar_full',
                        'avatar', 'updated_at'),
         }),
 
         ('Achievements in sports', {
-            'fields': ('current_rank', 'next_rank', 'role', 'clubs', 'groups'),
+            'fields': ('rank', 'role', 'clubs'),
             'classes': ('wide',)
         }),
     )
