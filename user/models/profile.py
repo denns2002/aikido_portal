@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
+from transliterate import translit
 
 from cities.models import *
 from clubs.models.club import Club
@@ -49,8 +50,9 @@ class Profile(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
-            slug = slugify(self.first_name) + slugify(self.last_name) + \
-                        slugify(self.mid_name) + get_random_string(length=4)
+            slug = str(self.first_name) + str(self.last_name) + str(self.mid_name)
+            slug = translit(slug[:10], language_code='ru', reversed=True)
+            slug = slugify(slug) + get_random_string(length=10)
 
             while Profile.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)
