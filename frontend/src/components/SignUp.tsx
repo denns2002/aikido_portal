@@ -6,27 +6,27 @@ const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
 function SignUp() {
     const [inputsValues, setInputValues] = useState({
-        secondname: '',
+        secondName: '',
+        firstName:'',
         username:'',
-        login:'',
         email:'',
         password: '',
         checkpassword:''
     })
 
     const [errors, setErrors] = useState({
-        secondname: 'Это поле необходимо заполнить!',
-        username: 'Это поле необходимо заполнить!',
-        login:'Это поле необходимо заполнить!',
+        secondName: 'Это поле необходимо заполнить!',
+        firstName: 'Это поле необходимо заполнить!',
+        username:'Это поле необходимо заполнить!',
         email:'Это поле необходимо заполнить!',
         password: 'Это поле необходимо заполнить!',
         checkpassword:'Это поле необходимо заполнить!'
     })
 
     const [touched, setTouched] = useState({
-        secondname: false,
-        username: false,
-        login:false,
+        secondName: false,
+        firstName: false,
+        username:false,
         email:false,
         password: false,
         checkpassword:false
@@ -37,31 +37,31 @@ function SignUp() {
             label: 'Фамилия',
             type: 'text',
             placeholder: 'Фамилия',
-            name: 'secondname',
-            value: inputsValues.secondname,
-            error: errors.secondname,
+            name: 'secondName',
+            value: inputsValues.secondName,
+            error: errors.secondName,
             required: true,
-            touched: touched.secondname
+            touched: touched.secondName
         },
         {
             label: 'Имя',
             type: 'text',
             placeholder: 'Имя',
-            name: 'username',
-            value: inputsValues.username,
-            error: errors.username,
+            name: 'firstName',
+            value: inputsValues.firstName,
+            error: errors.firstName,
             required: true,
-            touched: touched.username
+            touched: touched.firstName
         },
         {
             label: 'Логин',
             type: 'text',
             placeholder: 'Логин',
-            name: 'login',
-            value: inputsValues.login,
-            error: errors.login,
+            name: 'username',
+            value: inputsValues.username,
+            error: errors.username,
             required: true,
-            touched: touched.login
+            touched: touched.username
         },
         {
             label: 'Почта',
@@ -119,8 +119,7 @@ function SignUp() {
         }
         
         if (event.target.name === 'checkpassword') {
-            let passwordInput = formInputs.find((item) => item.name === 'password')
-            if (!(event.target.value === passwordInput?.value)) {
+            if (!(event.target.value === inputsValues.password)) {
                 setErrors({... errors, [event.target.name]: 'Пароли должны совпадать'})
             } else {
                 setErrors({... errors, [event.target.name]: ''})
@@ -156,7 +155,7 @@ function SignUp() {
                             />)
                     })}
                     <button className='font-semibold rounded-md p-1 w-52 h-9 mt-3 enabled:hover:bg-sky-500 enabled:bg-sky-400 disabled:bg-sky-100' type='submit' 
-                        disabled={!(!errors.secondname && !errors.username && !errors.login && !errors.email && !errors.password && !errors.checkpassword)}>
+                        disabled={!(!errors.secondName && !errors.firstName && !errors.username && !errors.email && !errors.password && !errors.checkpassword)}>
                         Зарегистрироваться
                     </button>
                 </form>
