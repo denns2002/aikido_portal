@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormInput from "./forms/FormInput";
 import { IInputAttributes } from "../models";
+import { useActions } from "../hooks/useActions";
 
 function SignIn() {
     const [inputsValues, setInputValues] = useState({
@@ -17,6 +18,8 @@ function SignIn() {
         username: false,
         password: false
     })
+
+    const {signIn} = useActions();
 
     const formInputs: IInputAttributes[] = [
         {
@@ -44,36 +47,31 @@ function SignIn() {
     function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault()
 
+        signIn(inputsValues);
+
         console.log(inputsValues);
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setInputValues({ ...inputsValues, [event.target.name]: event.target.value })
+
         if (!event.target.value) {
-            setErrors({... errors, [event.target.name]: 'Это поле необходимо заполнить!'})
+            setErrors({ ...errors, [event.target.name]: 'Это поле необходимо заполнить!' })
             return
         } else {
-            setErrors({... errors, [event.target.name]: ''})
-        }
-
-        if (event.target.name === 'password') {
-            if (!event.target.value.match(/[0-9]/g) || !event.target.value.match(/[A-Za-z]/g) || event.target.value.length < 8) {
-                setErrors({... errors, [event.target.name]: 'Пароль должен соответствовать требованиям:\n- длина не меньше 8 символов\n- минимум одна буква\n- минимум одна цифра'})
-            } else {
-                setErrors({... errors, [event.target.name]: ''})
-            }
+            setErrors({ ...errors, [event.target.name]: '' })
         }
     }
 
     function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
-        setTouched({...touched, [event.target.name]: true})
+        setTouched({ ...touched, [event.target.name]: true })
     }
 
     return (
         <div className='flex w-full justify-center items-center'>
             <div className='flex flex-col items-center bg-sky-200 rounded-xl px-8 py-7'>
                 <label className='font-bold text-xl'>Авторизация</label>
-                <form className='flex flex-col gap-2 mt-5 w-72 items-center' onSubmit={handleSubmit}
+                <form className='flex flex-col gap-2 mt-5 w-72' onSubmit={handleSubmit}
                 >
                     {formInputs.map((attrs, index) => {
                         return (
@@ -84,7 +82,14 @@ function SignIn() {
                                 onBlur={handleBlur}
                             />)
                     })}
-                    <button className='font-semibold rounded-md p-1 w-52 h-9 mt-3 enabled:hover:bg-sky-500 enabled:bg-sky-400 disabled:bg-sky-100' type='submit' disabled={!(!errors.password && !errors.username)}>Войти</button>
+                    {(errors.password && touched.password) || (errors.username && touched.username) ?
+                        <p className='text-red-700 mt-1'>
+                            Все поля должны быть заполнены!
+                        </p>
+                        : null}
+                    <div className='flex justify-center'>
+                        <button className='font-semibold rounded-md p-1 w-52 h-9 mt-3 enabled:hover:bg-sky-500 enabled:bg-sky-400 disabled:bg-sky-100' type='submit' disabled={!(!errors.password && !errors.username)}>Войти</button>
+                    </div>
                 </form>
             </div>
         </div>

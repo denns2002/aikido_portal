@@ -13,3 +13,7 @@ export interface INavLink {
     title: string;
     path: string;
 }
+
+export interface IUser {
+    username: string;
+}

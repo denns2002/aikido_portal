@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 
 interface LayoutProps {
-    children: React.ReactNode;
+    children: React.ReactElement;
 }
 
 function Layout(props: LayoutProps) {
