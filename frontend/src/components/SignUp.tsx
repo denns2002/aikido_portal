@@ -116,6 +116,12 @@ function SignUp() {
             } else {
                 setErrors({... errors, [event.target.name]: ''})
             }
+
+            if (event.target.value !== inputsValues.checkpassword) {
+                setErrors(prev => ({... prev, 'checkpassword': 'Пароли должны совпадать'}))
+            } else {
+                setErrors(prev => ({... prev, 'checkpassword': ''}))
+            }
         }
         
         if (event.target.name === 'checkpassword') {
