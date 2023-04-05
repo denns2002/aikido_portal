@@ -81,6 +81,7 @@ class Profile(models.Model):
 class Phone(models.Model):
     number = PhoneNumberField(blank=True, null=True, unique=True, verbose_name='Phone')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    # clubs = models.ForeignKey(Club, on_delete=models.CASCADE)
 
 
 class Photo(models.Model):
