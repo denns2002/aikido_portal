@@ -4,6 +4,8 @@ import { useActions } from "../hooks/useActions";
 import { INavLink } from "../models";
 import { IRootState } from "../store/store";
 
+import home from '../svg/home.svg'
+
 interface NavbarProps {
     isAuthenticated: boolean;
     username: string;

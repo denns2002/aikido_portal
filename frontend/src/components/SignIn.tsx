@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormInput from "./forms/FormInput";
 import { IInputAttributes } from "../models";
 import { useActions } from "../hooks/useActions";
+import { NavLink } from "react-router-dom";
 
 function SignIn() {
     const [inputsValues, setInputValues] = useState({
@@ -19,16 +20,15 @@ function SignIn() {
         password: false
     })
 
-    const {signIn} = useActions();
+    const { signIn } = useActions();
 
     const formInputs: IInputAttributes[] = [
         {
             label: 'Имя пользователя',
             type: 'text',
-            placeholder: 'Логин',
+            placeholder: 'username',
             name: 'username',
             value: inputsValues.username,
-            error: errors.username,
             required: true,
             touched: touched.username
         },
@@ -38,7 +38,6 @@ function SignIn() {
             placeholder: 'Пароль',
             name: 'password',
             value: inputsValues.password,
-            error: errors.password,
             required: true,
             touched: touched.password
         },
@@ -69,27 +68,49 @@ function SignIn() {
 
     return (
         <div className='flex w-full justify-center items-center'>
-            <div className='flex flex-col items-center bg-sky-200 rounded-xl px-8 py-7'>
-                <label className='font-bold text-xl'>Авторизация</label>
-                <form className='flex flex-col gap-2 mt-5 w-72' onSubmit={handleSubmit}
+            <div className='flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7'>
+                <label className='font-bold text-2xl text-white'>
+                    Авторизация
+                </label>
+                <form className='flex flex-col gap-2 mt-6 w-80' onSubmit={handleSubmit}
                 >
-                    {formInputs.map((attrs, index) => {
-                        return (
-                            <FormInput
-                                key={index}
-                                {...attrs}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />)
-                    })}
+                    <FormInput
+                        {...formInputs[0]}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errors={[errors.username]}
+                    />
+                    <FormInput
+                        {...formInputs[1]}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        errors={[errors.password]}
+                    />
+                    <div className='flex flex-col mt-1'>
                     {(errors.password && touched.password) || (errors.username && touched.username) ?
-                        <p className='text-red-700 mt-1'>
+                        <span className='text-red-400'>
                             Все поля должны быть заполнены!
-                        </p>
-                        : null}
-                    <div className='flex justify-center'>
-                        <button className='font-semibold rounded-md p-1 w-52 h-9 mt-3 enabled:hover:bg-sky-500 enabled:bg-sky-400 disabled:bg-sky-100' type='submit' disabled={!(!errors.password && !errors.username)}>Войти</button>
+                        </span> :
+                        null}
                     </div>
+                    <div className='peer-pla flex justify-center'>
+                        <button
+                            className='font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-500 enabled:bg-sky-300 disabled:bg-sky-100'
+                            type='submit'
+                            disabled={!(!errors.password && !errors.username)}
+                        >
+                            Войти
+                        </button>
+                    </div>
+                    <span className='text-sm text-center mt-2 text-slate-200'>
+                        Все еще нет аккаунта? {' '}
+                        <NavLink
+                            to='/signup'
+                            className='underline text-sky-100 hover:text-sky-300'
+                        >
+                            Создайте!
+                        </NavLink>
+                    </span>
                 </form>
             </div>
         </div>

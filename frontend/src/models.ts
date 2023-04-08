@@ -4,7 +4,6 @@ export interface IInputAttributes {
     placeholder: string;
     name: string;
     value: string;
-    error: string;
     required: boolean;
     touched: boolean;
 }
