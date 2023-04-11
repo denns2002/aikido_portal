@@ -1,3 +1,5 @@
+import React from "react"
+
 function PrivateExample() {
 	return (
 		<div className="flex w-full justify-center">

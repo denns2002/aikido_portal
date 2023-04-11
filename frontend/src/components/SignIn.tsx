@@ -1,3 +1,4 @@
+import React from "react"
 import { useState } from "react"
 import FormInput from "./forms/FormInput"
 import { IInputAttributes } from "../store/types/models"
