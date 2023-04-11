@@ -2,9 +2,8 @@ import { useState } from "react"
 import FormInput from "./forms/FormInput"
 import { IInputAttributes } from "../store/types/models"
 import { NavLink } from "react-router-dom"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
 import { Popover } from "@headlessui/react"
+import {FaExclamationCircle} from "react-icons/fa"
 
 function SignUp() {
 	const [inputsValues, setInputValues] = useState({
@@ -252,11 +251,8 @@ function SignUp() {
 					</div>
 					<div className="-mt-2">
 						<Popover>
-							<Popover.Button className="text-slate-200 text-sm outline-none">
-								<FontAwesomeIcon
-									icon={faCircleExclamation}
-									className=" mr-1"
-								/>
+							<Popover.Button className="text-slate-200 text-sm outline-none flex flex-row items-center">
+								<FaExclamationCircle className="mr-0.5"/>
 								<span className="hover:text-sky-300 underline">
 									Требования к паролю
 								</span>

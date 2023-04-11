@@ -3,8 +3,9 @@ import { NavLink } from "react-router-dom"
 import { useActions } from "../hooks/useActions"
 import { INavLink } from "../store/types/models"
 import { IRootState } from "../store/store"
-
-import home from "../svg/home.svg"
+import { FaBars } from "react-icons/fa"
+import { IoLogoInstagram } from "react-icons/io"
+import { TbShield } from "react-icons/tb"
 
 interface NavbarProps {
 	isAuthenticated: boolean
@@ -22,47 +23,24 @@ function Navbar(props: NavbarProps) {
 	]
 
 	return (
-		<aside className="bg-sky-200 h-full w-36 flex flex-col">
-			<NavLink
-				to="/"
-				className="font-semibold hover:shadow-lg hover:bg-sky-300 mt-2 p-1 pl-3"
-			>
-				Главная
-			</NavLink>
-			{props.isAuthenticated ? (
-				<>
-					<hr className="h-1 bg-white rounded mx-1 my-2" />
-					<nav className="flex flex-col gap-1">
-						{navLinks.map((nav, index) => {
-							return (
-								<NavLink
-									key={index}
-									to={nav.path}
-									className="font-semibold hover:shadow-lg hover:bg-sky-300 p-1 pl-3"
-								>
-									{nav.title}
-								</NavLink>
-							)
-						})}
-					</nav>
-				</>
-			) : null}
-			<div className="flex-1" />
-			{props.isAuthenticated ? (
-				<div
-					className="font-semibold hover:shadow-lg hover:bg-sky-300 mt-2 p-1 pl-3 mb-2 cursor-pointer"
-					onClick={logout}
-				>
-					{props.username}
+		<aside className="h-full bg-slate-300 max-w-[200px] w-full">
+			<button className="absolute top-4 right-4 items-center justify-center rounded-md p-2 text-sky-700 hover:bg-sky-700 hover:text-white  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-700 group lg:hidden">
+				<FaBars className="h-6 w-6"/>
+			</button>
+			<div className="w-full">
+				<div className="items-center flex flex-row justify-center gap-0.5 my-2 p-1">
+					<IoLogoInstagram className="h-6 w-6"/>
+					<span className="font-bold text-lg">AikidoLogo</span>
 				</div>
-			) : (
-				<NavLink
-					to="/signin"
-					className="font-semibold hover:shadow-lg hover:bg-sky-300 mt-2 p-1 pl-3 mb-2"
-				>
-					Войти
-				</NavLink>
-			)}
+				<hr className="h-1 bg-white rounded mx-1 my-2" />
+				<div className="h-full p-1 flex flex-col gap-1">
+				
+						<NavLink to="/private" className={({isActive}) => `p-1 transition-all duration-300 mx-2 rounded-md flex flex-row items-center gap-0.5 hover:bg-slate-500 hover:text-white ${isActive ? "bg-slate-500 text-white" : null}`}>
+							<TbShield />
+							<span className="font-semibold">Защищенная</span>
+						</NavLink>
+				</div>
+			</div>
 		</aside>
 	)
 }

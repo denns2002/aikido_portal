@@ -6,10 +6,12 @@ interface LayoutProps {
 
 function Layout(props: LayoutProps) {
 	return (
-		<main className="flex h-screen w-screen">
+		<>
+			<main className="flex h-screen w-screen">
 			<Navbar />
 			{props.children}
-		</main>
+			</main>
+		</>
 	)
 }
 
