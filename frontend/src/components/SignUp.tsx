@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React from "react"
 import { useState } from "react"
 import FormInput from "./forms/FormInput"

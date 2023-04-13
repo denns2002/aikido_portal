@@ -1,5 +1,3 @@
-import { IconType } from "react-icons"
-
 export interface IInputAttributes {
 	label: string
 	type: string

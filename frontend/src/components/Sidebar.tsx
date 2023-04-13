@@ -6,7 +6,6 @@ import { IRootState } from "../store/store"
 import { connect } from "react-redux"
 import { INavLink, IUser } from "../store/types/models"
 import { useActions } from "../hooks/useActions"
-import { Label } from "@headlessui/react/dist/components/label/label"
 
 interface SidebarProps {
 	isAuthenticated: boolean
