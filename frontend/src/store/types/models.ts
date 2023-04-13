@@ -1,3 +1,5 @@
+import { IconType } from "react-icons"
+
 export interface IInputAttributes {
 	label: string
 	type: string
@@ -9,10 +11,13 @@ export interface IInputAttributes {
 }
 
 export interface INavLink {
-	title: string
-	path: string
+	to: string
+	label: string
+	roles: string[]
+	icon: JSX.Element
 }
-
 export interface IUser {
-	username: string
+	username: string,
+	secondName: string,
+	firstName: string
 }

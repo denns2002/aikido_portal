@@ -7,7 +7,9 @@ import {
 const initialState: AuthenticationState = {
 	isAuthenticated: false,
 	user: {
-		username: "cringe",
+		username: "",
+		secondName: "",
+		firstName: ""
 	},
 }
 
@@ -21,7 +23,10 @@ export function authenticationReducer(
 				...state,
 				isAuthenticated: true,
 				user: {
+					...state.user,
 					username: action.payload,
+					secondName: "Фамилия",
+					firstName: "Имя"
 				},
 			}
 		case AuthenticationActionTypes.SIGNIN_FAIL:
@@ -31,6 +36,8 @@ export function authenticationReducer(
 				isAuthenticated: false,
 				user: {
 					username: "",
+					secondName: "",
+					firstName: ""
 				},
 			}
 		default:

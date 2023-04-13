@@ -1,5 +1,5 @@
 import React from "react"
-import Navbar from "../components/Navbar"
+import Sidebar from "../components/Sidebar"
 
 interface LayoutProps {
 	children: React.ReactElement
@@ -7,12 +7,12 @@ interface LayoutProps {
 
 function Layout(props: LayoutProps) {
 	return (
-		<>
-			<main className="flex h-screen w-screen">
-			<Navbar />
-			{props.children}
+		<div className="h-full w-full flex relative">
+			<Sidebar />
+			<main className="h-full w-full flex">
+				{props.children}
 			</main>
-		</>
+		</div>
 	)
 }
 

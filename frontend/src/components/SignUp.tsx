@@ -250,7 +250,7 @@ function SignUp() {
 							onBlur={handleBlur}
 						/>
 					</div>
-					<div className="-mt-2">
+					<div className="-mt-1.5">
 						<Popover>
 							<Popover.Button className="text-slate-200 text-sm outline-none flex flex-row items-center">
 								<FaExclamationCircle className="mr-0.5"/>
