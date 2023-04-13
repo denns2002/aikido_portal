@@ -36,7 +36,25 @@ function Sidebar(props: SidebarProps) {
 		{
 			to: "/private",
 			label: "Защищенная",
-			roles: ["SPORTSMAN"],
+			accessRoles: ["SPORTSMAN"],
+			icon: <TbShield className="h-5 w-5" />,
+		},
+		{
+			to: "/private",
+			label: "Защищенная",
+			accessRoles: ["SPORTSMAN"],
+			icon: <TbShield className="h-5 w-5" />,
+		},
+		{
+			to: "/private",
+			label: "Защищенная",
+			accessRoles: ["SPORTSMAN"],
+			icon: <TbShield className="h-5 w-5" />,
+		},
+		{
+			to: "/private",
+			label: "Защищенная",
+			accessRoles: ["SPORTSMAN"],
 			icon: <TbShield className="h-5 w-5" />,
 		},
 	]
@@ -53,7 +71,7 @@ function Sidebar(props: SidebarProps) {
 						<span className="font-bold text-2xl">Logo</span>
 					</div>
 					<hr className="h-1 bg-white rounded mx-2 my-2" />
-					<nav className="h-full p-1 flex flex-col gap-1">
+					<nav className="h-full p-1 flex flex-col gap-1 overflow-auto scrollbar-hide">
 						<NavLink
 							to="/"
 							className={({ isActive }) =>
@@ -70,13 +88,21 @@ function Sidebar(props: SidebarProps) {
 						</NavLink>
 						{props.isAuthenticated
 							? navLinks.map(
-									({ roles, icon, label, to }, index) => {
-										if (!roles.includes("SPORTSMAN")) {
+									(
+										{ accessRoles, icon, label, to },
+										index
+									) => {
+										if (
+											!accessRoles.includes(
+												props.user.role
+											)
+										) {
 											return null
 										}
 
 										return (
 											<NavLink
+												key={index}
 												to={to}
 												className={({ isActive }) =>
 													`p-1 transition-all duration-200 mx-2 rounded-md flex flex-row items-center gap-0.5 hover:bg-white hover:text-sky-700 ${

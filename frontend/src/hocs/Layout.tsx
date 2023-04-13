@@ -9,7 +9,7 @@ function Layout(props: LayoutProps) {
 	return (
 		<div className="h-full w-full flex relative">
 			<Sidebar />
-			<main className="h-full w-full flex">
+			<main className="h-full w-full flex overflow-auto">
 				{props.children}
 			</main>
 		</div>

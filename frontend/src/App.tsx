@@ -27,7 +27,7 @@ function App() {
 				<Route
 					path="/private"
 					element={
-						<PrivateRoute>
+						<PrivateRoute accessRoles={["SPORTSMAN"]}>
 							<PrivateExample />
 						</PrivateRoute>
 					}

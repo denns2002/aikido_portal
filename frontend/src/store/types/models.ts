@@ -11,11 +11,12 @@ export interface IInputAttributes {
 export interface INavLink {
 	to: string
 	label: string
-	roles: string[]
+	accessRoles: string[]
 	icon: JSX.Element
 }
 export interface IUser {
 	username: string,
 	secondName: string,
 	firstName: string
+	role: string
 }

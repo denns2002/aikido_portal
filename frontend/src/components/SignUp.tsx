@@ -189,8 +189,8 @@ function SignUp() {
 	}
 
 	return (
-		<div className="flex w-full justify-center items-center">
-			<div className="flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7">
+		<div className="flex h-full w-full">
+			<div className="relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7">
 				<label className="font-bold text-2xl text-white">
 					Регистрация
 				</label>

@@ -9,7 +9,8 @@ const initialState: AuthenticationState = {
 	user: {
 		username: "",
 		secondName: "",
-		firstName: ""
+		firstName: "",
+		role: ""
 	},
 }
 
@@ -26,7 +27,8 @@ export function authenticationReducer(
 					...state.user,
 					username: action.payload,
 					secondName: "Фамилия",
-					firstName: "Имя"
+					firstName: "Имя",
+					role: "SPORTSMAN"
 				},
 			}
 		case AuthenticationActionTypes.SIGNIN_FAIL:
@@ -37,7 +39,8 @@ export function authenticationReducer(
 				user: {
 					username: "",
 					secondName: "",
-					firstName: ""
+					firstName: "",
+					role: ""
 				},
 			}
 		default:
