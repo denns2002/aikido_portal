@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React from "react"
 import { useState } from "react"
 import FormInput from "./forms/FormInput"
@@ -250,7 +251,7 @@ function SignUp() {
 							onBlur={handleBlur}
 						/>
 					</div>
-					<div className="-mt-2">
+					<div className="-mt-1.5">
 						<Popover>
 							<Popover.Button className="text-slate-200 text-sm outline-none flex flex-row items-center">
 								<FaExclamationCircle className="mr-0.5"/>
