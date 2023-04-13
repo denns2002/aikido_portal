@@ -3,6 +3,8 @@ from django.conf import settings
 
 
 # https://django-phonenumber-field.readthedocs.io/en/latest/
+from django.urls import reverse_lazy
+
 PHONENUMBER_DEFAULT_FORMAT = 'INTERNATIONAL'
 
 # https://www.django-rest-framework.org/
@@ -35,6 +37,8 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+LOGIN_URL = reverse_lazy('login')
 
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
 SIMPLE_JWT = {

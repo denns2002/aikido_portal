@@ -11,6 +11,6 @@ def send_email(data):
         subject=data['email_subject'],
         body=data['email_body'],
         to=[data['to_email']],
-        from_email=settings.EMAIL_HOST_USER + '@yandex.ru',
+        from_email=settings.EMAIL_HOST_USER + settings.EMAIL_DOMAIN,
     )
     email.send()

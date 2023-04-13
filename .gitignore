@@ -5,6 +5,8 @@ venv
 media/*
 .idea
 .env
+general.log
+error.log
 
 #virtual environment
 .venv
