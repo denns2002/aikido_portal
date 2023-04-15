@@ -59,6 +59,12 @@ class Profile(models.Model):
 
             self.slug = slug
 
+        self.first_name = str(self.first_name)[0].upper() + str(self.first_name)[1:]
+        self.last_name = str(self.last_name)[0].upper() + str(self.last_name)[1:]
+
+        if self.mid_name:
+            self.mid_name = str(self.mid_name)[0].upper() + str(self.mid_name)[1:]
+
         super(Profile, self).save()
 
     def __str__(self):
@@ -76,11 +82,6 @@ class Profile(models.Model):
         return mark_safe('<img src="%s" width="200" />' % self.get_avatar())
 
     avatar_tag.short_description = 'Avatar'
-
-
-class Phone(models.Model):
-    number = PhoneNumberField(blank=True, null=True, unique=True, verbose_name='Phone')
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 
 class Photo(models.Model):

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cities.apps.CitiesConfig',
     'clubs.apps.ClubsConfig',
     'events.apps.EventsConfig',
+    'phones.apps.PhonesConfig',
 ]
 
 MIDDLEWARE = [

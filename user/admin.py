@@ -1,11 +1,8 @@
 from django.contrib import admin
 from super_inlines.admin import SuperInlineModelAdmin
+
+from phones.admin import UserPhoneInline
 from .models.profile import *
-
-
-class PhoneInline(SuperInlineModelAdmin, admin.StackedInline):
-    model = Phone
-    extra = 1
 
 
 class PhotoInline(SuperInlineModelAdmin, admin.StackedInline):
@@ -37,7 +34,7 @@ class ProfileFields:
     list_filter = [
         'birth_date', 'role', 'clubs'
     ]
-    inlines = [PhoneInline, PhotoInline]
+    inlines = [UserPhoneInline, PhotoInline]
     readonly_fields = ['updated_at', 'avatar_full']
     filter_horizontal = ["clubs"]
 
@@ -47,12 +44,13 @@ class ProfileAdmin(ProfileFields, admin.ModelAdmin):
     pass
 
 
+# for user model admin
 class ProfileInline(ProfileFields, SuperInlineModelAdmin, admin.StackedInline):
     model = Profile
     extra = 1
 
 
-models = [Rank, Role, Phone, Photo]
+models = [Rank, Role, Photo]
 
 for model in models:
     admin.site.register(model)
