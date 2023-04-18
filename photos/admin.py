@@ -1,17 +1,11 @@
 from django.contrib import admin
 from super_inlines.admin import SuperInlineModelAdmin
 
-from photos.models import Photo, UserPhoto, ClubPhoto
+from photos.models import Photo
 
 
-class UserPhotoInline(SuperInlineModelAdmin, admin.StackedInline):
-    model = UserPhoto
-    extra = 1
-
-
-class ClubPhotoInline(SuperInlineModelAdmin, admin.StackedInline):
-    model = ClubPhoto
-    extra = 1
-
-
-admin.site.register(Photo)
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+    fields = ['name', 'link', 'uploaded_at', 'photo_full']
+    readonly_fields = ['photo_full', 'uploaded_at']
+    list_display = ['name', 'photo_tag']

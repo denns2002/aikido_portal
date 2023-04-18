@@ -4,6 +4,7 @@ from transliterate import translit, slugify
 
 from cities.models import Address
 from clubs.models.group import Group
+from photos.models import Photo
 from utils.check_language import multilang_verb, check_ru_lang
 
 
@@ -25,11 +26,14 @@ class Club(models.Model):
         blank=True,
         verbose_name=multilang_verb('URL', 'Ссылка')
     )
-
     groups = models.ManyToManyField(
         Group,
         blank=True,
         verbose_name=multilang_verb('Groups', 'Группы')
+    )
+    photos = models.ManyToManyField(
+        Photo,
+        verbose_name=multilang_verb('Photos', 'Фото')
     )
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):

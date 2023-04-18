@@ -1,0 +1,48 @@
+from django.db import models
+
+from user.models.profile import Profile
+from utils.check_language import multilang_verb, check_ru_lang
+
+
+class Notification(models.Model):
+    title = models.CharField(
+        max_length=255,
+        verbose_name=multilang_verb('Title', 'Заголовок')
+    )
+    message = models.TextField(
+        blank=True,
+        verbose_name=multilang_verb('Message', 'Сообщение')
+    )
+    timestamp = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=multilang_verb('Timestamp', 'Временная отметка')
+    )
+
+    class Meta:
+        if check_ru_lang():
+            verbose_name = 'Уведомление'
+            verbose_name_plural = 'Уведомления'
+        else:
+            verbose_name = 'Notification'
+            verbose_name_plural = 'Notifications'
+
+    def __str__(self):
+        return self.title
+
+
+class UserNotification(models.Model):
+    notifications = models.ForeignKey(
+        Notification,
+        on_delete=models.CASCADE,
+        verbose_name=multilang_verb('Notifications', 'Уведомления')
+    )
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        verbose_name=multilang_verb('Profiles', 'Получатели')
+    )
+    is_read = models.BooleanField(
+        default=False,
+        verbose_name=multilang_verb('Is read', 'Прочитано')
+    )
+

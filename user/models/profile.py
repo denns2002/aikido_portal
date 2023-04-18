@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from transliterate import translit
 
 from cities.models import *
+from photos.models import Photo
 
 
 class Rank(models.Model):
@@ -114,6 +115,10 @@ class Profile(models.Model):
         blank=True,
         verbose_name=multilang_verb('URL', 'Ссылка')
     )
+    photos = models.ManyToManyField(
+        Photo,
+        verbose_name=multilang_verb('Photos', 'Фото')
+    )
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
@@ -148,7 +153,8 @@ class Profile(models.Model):
     def avatar_full(self):
         return mark_safe('<img src="%s" width="200" />' % self.get_avatar())
 
-    avatar_tag.short_description = 'Avatar'
+    avatar_tag.short_description = avatar_full.short_description = \
+        'Аватарка' if check_ru_lang() else 'Avatar'
 
     class Meta:
         if check_ru_lang():

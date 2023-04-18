@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.safestring import mark_safe
 
-from clubs.models.club import Club
-from user.models.profile import Profile
 from utils.check_language import multilang_verb, check_ru_lang
 
 
@@ -20,6 +18,20 @@ class Photo(models.Model):
         verbose_name=multilang_verb('Uploaded at', 'Загружено')
     )
 
+    def get_photo(self):
+        if not self.link:
+            return '/static/images/user.jpg'
+        return self.link.url
+
+    def photo_tag(self):
+        return mark_safe('<img src="%s" width="50" height="50" />' % self.get_photo())
+
+    def photo_full(self):
+        return mark_safe('<img src="%s" width="200" />' % self.get_photo())
+
+    photo_tag.short_description = photo_full.short_description = \
+        'Фото' if check_ru_lang() else 'Photo'
+
     class Meta:
         if check_ru_lang():
             verbose_name = 'Фото'
@@ -30,25 +42,3 @@ class Photo(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-    def get_avatar(self):
-        if not self.link:
-            return '/static/images/user.jpg'
-        return self.link.url
-
-    def avatar_tag(self):
-        return mark_safe('<img src="%s" width="50" height="50" />' % self.get_avatar())
-
-    def avatar_full(self):
-        return mark_safe('<img src="%s" width="200" />' % self.get_avatar())
-
-
-class UserPhoto(models.Model):
-    photo = models.OneToOneField(Photo, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-
-class ClubPhoto(models.Model):
-    photo = models.OneToOneField(Photo, on_delete=models.CASCADE)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
-

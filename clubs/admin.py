@@ -4,7 +4,6 @@ from super_inlines.admin import SuperInlineModelAdmin
 from clubs.models.club import Club
 from clubs.models.group import Group, GroupMember, Debts
 from phones.admin import ClubPhoneInline
-from photos.admin import ClubPhotoInline
 
 
 class GroupMemberInline(SuperInlineModelAdmin, admin.StackedInline):
@@ -15,8 +14,8 @@ class GroupMemberInline(SuperInlineModelAdmin, admin.StackedInline):
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
     list_display = ['name']
-    filter_horizontal = ["addresses", 'groups']
-    inlines = [ClubPhoneInline, ClubPhotoInline]
+    filter_horizontal = ["addresses", 'groups', 'photos']
+    inlines = [ClubPhoneInline]
 
 
 @admin.register(Group)

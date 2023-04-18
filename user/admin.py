@@ -2,8 +2,6 @@ from django.contrib import admin
 from super_inlines.admin import SuperInlineModelAdmin
 
 from phones.admin import UserPhoneInline
-from photos.admin import UserPhotoInline
-
 from .models.profile import *
 
 
@@ -19,6 +17,11 @@ class ProfileFields:
             'fields': ('rank', 'roles'),
             'classes': ('wide',)
         }),
+
+        ('Photos', {
+            'fields': ('photos',),
+            'classes': ('wide',)
+        }),
     )
 
     list_display = [
@@ -31,9 +34,9 @@ class ProfileFields:
     list_filter = [
         'birth_date', 'roles',
     ]
-    inlines = [UserPhoneInline, UserPhotoInline]
+    inlines = [UserPhoneInline]
     readonly_fields = ['updated_at', 'avatar_full']
-    filter_horizontal = ['roles']
+    filter_horizontal = ['roles', 'photos']
 
 
 @admin.register(Profile)
