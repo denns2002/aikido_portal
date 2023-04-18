@@ -167,13 +167,13 @@ class Address(models.Model):
     def __str__(self):
         string = str(self.city.name)
         if self.street:
-            string += f'ул. {str(self.street.name)}'
+            string += f'ул. {str(self.street.name)} '
 
         if self.house:
-            string += f'д. {str(self.house.number)}'
+            string += f'д. {str(self.house.number)} '
 
         if self.apt:
-            string += f'кв. {str(self.apt.number)}'
+            string += f'кв./оф. {str(self.apt.number)}'
 
         return string
 

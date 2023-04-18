@@ -16,7 +16,7 @@ class ProfileFields:
         }),
 
         ('Achievements in sports', {
-            'fields': ('rank', 'roles', 'clubs'),
+            'fields': ('rank', 'roles'),
             'classes': ('wide',)
         }),
     )
@@ -29,11 +29,11 @@ class ProfileFields:
         'phone__number'
     ]
     list_filter = [
-        'birth_date', 'roles', 'clubs'
+        'birth_date', 'roles',
     ]
     inlines = [UserPhoneInline, UserPhotoInline]
     readonly_fields = ['updated_at', 'avatar_full']
-    filter_horizontal = ["clubs", 'roles']
+    filter_horizontal = ['roles']
 
 
 @admin.register(Profile)

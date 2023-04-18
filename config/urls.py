@@ -35,7 +35,10 @@ urlpatterns = [
     # path(api + 'api/profile/', include('user.urls')),
 
     # Events
-    path(api + 'api/events/', include('events.urls')),
+    path(api + 'events/', include('events.urls')),
+
+    # Clubs
+    path(api + '', include('clubs.urls')),
 ]
 
 if settings.DEBUG:

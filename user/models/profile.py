@@ -1,13 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.utils.safestring import mark_safe
-from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from transliterate import translit
 
 from cities.models import *
-from clubs.models.club import Club
 
 
 class Rank(models.Model):
@@ -107,11 +104,6 @@ class Profile(models.Model):
         Role,
         blank=True,
         verbose_name=multilang_verb('Roles', 'Роли')
-    )
-    clubs = models.ManyToManyField(
-        Club,
-        blank=True,
-        verbose_name=multilang_verb('Clubs', 'Клубы')
     )
     updated_at = models.DateTimeField(
         auto_now=True,
