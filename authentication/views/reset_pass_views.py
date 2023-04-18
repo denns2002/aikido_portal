@@ -8,7 +8,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from authentication.serializers.reset_pass_serializer import SetNewPasswordSerializer, ResetPasswordEmailRequestSerializer, ChangePasswordSerializer
-from mailings.reset_password import send_reset_password
+from utils.reset_password import send_reset_password
 
 
 class ChangePasswordAPIView(GenericAPIView):

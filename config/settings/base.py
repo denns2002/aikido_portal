@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'clubs.apps.ClubsConfig',
     'events.apps.EventsConfig',
     'phones.apps.PhonesConfig',
+    'photos.apps.PhotosConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'EN'
+LANGUAGE_CODE = 'RU'
 
 TIME_ZONE = 'Etc/GMT+5'
 

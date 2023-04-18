@@ -3,11 +3,10 @@ from django.apps import AppConfig
 from utils.check_language import check_ru_lang
 
 
-class CitiesConfig(AppConfig):
+class PhotosConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'cities'
+    name = 'photos'
     if check_ru_lang():
-        verbose_name = 'Адреса'
+        verbose_name = 'Фото'
     else:
-        verbose_name = "Adresses"
-
+        verbose_name = "Photos"

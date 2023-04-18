@@ -5,7 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.utils.encoding import smart_bytes
 from django.utils.http import urlsafe_base64_encode
-from mailings.send_mail import send_email
+from utils.send_mail import send_email
 
 
 def send_reset_password(user, request):

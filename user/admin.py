@@ -2,12 +2,9 @@ from django.contrib import admin
 from super_inlines.admin import SuperInlineModelAdmin
 
 from phones.admin import UserPhoneInline
+from photos.admin import UserPhotoInline
+
 from .models.profile import *
-
-
-class PhotoInline(SuperInlineModelAdmin, admin.StackedInline):
-    model = Photo
-    extra = 1
 
 
 class ProfileFields:
@@ -19,24 +16,24 @@ class ProfileFields:
         }),
 
         ('Achievements in sports', {
-            'fields': ('rank', 'role', 'clubs'),
+            'fields': ('rank', 'roles', 'clubs'),
             'classes': ('wide',)
         }),
     )
 
     list_display = [
-        'avatar_tag', 'user', 'first_name', 'last_name', 'mid_name', 'city'
+        'user', 'avatar_tag', 'first_name', 'last_name', 'mid_name', 'city'
     ]
     search_fields = [
         'first_name', 'last_name', 'mid_name', 'user__username', 'user__email',
         'phone__number'
     ]
     list_filter = [
-        'birth_date', 'role', 'clubs'
+        'birth_date', 'roles', 'clubs'
     ]
-    inlines = [UserPhoneInline, PhotoInline]
+    inlines = [UserPhoneInline, UserPhotoInline]
     readonly_fields = ['updated_at', 'avatar_full']
-    filter_horizontal = ["clubs"]
+    filter_horizontal = ["clubs", 'roles']
 
 
 @admin.register(Profile)
@@ -50,7 +47,7 @@ class ProfileInline(ProfileFields, SuperInlineModelAdmin, admin.StackedInline):
     extra = 1
 
 
-models = [Rank, Role, Photo]
+models = [Rank, Role]
 
 for model in models:
     admin.site.register(model)

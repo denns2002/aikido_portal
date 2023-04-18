@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
-from mailings.send_mail import send_email
+from utils.send_mail import send_email
 
 
 def send_verify_email(user_data, request):

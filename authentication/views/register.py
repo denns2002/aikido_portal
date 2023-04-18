@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from authentication.serializers.register_serializer import RegisterSerializer
-from mailings.email_verification import send_verify_email
+from utils.email_verification import send_verify_email
 
 
 class RegisterAPIView(generics.GenericAPIView):

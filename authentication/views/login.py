@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from authentication.serializers.login_serializer import LoginSerializer
-from mailings.email_verification import send_verify_email
+from utils.email_verification import send_verify_email
 
 
 class LoginAPIView(generics.GenericAPIView):
