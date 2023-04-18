@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'phones.apps.PhonesConfig',
     'photos.apps.PhotosConfig',
+    'notifications.apps.NotificationsConfig',
+
 ]
 
 MIDDLEWARE = [
