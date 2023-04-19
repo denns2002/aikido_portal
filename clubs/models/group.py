@@ -52,12 +52,12 @@ class Group(models.Model):
 
 
 class GroupMember(models.Model):
-    group_id = models.ForeignKey(
+    group = models.ForeignKey(
         Group,
         on_delete=models.CASCADE,
         verbose_name=multilang_verb('Group', 'Группа')
     )
-    profile_id = models.ForeignKey(
+    profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
         verbose_name=multilang_verb('Profile', 'Профиль')
@@ -84,7 +84,7 @@ class Debts(models.Model):
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name=multilang_verb('Is active', 'Активен')
+        verbose_name=multilang_verb('Is active', 'Активна')
     )
     name = models.CharField(
         max_length=255,

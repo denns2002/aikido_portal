@@ -26,10 +26,10 @@ class Phone(models.Model):
 
 class UserPhone(models.Model):
     phone = models.OneToOneField(Phone, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profiles = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 
 class ClubPhone(models.Model):
     phone = models.OneToOneField(Phone, on_delete=models.CASCADE)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    clubs = models.ForeignKey(Club, on_delete=models.CASCADE)
 

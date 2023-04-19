@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from user.models.profile import Profile
@@ -36,10 +37,10 @@ class UserNotification(models.Model):
         on_delete=models.CASCADE,
         verbose_name=multilang_verb('Notifications', 'Уведомления')
     )
-    profile = models.ForeignKey(
-        Profile,
+    users = models.ForeignKey(
+        get_user_model(),
         on_delete=models.CASCADE,
-        verbose_name=multilang_verb('Profiles', 'Получатели')
+        verbose_name=multilang_verb('Users', 'Получатели')
     )
     is_read = models.BooleanField(
         default=False,

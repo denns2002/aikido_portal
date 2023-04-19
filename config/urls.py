@@ -39,6 +39,9 @@ urlpatterns = [
 
     # Clubs
     path(api + '', include('clubs.urls')),
+    
+    # Notifications
+    path(api + 'notifications/', include('notifications.urls'))
 ]
 
 if settings.DEBUG:
