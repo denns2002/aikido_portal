@@ -1,29 +1,17 @@
 from django.contrib import admin
-from super_inlines.admin import SuperInlineModelAdmin
 
 from clubs.models.club import Club
-from clubs.models.group import Group, GroupMember, Debts
-from phones.admin import ClubPhoneInline
-from photos.admin import ClubPhotoInline
-
-
-class GroupMemberInline(SuperInlineModelAdmin, admin.StackedInline):
-    model = GroupMember
-    extra = 1
+from clubs.models.group import Group
 
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    filter_horizontal = ["addresses", 'groups']
-    inlines = [ClubPhoneInline, ClubPhotoInline]
+    search_fields = ['name']
 
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ['name', 'number']
-    filter_horizontal = ["trainers"]
-    inlines = [GroupMemberInline]
-
-
-admin.site.register(Debts)
+    search_fields = ['name', 'number', 'trainer']
+    list_filter = ['trainers', 'club']
+    list_display = ['name', 'number', 'club']
+    fields = ['name', 'number', 'club']
