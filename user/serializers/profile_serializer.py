@@ -1,104 +1,79 @@
-# from django.contrib.auth.tokens import PasswordResetTokenGenerator
-# from django.utils.encoding import force_str
-# from django.utils.http import urlsafe_base64_decode
-# from django_countries.serializer_fields import CountryField
-# from django_countries import countries
-# from rest_framework import serializers
-# from rest_framework_simplejwt.exceptions import AuthenticationFailed
-# from phonenumber_field.serializerfields import PhoneNumberField
-#
-# from user.models.departments import Department
-# from user.models.phone import Phone
-# from user.models.role import Role
-# from user.models.tags import Tag
-# from user.models.user import User
-#
-#
-# class ProfileSerializer(serializers.Serializer):
-#     username = serializers.CharField(max_length=255)
-#     email = serializers.EmailField(max_length=68)
-#     is_head = serializers.BooleanField()
-#     first_name = serializers.CharField()
-#     last_name = serializers.CharField()
-#     birth_date = serializers.DateField()
-#     country = CountryField(name_only=True)
-#     photo = serializers.ImageField()
-#     phone_one = PhoneNumberField()
-#     phone_two = PhoneNumberField()
-#     phone_set = PhoneSerializer(many=True, read_only=True)
-#     departments = DepartmentSerializer(read_only=True)
-#     head_of_department = DepartmentSerializer(source='department',
-#                                               read_only=True)
-#     about_me = serializers.CharField()
-#     tags = TagSerializer(many=True)
-#     roles = RoleSerializer(many=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ('1',)
-#
-#
-# class UpdateUserSerializer(serializers.ModelSerializer):
-#     email = serializers.EmailField(required=False)
-#     first_name = serializers.CharField(required=False)
-#     last_name = serializers.CharField(required=False)
-#     username = serializers.CharField(required=False)
-#     birth_date = serializers.DateField(required=False)
-#     photo = serializers.ImageField(required=False)
-#     country = CountryField(required=False)
-#     about_me = serializers.CharField(required=False)
-#     phone_one = PhoneNumberField(required=False)
-#     phone_two = PhoneNumberField(required=False)
-#
-#     class Meta:
-#         model = User
-#         fields = [
-#             'email', 'first_name', 'last_name', 'username', 'birth_date',
-#             'photo', 'country', 'about_me', 'phone_one', 'phone_two'
-#         ]
-#
-#     def validate_email(self, value):
-#         user = self.context['request'].user
-#         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-#             raise serializers.ValidationError({"email": "This email is already in use."})
-#         return value
-#
-#     def validate_username(self, value):
-#         user = self.context['request'].user
-#         if User.objects.exclude(pk=user.pk).filter(username=value).exists():
-#             raise serializers.ValidationError({"username": "This username is already in use."})
-#         return value
-#
-#     def update(self, instance, validated_data):
-#         user = self.context['request'].user
-#
-#         if user.pk != instance.pk:
-#             raise serializers.ValidationError(
-#                 {"authorize": "You dont have permission for this user."})
-#
-#         if 'first_name' in validated_data:
-#             instance.first_name = validated_data['first_name']
-#         if 'last_name' in validated_data:
-#             instance.last_name = validated_data['last_name']
-#         if 'email' in validated_data:
-#             instance.email = validated_data['email']
-#         if 'username' in validated_data:
-#             instance.username = validated_data['username']
-#         if 'country' in validated_data:
-#             for code, name in countries.countries.items():
-#                 if code == validated_data['country']:
-#                     instance.country = code
-#         if 'about_me' in validated_data:
-#             instance.about_me = validated_data['about_me']
-#         if 'photo' in validated_data:
-#             instance.photo = validated_data['photo']
-#         if 'birth_date' in validated_data:
-#             instance.birth_date = validated_data['birth_date']
-#         if 'phone_one' in validated_data:
-#             instance.phone_one = validated_data['phone_one']
-#         if 'phone_two' in validated_data:
-#             instance.phone_two = validated_data['phone_two']
-#
-#         instance.save()
-#
-#         return
+import datetime
+from django.contrib.auth import get_user_model
+from rest_framework import serializers
+from user.models.profile import Profile
+from user.serializers.user_serializer import UserSerializer
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
+    mid_name = serializers.CharField(max_length=255)
+    avatar = serializers.ImageField()
+    birth_date = serializers.DateField()
+    updated_at = serializers.DateTimeField()
+    slug = serializers.SlugField(max_length=55)
+
+    class Meta:
+        model = Profile
+        fields = ('user', 'first_name', 'last_name', 'mid_name', 'avatar', 'birth_date', 'updated_at', 'slug')
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    # city = CitySerializer()
+    # rank = RankSerializer()
+    # roles = RoleSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('user', 'first_name', 'last_name', 'mid_name', 'avatar', 'birth_date', 'updated_at')
+
+    def validate_email(self, value):
+        user = self.context['request'].profile.user
+        if get_user_model().objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError({"email": "This email is already in use."})
+        return value
+
+    def validate_username(self, value):
+        user = self.context['request'].profile.user
+        if get_user_model.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError({"username": "This username is already in use."})
+        return value
+
+    def update(self, instance, validate_data):
+        # if user.pk != instance.pk:
+        #     raise serializers.ValidationError(
+        #         {"authorize": "You dont have permission for this user."})
+
+        if 'first_name' in validate_data:
+            instance.first_name = validate_data['first_name']
+        if 'last_name' in validate_data:
+            instance.last_name = validate_data['last_name']
+        if 'mid_name' in validate_data:
+            instance.mid_name = validate_data['mid_name']
+        if 'avatar' in validate_data:
+            instance.avatar = validate_data['avatar']
+        if 'birth_date' in validate_data:
+            instance.birth_date = validate_data['birth_date']
+
+        if 'user' in validate_data:
+            if 'username' in validate_data['user']:
+                instance.user.username = validate_data['user']['username']
+            if 'email' in validate_data['user']:
+                instance.user.email = validate_data['user']['email']
+
+        # if 'city' in validate_data:
+        #     instance.city = validate_data['city']
+        # if 'rank' in validate_data:
+        #     instance.rank = validate_data['rank']
+        # if 'roles' in validate_data:
+        #     instance.roles = validate_data['roles']
+
+        instance.update_at = instance.user.updated_at = datetime.datetime.now()
+        # instance.user.save()
+        # instance.save()
+
+        return instance
