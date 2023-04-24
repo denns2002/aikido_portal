@@ -25,7 +25,7 @@ class Event(models.Model):
     date_end = models.DateField(
         verbose_name=multilang_verb('End date', 'Дата окончания')
     )
-    address = models.ForeignKey(
+    addresses = models.ForeignKey(
         Address,
         null=True,
         on_delete=models.SET_NULL,

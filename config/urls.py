@@ -31,15 +31,15 @@ urlpatterns = [
     # Authentication urls
     path(api + 'auth/', include('authentication.urls')),
 
-    # # Profile and user info
-    # path(api + 'api/profile/', include('user.urls')),
+    # Profile and user info
+    path(api + 'profile/', include('user.urls')),
 
     # Events
     path(api + 'events/', include('events.urls')),
 
     # Clubs
     path(api + '', include('clubs.urls')),
-    
+
     # Notifications
     path(api + 'notifications/', include('notifications.urls'))
 ]
