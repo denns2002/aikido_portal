@@ -22,7 +22,6 @@ class MyProfileAPIView(APIView):
 
 
 class ProfileAPIView(RetrieveAPIView):
-    queryset = get_user_model().objects.all()
     serializer_class = ProfileSerializer
     lookup_field = 'slug'
 

@@ -1,9 +1,17 @@
 from rest_framework import serializers
 
-from cities.models import City
+from cities.models import City, Region
+
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Region
+        fields = ['name']
 
 
 class CitySerializer(serializers.ModelSerializer):
+    region = RegionSerializer()
+
     class Meta:
         model = City
-        fields = '__all__'
+        fields = ['region', 'name', 'id']
