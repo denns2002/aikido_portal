@@ -40,6 +40,9 @@ urlpatterns = [
     # Clubs
     path(api + '', include('clubs.urls')),
 
+    # Cities
+    path(api + '', include('cities.urls')),
+
     # Notifications
     path(api + 'notifications/', include('notifications.urls'))
 ]

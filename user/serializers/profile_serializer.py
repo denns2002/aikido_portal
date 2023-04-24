@@ -2,9 +2,16 @@ import datetime
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from cities.models import City
 from cities.serializers import CitySerializer
 from user.models.profile import Profile, Rank, Role
 from authentication.serializers.user_serializer import UserSerializer
+
+
+class CityUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ['id']
 
 
 class RankSerializer(serializers.ModelSerializer):
@@ -41,7 +48,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    city = CitySerializer()
+    city = CityUpdateSerializer()
 
     class Meta:
         model = Profile
