@@ -6,7 +6,6 @@ import { IRootState } from "../store/store"
 interface PrivateRouteProps {
 	isAuthenticated: boolean
 	accessRoles: string[]
-	userRole: string
 	children: React.ReactElement
 }
 
@@ -15,7 +14,7 @@ function PrivateRoute(props: PrivateRouteProps) {
 
 	const { isAuthenticated, children } = props
 
-	return isAuthenticated && props.accessRoles.includes(props.userRole) ? (
+	return isAuthenticated ? (
 		children
 	) : (
 		<Navigate
@@ -28,8 +27,7 @@ function PrivateRoute(props: PrivateRouteProps) {
 
 function mapStateToProps(state: IRootState) {
 	return {
-		isAuthenticated: state.authentication.isAuthenticated,
-		userRole: state.authentication.user.role
+		isAuthenticated: state.authentication.isAuthenticated
 	}
 }
 

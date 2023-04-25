@@ -14,9 +14,3 @@ export interface INavLink {
 	accessRoles: string[]
 	icon: JSX.Element
 }
-export interface IUser {
-	username: string,
-	secondName: string,
-	firstName: string
-	role: string
-}

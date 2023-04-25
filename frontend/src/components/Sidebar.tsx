@@ -4,12 +4,13 @@ import { NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { IRootState } from "../store/store"
 import { connect } from "react-redux"
-import { INavLink, IUser } from "../store/types/models"
+import { INavLink } from "../store/types/components"
 import { useActions } from "../hooks/useActions"
+import { IProfile } from "../store/types/profile"
 
 interface SidebarProps {
 	isAuthenticated: boolean
-	user: IUser
+	profile: IProfile
 }
 
 function Sidebar(props: SidebarProps) {
@@ -30,7 +31,7 @@ function Sidebar(props: SidebarProps) {
 		window.addEventListener("resize", handleResize)
 	})
 
-	const { logout } = useActions()
+	const { signOut } = useActions()
 
 	const navLinks: INavLink[] = [
 		{
@@ -58,6 +59,16 @@ function Sidebar(props: SidebarProps) {
 			icon: <TbShield className="h-5 w-5" />,
 		},
 	]
+
+	function haveAccessRole(accessRoles: string[]) {
+		for (let index = 0; index < props.profile.roles.length; index++) {
+			if (!accessRoles.includes(props.profile.roles[index].name)) {
+				return false
+			}
+		}
+
+		return true
+	}
 
 	return (
 		<>
@@ -92,11 +103,7 @@ function Sidebar(props: SidebarProps) {
 										{ accessRoles, icon, label, to },
 										index
 									) => {
-										if (
-											!accessRoles.includes(
-												props.user.role
-											)
-										) {
+										if (haveAccessRole(accessRoles)) {
 											return null
 										}
 
@@ -132,15 +139,15 @@ function Sidebar(props: SidebarProps) {
 							>
 								<FaUser className="h-9 w-9 rounded-full border-4 bg-white border-white text-sky-700" />
 								<div className="flex flex-col text-sm ms-2">
-									<span>{props.user.secondName}</span>
-									<span>{props.user.firstName}</span>
+									<span>{props.profile.last_name}</span>
+									<span>{props.profile.first_name}</span>
 								</div>
 							</NavLink>
 							<div className="flex-1" />
 							<button
 								type="button"
 								onClick={() => {
-									logout()
+									signOut()
 									setHidden(true)
 								}}
 							>
@@ -188,7 +195,7 @@ function Sidebar(props: SidebarProps) {
 function mapStateToProps(state: IRootState) {
 	return {
 		isAuthenticated: state.authentication.isAuthenticated,
-		user: state.authentication.user,
+		profile: state.profile.profile,
 	}
 }
 

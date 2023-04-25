@@ -5,6 +5,7 @@ import App from "./App"
 import { BrowserRouter } from "react-router-dom"
 import { Provider } from "react-redux"
 import { store } from "./store/store"
+import { setupInterceptors } from "./store/action-creators/api"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 
@@ -15,3 +16,5 @@ root.render(
 		</Provider>
 	</BrowserRouter>
 )
+
+setupInterceptors(store.dispatch)
