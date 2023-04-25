@@ -1,49 +1,31 @@
-import {
-	AuthenticationAction,
-	AuthenticationState,
-	AuthenticationActionTypes,
-} from "../types/authentication"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { AuthenticationState } from "../types/authentication"
 
 const initialState: AuthenticationState = {
 	isAuthenticated: false,
-	user: {
-		username: "",
-		secondName: "",
-		firstName: "",
-		role: ""
-	},
+	isLoading: false,
+	error: "",
 }
 
-export function authenticationReducer(
-	state = initialState,
-	action: AuthenticationAction
-): AuthenticationState {
-	switch (action.type) {
-		case AuthenticationActionTypes.SIGNIN_SUCCES:
-			return {
-				...state,
-				isAuthenticated: true,
-				user: {
-					...state.user,
-					username: action.payload,
-					secondName: "Фамилия",
-					firstName: "Имя",
-					role: "SPORTSMAN"
-				},
-			}
-		case AuthenticationActionTypes.SIGNIN_FAIL:
-		case AuthenticationActionTypes.LOGOUT:
-			return {
-				...state,
-				isAuthenticated: false,
-				user: {
-					username: "",
-					secondName: "",
-					firstName: "",
-					role: ""
-				},
-			}
-		default:
-			return state
-	}
-}
+export const authenticationSlice = createSlice({
+	name: "authentication",
+	initialState: initialState,
+	reducers: {
+		signIn(state) {
+			state.isLoading = true
+		},
+		signInSuccess(state) {
+			state.isLoading = false
+			state.isAuthenticated = true
+			state.error = ""
+		},
+		signInFail(state, action: PayloadAction<string>) {
+			state.isLoading = false
+			state.error = action.payload
+			state.isAuthenticated = false
+		},
+	},
+})
+
+export const authenticationReducer = authenticationSlice.reducer
+export const authenticationActions = authenticationSlice.actions

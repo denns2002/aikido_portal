@@ -2,7 +2,7 @@
 import React from "react"
 import { useState } from "react"
 import FormInput from "./forms/FormInput"
-import { IInputAttributes } from "../store/types/models"
+import { IInputAttributes } from "../store/types/components"
 import { NavLink } from "react-router-dom"
 import { Popover } from "@headlessui/react"
 import {FaExclamationCircle} from "react-icons/fa"

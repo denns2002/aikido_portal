@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import FormInput from "./forms/FormInput"
-import { IInputAttributes } from "../store/types/models"
+import { IInputAttributes } from "../store/types/components"
 import { useActions } from "../hooks/useActions"
 import { NavLink } from "react-router-dom"
 

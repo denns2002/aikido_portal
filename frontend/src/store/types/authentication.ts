@@ -1,30 +1,15 @@
-import { IUser } from "./models"
-
 export interface AuthenticationState {
 	isAuthenticated: boolean
-	user: IUser
+	isLoading: boolean
+	error: string
 }
 
-export enum AuthenticationActionTypes {
-	SIGNIN_SUCCES = "SIGNIN_SUCCES",
-	SIGNIN_FAIL = "SIGNIN_FAIL",
-	LOGOUT = "LOGOUT",
+export interface ISignInData {
+	username: string
+	password: string
 }
 
-interface SignInFailAction {
-	type: AuthenticationActionTypes.SIGNIN_FAIL
+export interface ITokens {
+	access: string
+	refresh: string
 }
-
-interface SignInSuccessAction {
-	type: AuthenticationActionTypes.SIGNIN_SUCCES
-	payload: string
-}
-
-interface LogoutAction {
-	type: AuthenticationActionTypes.LOGOUT
-}
-
-export type AuthenticationAction =
-	| SignInFailAction
-	| SignInSuccessAction
-	| LogoutAction
