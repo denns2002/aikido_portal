@@ -24,6 +24,18 @@ export const authenticationSlice = createSlice({
 			state.error = action.payload
 			state.isAuthenticated = false
 		},
+		verifyToken(state) {
+			state.isLoading = true
+		},
+		verifyTokenSuccess(state) {
+			state.isLoading = false
+			state.isAuthenticated = true
+		},
+		verifyTokenFail(state, action: PayloadAction<string>) {
+			state.isLoading = false
+			state.error = action.payload
+			state.isAuthenticated = false
+		},
 	},
 })
 
