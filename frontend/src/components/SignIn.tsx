@@ -47,8 +47,6 @@ function SignIn() {
 	function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
 		event.preventDefault()
 
-		signIn(inputsValues)
-
 		console.log(inputsValues)
 	}
 
