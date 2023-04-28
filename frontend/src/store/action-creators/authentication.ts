@@ -12,13 +12,13 @@ export function signIn(data: ISignInData) {
 
 			const body = JSON.stringify({ ...data })
 			console.log(body);
-			
 
 			const response = await api.post("/auth/login/", body)
 
 			if (response.data?.tokens?.access) {
 				tokenService.setTokens(response.data.tokens)
 			}
+			console.log(response)
 
 			dispatch(authenticationActions.signInSuccess())
 

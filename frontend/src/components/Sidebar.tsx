@@ -37,25 +37,7 @@ function Sidebar(props: SidebarProps) {
 		{
 			to: "/private",
 			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
+			accessRoles: ["Student"],
 			icon: <TbShield className="h-5 w-5" />,
 		},
 	]

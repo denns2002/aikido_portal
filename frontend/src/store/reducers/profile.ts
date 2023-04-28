@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { IProfile, ProfileState } from "../types/profile"
+import { IProfile, IUpdatedProfile, ProfileState } from "../types/profile"
 
 const initialState: ProfileState = {
 	profile: {
@@ -54,6 +54,22 @@ export const profileSlice = createSlice({
 			state.profile = action.payload
 		},
 		userProfileLoadingFail(state, action: PayloadAction<string>) {
+			state.isLoading = false
+			state.error = action.payload
+		},
+		userProfileUpdate(state) {
+			state.isLoading = true
+		},
+		userProfileUpdateSuccess(state, action: PayloadAction<IUpdatedProfile>) {
+			state.isLoading = false
+			state.error = ""
+			state.profile.first_name = action.payload.first_name
+			state.profile.last_name = action.payload.last_name
+			state.profile.mid_name = action.payload.mid_name
+			state.profile.birth_date = action.payload.birth_date
+			state.profile.city = action.payload.city
+		},
+		userProfileUpdateFail(state, action: PayloadAction<string>) {
 			state.isLoading = false
 			state.error = action.payload
 		},
