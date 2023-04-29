@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from events.models.event import Event
+from events.models.event import Event, PlannedEvents
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -20,3 +20,10 @@ class EventCoOrganizersSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['co_organizers']
 
+
+class PlannedEventSerializer(serializers.ModelSerializer):
+    event = EventSerializer()
+
+    class Meta:
+        model = PlannedEvents
+        fields = ['event']

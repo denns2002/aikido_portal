@@ -1,3 +1,6 @@
+from datetime import date
+
+from django.contrib.auth import get_user_model
 from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView,\
     RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import AllowAny
@@ -5,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from clubs.models.group import Group
 from events.models.event import Event, PlannedEvents
 from events.serializers.serializers import EventSerializer, \
-    EventOrganizersSerializer
+    EventOrganizersSerializer, PlannedEventSerializer
 from user.models.profile import Profile
 
 
@@ -63,14 +66,17 @@ class EventAddCoOrgAPIView(UpdateAPIView):
 
 
 class PlannedEventsAPIView(ListAPIView):
-    serializer_class = PlannedEvents
+    """
+    The trainer can view all upcoming events for which statements have been created.
+    """
+    serializer_class = PlannedEventSerializer
 
     def get_queryset(self):
-        trainer = Profile.objects.get(user=self.request.user.id)
-        groups = Group.objects.filter(trainers=trainer.id)
-        for group in groups:
-            planned_events = PlannedEvents.objects.filter(group=group.id)
-            return planned_events
+        trainer = get_user_model().objects.get(id=self.request.user.id)
+        groups = Group.objects.filter(trainers__id=trainer.id)
+        planned_events = PlannedEvents.objects.filter(
+            group__in=groups,
+            event__date_end__gte=date.today()
+        )
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        return planned_events

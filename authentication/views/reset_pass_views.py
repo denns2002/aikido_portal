@@ -12,12 +12,9 @@ from utils.reset_password import send_reset_password
 
 
 class ChangePasswordAPIView(GenericAPIView):
-    '''
-        Changing password with:
-        [ Old password ]
-        [ New password ]
-        [ Confirm new password ]
-    '''
+    """
+    Changing password with.
+    """
     serializer_class = ChangePasswordSerializer
     model = get_user_model()
 
@@ -36,6 +33,9 @@ class ChangePasswordAPIView(GenericAPIView):
 
 
 class RequestPasswordResetAPIView(GenericAPIView):
+    """
+    Send password reset link with tokens to email.
+    """
     serializer_class = ResetPasswordEmailRequestSerializer
 
     @swagger_auto_schema(
@@ -60,6 +60,9 @@ class RequestPasswordResetAPIView(GenericAPIView):
 
 
 class PasswordTokenCheckAPI(GenericAPIView):
+    """
+    Validate uidb64 and token.
+    """
     serializer_class = SetNewPasswordSerializer
 
     @swagger_auto_schema(
@@ -86,6 +89,9 @@ class PasswordTokenCheckAPI(GenericAPIView):
 
 
 class SetNewPasswordAPIView(GenericAPIView):
+    """
+    Patch new password (needs uidb64 and token).
+    """
     serializer_class = SetNewPasswordSerializer
 
     @swagger_auto_schema(
