@@ -70,7 +70,7 @@ class Event(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
             name = translit(self.name, language_code='ru', reversed=True)
-            slug = slugify(name[10:]) + get_random_string(length=10)
+            slug = slugify(name[:10]) + get_random_string(length=10)
 
             while Event.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)

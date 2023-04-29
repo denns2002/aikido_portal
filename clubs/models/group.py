@@ -16,7 +16,6 @@ class Group(models.Model):
         unique=True,
         verbose_name=multilang_verb('Number', 'Номер')
     )
-
     trainers = models.ManyToManyField(
         get_user_model(),
         blank=True,
@@ -32,15 +31,17 @@ class Group(models.Model):
         if not self.slug:
             slug = str(self.name) + str(self.number)
             slug = translit(slug[:10], language_code='ru', reversed=True)
-            slug = slugify(slug) + get_random_string(length=10)
+            slug = str(slugify(slug)) + get_random_string(length=10)
 
             while Group.objects.filter(slug=slug).exists():
-                slug = slug + get_random_string(length=4)
+                slug = slug + get_random_string(length=10)
 
             self.slug = slug
 
+            super(Group, self).save()
+
     def __str__(self):
-        return self.club.name + ': №' + str(self.number) + ' - ' + self.name
+        return '№' + str(self.number) + ' - ' + str(self.name)
 
     class Meta:
         if check_ru_lang():

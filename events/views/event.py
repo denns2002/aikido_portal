@@ -63,14 +63,14 @@ class EventAddCoOrgAPIView(UpdateAPIView):
 
 
 class PlannedEventsAPIView(ListAPIView):
-    queryset = Event.objects.all()
     serializer_class = PlannedEvents
 
     def get_queryset(self):
         trainer = Profile.objects.get(user=self.request.user.id)
-        groups = Group.objects.filter(trainers=trainer)
-        print(groups)
-        # planned_events = PlannedEvents.objects.filter(group)
+        groups = Group.objects.filter(trainers=trainer.id)
+        for group in groups:
+            planned_events = PlannedEvents.objects.filter(group=group.id)
+            return planned_events
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
