@@ -7,7 +7,7 @@ from super_inlines.admin import SuperModelAdmin, SuperInlineModelAdmin
 class EventAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Information', {
-            'fields': ('slug', 'name', 'is_attestation', 'is_seminar', 'address',
+            'fields': ('slug', 'name', 'is_attestation', 'is_seminar',
                        'about', 'reg_start', 'reg_end', 'date_start',
                        'date_end'),
         }),
@@ -22,6 +22,6 @@ class EventAdmin(admin.ModelAdmin):
         'name', 'is_attestation', 'is_seminar', 'date_start'
     ]
 
-    search_fields = ['name', 'address', 'about']
+    search_fields = ['name', 'addresses', 'about']
     list_filter = ['date_start']
     filter_horizontal = ['organizers', 'co_organizers', 'members']

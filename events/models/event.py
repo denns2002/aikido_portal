@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from transliterate import translit
 
 from cities.models import Address
+from clubs.models.group import Group
 from utils.check_language import check_ru_lang, multilang_verb
 
 
@@ -88,3 +89,8 @@ class Event(models.Model):
         else:
             verbose_name = 'Event'
             verbose_name_plural = 'Events'
+
+
+class PlannedEvents(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
