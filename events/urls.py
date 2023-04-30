@@ -1,10 +1,23 @@
 from django.urls import path
 
-from events.views.event import EventDetailAPIView, EventListAPIView
-
+from events.views.event import EventDetailAPIView, EventListAPIView, \
+    EventAddOrgAPIView, EventAddCoOrgAPIView, EventCreateUpdateDeleteAPIView, \
+    PlannedEventsAPIView
 
 urlpatterns = [
-    # Default Auth URLs
+    # Allow any
     path('', EventListAPIView.as_view(), name='event'),
-    path('<slug:slug>/', EventDetailAPIView.as_view(), name='event-detail')
+    path('<slug:slug>/', EventDetailAPIView.as_view(), name='event-detail-get'),
+
+    # For supervisors
+    path('<slug:slug>/', EventCreateUpdateDeleteAPIView.as_view(), name='event-detail'),
+
+    # Add organizers and co-organizers
+    path('add-org/<slug:slug>/', EventAddOrgAPIView.as_view(),
+         name='event-add-org'),
+    path('add-co-org/<slug:slug>/', EventAddCoOrgAPIView.as_view(),
+         name='event-add-co-org'),
+
+    # Trainers check planned events for students
+    path('planned-events', PlannedEventsAPIView.as_view(), name='planned-events'),
 ]
