@@ -189,31 +189,32 @@ def edit_ranges(grid_range):
     return [int(start_row)-1, int(end_row), start_column, end_column]
 
 
-spreadsheet_id = create_sheet('okey')
-set_permissions_anyone(spreadsheet_id, 'reader')
-prepare_merge_request('A1:I1')
-prepare_merge_request('A2:B2')
-prepare_changing_width(0, 1, 50)
-prepare_changing_width(1, 2, 150)
-prepare_changing_height(0, 3, 30)
-prepare_spreadsheet_values_data('A6:L6', 'ROWS', values=[
-            [
-                '№', 'ФИО', 'Степень кю/дан', 'Тренер', 'группа по возрасту', 'группа по программе',
-                'на какой кю аттестуется', 'годовой взнос', 'семинар', 'аттестация', 'паспорт', 'примечания'
-            ]
-            ])
-prepare_spreadsheet_values_data('A1:B4', 'ROWS', values=[
-    [
-     'Ведомость на семинар', ''
-    ],
-    ['2023 Год', ''],
-    ['клуб', 'детский'],
-    ['город', 'Екб']
-])
-prepare_background_color_request('A6:L6', [0.28, 0.45, 0.9])
-prepare_text_format_request('A6:L6', True)
-prepare_font_size_request('A1:A1', 32)
-prepare_text_format_request('A1:A1', True)
-prepare_changing_height(0, 1, 60)
-update_spreadsheet_values(spreadsheet_id)
-update_spreadsheet_structure(spreadsheet_id)
+def create_sample(title):
+    spreadsheet_id = create_sheet(title)
+    set_permissions_anyone(spreadsheet_id, 'reader')
+    prepare_merge_request('A1:I1')
+    prepare_merge_request('A2:B2')
+    prepare_changing_width(0, 1, 50)
+    prepare_changing_width(1, 2, 150)
+    prepare_changing_height(0, 3, 30)
+    prepare_spreadsheet_values_data('A6:L6', 'ROWS', values=[
+                [
+                    '№', 'ФИО', 'Степень кю/дан', 'Тренер', 'группа по возрасту', 'группа по программе',
+                    'на какой кю аттестуется', 'годовой взнос', 'семинар', 'аттестация', 'паспорт', 'примечания'
+                ]
+                ])
+    prepare_spreadsheet_values_data('A1:B4', 'ROWS', values=[
+        [
+         'Ведомость на семинар', ''
+        ],
+        ['2023 Год', ''],
+        ['клуб', 'детский'],
+        ['город', 'Екб']
+    ])
+    prepare_background_color_request('A6:L6', [0.28, 0.45, 0.9])
+    prepare_text_format_request('A6:L6', True)
+    prepare_font_size_request('A1:A1', 32)
+    prepare_text_format_request('A1:A1', True)
+    prepare_changing_height(0, 1, 60)
+    update_spreadsheet_values(spreadsheet_id)
+    update_spreadsheet_structure(spreadsheet_id)
