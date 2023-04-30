@@ -1,18 +1,7 @@
-import httplib2
-import apiclient.discovery
-from oauth2client.service_account import ServiceAccountCredentials
-
-CREDENTIALS_FILE = 'credentials.json'
-credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE,
-                                                               ['https://www.googleapis.com/auth/spreadsheets',
-                                                                'https://www.googleapis.com/auth/drive'])
-
-httpAuth = credentials.authorize(httplib2.Http())
-service = apiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
 
-def create_sheet(title):  # string name of spreadsheet
-    spreadsheet = service.spreadsheets().create(body={
+def create_sheet(title, serv):  # string name of spreadsheet
+    spreadsheet = serv.spreadsheets().create(body={
         'properties': {'title': title, 'locale': 'ru_RU'},
         'sheets': [{'properties': {'sheetType': 'GRID',
                                    'sheetId': 0,
@@ -24,35 +13,33 @@ def create_sheet(title):  # string name of spreadsheet
     return spreadsheet['spreadsheetId']
 
 
-def set_permissions_anyone(spreadsheet_id, role):
-    drive_service = apiclient.discovery.build('drive', 'v3', http=httpAuth)
-    drive_service.permissions().create(
+def set_permissions_anyone(spreadsheet_id, role, drive_serv):
+    drive_serv.permissions().create(
         fileId=spreadsheet_id,
         body={'type': 'anyone', 'role': role},
         fields='id'
     ).execute()
 
 
-def set_permissions_user(spreadsheet_id, email, role):
-    drive_service = apiclient.discovery.build('drive', 'v3', http=httpAuth)
-    drive_service.permissions().create(
+def set_permissions_user(spreadsheet_id, email, role, drive_serv):
+    drive_serv.permissions().create(
         fileId=spreadsheet_id,
         body={'type': 'user', 'role': role, 'emailAddress': email},
         fields='id'
     ).execute()
 
 
-def get_spreadsheet(spreadsheet_id):
-    spreadsheet = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+def get_spreadsheet(spreadsheet_id, serv):
+    spreadsheet = serv.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
     return spreadsheet
 
 
 batch_update_structure_body = {"requests": []}
 
 
-def update_spreadsheet_structure(spreadsheet_id):
-    service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id,
-                                       body=batch_update_structure_body).execute()
+def update_spreadsheet_structure(spreadsheet_id, serv):
+    serv.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id,
+                                    body=batch_update_structure_body).execute()
     batch_update_structure_body.clear()
 
 
@@ -162,8 +149,8 @@ def prepare_background_color_request(cells_range, rgb):  # string 'A1:B1', rgb l
 batch_update_values_data = []
 
 
-def update_spreadsheet_values(spreadsheet_id):
-    service.spreadsheets().values().batchUpdate(spreadsheetId=spreadsheet_id, body={
+def update_spreadsheet_values(spreadsheet_id, serv):
+    serv.spreadsheets().values().batchUpdate(spreadsheetId=spreadsheet_id, body={
         "valueInputOption": "USER_ENTERED",
         "data": batch_update_values_data
     }).execute()
@@ -189,9 +176,9 @@ def edit_ranges(grid_range):
     return [int(start_row)-1, int(end_row), start_column, end_column]
 
 
-def create_sample(title):
-    spreadsheet_id = create_sheet(title)
-    set_permissions_anyone(spreadsheet_id, 'reader')
+def create_sample(title, serv, drive_serv):
+    spreadsheet_id = create_sheet(title, serv)
+    set_permissions_anyone(spreadsheet_id, 'reader', drive_serv)
     prepare_merge_request('A1:I1')
     prepare_merge_request('A2:B2')
     prepare_changing_width(0, 1, 50)
@@ -216,5 +203,5 @@ def create_sample(title):
     prepare_font_size_request('A1:A1', 32)
     prepare_text_format_request('A1:A1', True)
     prepare_changing_height(0, 1, 60)
-    update_spreadsheet_values(spreadsheet_id)
-    update_spreadsheet_structure(spreadsheet_id)
+    update_spreadsheet_values(spreadsheet_id, serv)
+    update_spreadsheet_structure(spreadsheet_id, serv)
