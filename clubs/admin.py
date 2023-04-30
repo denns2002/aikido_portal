@@ -3,6 +3,7 @@ from super_inlines.admin import SuperInlineModelAdmin
 
 from clubs.models.club import Club
 from clubs.models.group import Group, GroupMember, Debts
+from events.models.event import PlannedEvents
 from phones.admin import ClubPhoneInline
 
 
@@ -26,3 +27,4 @@ class GroupAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Debts)
+admin.site.register(PlannedEvents)

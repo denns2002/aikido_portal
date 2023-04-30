@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from transliterate import translit
 
 from cities.models import Address
+from clubs.models.group import Group
 from utils.check_language import check_ru_lang, multilang_verb
 
 
@@ -69,7 +70,7 @@ class Event(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
             name = translit(self.name, language_code='ru', reversed=True)
-            slug = slugify(name[10:]) + get_random_string(length=10)
+            slug = slugify(name[:10]) + get_random_string(length=10)
 
             while Event.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)
@@ -88,3 +89,8 @@ class Event(models.Model):
         else:
             verbose_name = 'Event'
             verbose_name_plural = 'Events'
+
+
+class PlannedEvents(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
