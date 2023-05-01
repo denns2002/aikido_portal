@@ -1,12 +1,12 @@
 
 
-def create_sheet(title, serv):  # string name of spreadsheet
+def create_sheet(title, serv, row_count):  # string name of spreadsheet
     spreadsheet = serv.spreadsheets().create(body={
         'properties': {'title': title, 'locale': 'ru_RU'},
         'sheets': [{'properties': {'sheetType': 'GRID',
                                    'sheetId': 0,
                                    'title': 'Лист1',
-                                   'gridProperties': {'rowCount': 20, 'columnCount': 12}}}]}).execute()
+                                   'gridProperties': {'rowCount': row_count, 'columnCount': 12}}}]}).execute()
 
     with open('IDs.txt', mode='a') as IDs:
         IDs.write('https://docs.google.com/spreadsheets/d/' + spreadsheet['spreadsheetId'] + '/edit#gid=0' + '\n')
@@ -176,8 +176,8 @@ def edit_ranges(grid_range):
     return [int(start_row)-1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, serv, drive_serv):
-    spreadsheet_id = create_sheet(title, serv)
+def create_sample(title, serv, drive_serv, row_count):
+    spreadsheet_id = create_sheet(title, serv, row_count)
     set_permissions_anyone(spreadsheet_id, 'reader', drive_serv)
     prepare_merge_request('A1:I1')
     prepare_merge_request('A2:B2')
