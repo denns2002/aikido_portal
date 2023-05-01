@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -14,21 +13,46 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('reg_start', models.DateTimeField()),
-                ('reg_end', models.DateTimeField()),
-                ('date_start', models.DateField()),
-                ('date_end', models.DateField()),
-                ('place', models.CharField(max_length=255)),
-                ('about', models.TextField()),
-                ('is_attestation', models.BooleanField(default=False)),
-                ('is_seminar', models.BooleanField(default=False)),
-                ('co_organizers', models.ManyToManyField(blank=True, related_name='co_organizers', to=settings.AUTH_USER_MODEL)),
-                ('members', models.ManyToManyField(blank=True, related_name='members', to=settings.AUTH_USER_MODEL)),
-                ('organizers', models.ManyToManyField(blank=True, related_name='organizers', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("reg_start", models.DateTimeField()),
+                ("reg_end", models.DateTimeField()),
+                ("date_start", models.DateField()),
+                ("date_end", models.DateField()),
+                ("place", models.CharField(max_length=255)),
+                ("about", models.TextField()),
+                ("is_attestation", models.BooleanField(default=False)),
+                ("is_seminar", models.BooleanField(default=False)),
+                (
+                    "co_organizers",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="co_organizers",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "members",
+                    models.ManyToManyField(blank=True, related_name="members", to=settings.AUTH_USER_MODEL),
+                ),
+                (
+                    "organizers",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="organizers",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

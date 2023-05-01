@@ -13,5 +13,4 @@ class CityListAPIView(ListCreateAPIView):
 class CityDetailAPIView(generics.RetrieveAPIView):
     queryset = City.objects.all()
     serializer_class = CitySerializer
-    lookup_field = 'pk'
-
+    lookup_field = "pk"

@@ -6,19 +6,19 @@ from events.models.event import Event, PlannedEvents
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = "__all__"
 
 
 class EventOrganizersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['organizers']
+        fields = ["organizers"]
 
 
 class EventCoOrganizersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['co_organizers']
+        fields = ["co_organizers"]
 
 
 class PlannedEventSerializer(serializers.ModelSerializer):
@@ -26,4 +26,4 @@ class PlannedEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlannedEvents
-        fields = ['event']
+        fields = ["event"]

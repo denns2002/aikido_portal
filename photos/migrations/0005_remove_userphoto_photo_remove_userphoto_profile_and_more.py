@@ -4,24 +4,23 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('photos', '0004_remove_clubphoto_photo_remove_userphoto_photo_and_more'),
+        ("photos", "0004_remove_clubphoto_photo_remove_userphoto_photo_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='userphoto',
-            name='photo',
+            model_name="userphoto",
+            name="photo",
         ),
         migrations.RemoveField(
-            model_name='userphoto',
-            name='profile',
+            model_name="userphoto",
+            name="profile",
         ),
         migrations.DeleteModel(
-            name='ClubPhoto',
+            name="ClubPhoto",
         ),
         migrations.DeleteModel(
-            name='UserPhoto',
+            name="UserPhoto",
         ),
     ]

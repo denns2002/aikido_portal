@@ -4,33 +4,32 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('cities', '0006_alter_address_options_alter_apt_options_and_more'),
-        ('clubs', '0001_initial'),
+        ("cities", "0006_alter_address_options_alter_apt_options_and_more"),
+        ("clubs", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='club',
-            options={'verbose_name': 'Клуб', 'verbose_name_plural': 'Клубы'},
+            name="club",
+            options={"verbose_name": "Клуб", "verbose_name_plural": "Клубы"},
         ),
         migrations.AddField(
-            model_name='club',
-            name='addresses',
-            field=models.ManyToManyField(blank=True, to='cities.address', verbose_name='Адреса'),
+            model_name="club",
+            name="addresses",
+            field=models.ManyToManyField(blank=True, to="cities.address", verbose_name="Адреса"),
         ),
         migrations.AlterField(
-            model_name='club',
-            name='info',
-            field=models.TextField(verbose_name='Информация'),
+            model_name="club",
+            name="info",
+            field=models.TextField(verbose_name="Информация"),
         ),
         migrations.AlterField(
-            model_name='club',
-            name='name',
-            field=models.CharField(max_length=255, verbose_name='Название'),
+            model_name="club",
+            name="name",
+            field=models.CharField(max_length=255, verbose_name="Название"),
         ),
         migrations.DeleteModel(
-            name='Group',
+            name="Group",
         ),
     ]

@@ -4,37 +4,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clubs', '0001_initial'),
-        ('user', '0015_remove_profile_country_remove_profile_current_rank_and_more'),
+        ("clubs", "0001_initial"),
+        ("user", "0015_remove_profile_country_remove_profile_current_rank_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='group',
-            name='club',
+            model_name="group",
+            name="club",
         ),
         migrations.RemoveField(
-            model_name='userrank',
-            name='rank',
+            model_name="userrank",
+            name="rank",
         ),
         migrations.RemoveField(
-            model_name='userrank',
-            name='user',
+            model_name="userrank",
+            name="user",
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='clubs',
-            field=models.ManyToManyField(blank=True, to='clubs.club'),
+            model_name="profile",
+            name="clubs",
+            field=models.ManyToManyField(blank=True, to="clubs.club"),
         ),
         migrations.DeleteModel(
-            name='Club',
+            name="Club",
         ),
         migrations.DeleteModel(
-            name='Group',
+            name="Group",
         ),
         migrations.DeleteModel(
-            name='UserRank',
+            name="UserRank",
         ),
     ]

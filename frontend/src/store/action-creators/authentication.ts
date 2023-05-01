@@ -12,7 +12,7 @@ export function signIn(data: ISignInData) {
 
 			const body = JSON.stringify({ ...data })
 			console.log(body);
-			
+
 
 			const response = await api.post("/auth/login/", body)
 

@@ -4,28 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('photos', '0003_alter_clubphoto_photo_alter_userphoto_photo'),
+        ("photos", "0003_alter_clubphoto_photo_alter_userphoto_photo"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='clubphoto',
-            name='photo',
+            model_name="clubphoto",
+            name="photo",
         ),
         migrations.RemoveField(
-            model_name='userphoto',
-            name='photo',
+            model_name="userphoto",
+            name="photo",
         ),
         migrations.AddField(
-            model_name='clubphoto',
-            name='photo',
-            field=models.ManyToManyField(to='photos.photo'),
+            model_name="clubphoto",
+            name="photo",
+            field=models.ManyToManyField(to="photos.photo"),
         ),
         migrations.AddField(
-            model_name='userphoto',
-            name='photo',
-            field=models.ManyToManyField(to='photos.photo'),
+            model_name="userphoto",
+            name="photo",
+            field=models.ManyToManyField(to="photos.photo"),
         ),
     ]
