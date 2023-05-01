@@ -34,16 +34,16 @@ def get_spreadsheet(spreadsheet_id, serv):
     return spreadsheet
 
 
-batch_update_structure_body = {"requests": []}
+# structure_data = {"requests": []}
 
 
-def update_spreadsheet_structure(spreadsheet_id, serv):
+def update_spreadsheet_structure(spreadsheet_id, serv, structure_data):
     serv.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id,
-                                    body=batch_update_structure_body).execute()
-    batch_update_structure_body.clear()
+                                    body=structure_data).execute()
+    structure_data.clear()
 
 
-def prepare_changing_width(start_index, end_index, pixel_size):
+def prepare_changing_width(start_index, end_index, pixel_size, structure_data):
     dimension_properties = {
         "updateDimensionProperties": {
             "range": {
@@ -58,10 +58,10 @@ def prepare_changing_width(start_index, end_index, pixel_size):
             "fields": "pixelSize"
         }
     }
-    batch_update_structure_body["requests"].append(dimension_properties)
+    structure_data["requests"].append(dimension_properties)
 
 
-def prepare_changing_height(start_index, end_index, pixel_size):
+def prepare_changing_height(start_index, end_index, pixel_size, structure_data):
     dimension_properties = {
         "updateDimensionProperties": {
             "range": {
@@ -76,10 +76,10 @@ def prepare_changing_height(start_index, end_index, pixel_size):
             "fields": "pixelSize"
         }
     }
-    batch_update_structure_body["requests"].append(dimension_properties)
+    structure_data["requests"].append(dimension_properties)
 
 
-def prepare_merge_request(merge_range):  # string 'A1:B1'
+def prepare_merge_request(merge_range, structure_data):  # string 'A1:B1'
     a = edit_ranges(merge_range)
     merge_request = {'mergeCells': {'range': {'sheetId': 0,
                      'startRowIndex': a[0],
@@ -87,15 +87,15 @@ def prepare_merge_request(merge_range):  # string 'A1:B1'
                       'startColumnIndex': a[2],
                       'endColumnIndex': a[3]},
                       'mergeType': 'MERGE_ALL'}}
-    batch_update_structure_body["requests"].append(merge_request)
+    structure_data["requests"].append(merge_request)
 
 
-def prepare_multiple_merge_request(merge_ranges):  # list of string ranges ['A1:B1', 'A2:B2', ...]
+def prepare_multiple_merge_request(merge_ranges, structure_data):  # list of string ranges ['A1:B1', 'A2:B2', ...]
     for i in range(len(merge_ranges)):
-        prepare_merge_request(merge_ranges[i])
+        prepare_merge_request(merge_ranges[i], structure_data)
 
 
-def prepare_horiz_alignment_request(cells_range):  # string 'A1:B1'
+def prepare_horiz_alignment_request(cells_range, structure_data):  # string 'A1:B1'
     a = edit_ranges(cells_range)
     cells_request = {'repeatCell': {'range': {'sheetId': 0,
                                               'startRowIndex': a[0],
@@ -104,10 +104,10 @@ def prepare_horiz_alignment_request(cells_range):  # string 'A1:B1'
                                               'endColumnIndex': a[3]},
                                     'cell': {'userEnteredFormat': {'horizontalAlignment': 'CENTER'}},
                                     'fields': 'userEnteredFormat.horizontalAlignment'}}
-    batch_update_structure_body["requests"].append(cells_request)
+    structure_data["requests"].append(cells_request)
 
 
-def prepare_text_format_request(cells_range, is_bold):  # string 'A1:B1', boolean
+def prepare_text_format_request(cells_range, is_bold, structure_data):  # string 'A1:B1', boolean
     a = edit_ranges(cells_range)
     cells_request = {'repeatCell': {'range': {'sheetId': 0,
                                               'startRowIndex': a[0],
@@ -116,10 +116,10 @@ def prepare_text_format_request(cells_range, is_bold):  # string 'A1:B1', boolea
                                               'endColumnIndex': a[3]},
                                     'cell': {'userEnteredFormat': {'textFormat': {'bold': is_bold}}},
                                     'fields': 'userEnteredFormat.textFormat.bold'}}
-    batch_update_structure_body["requests"].append(cells_request)
+    structure_data["requests"].append(cells_request)
 
 
-def prepare_font_size_request(cells_range, font_size):  # string 'A1:B1', font size - integer
+def prepare_font_size_request(cells_range, font_size, structure_data):  # string 'A1:B1', font size - integer
     a = edit_ranges(cells_range)
     cells_request = {'repeatCell': {'range': {'sheetId': 0,
                                               'startRowIndex': a[0],
@@ -128,10 +128,10 @@ def prepare_font_size_request(cells_range, font_size):  # string 'A1:B1', font s
                                               'endColumnIndex': a[3]},
                                     'cell': {'userEnteredFormat': {'textFormat': {'fontSize': font_size}}},
                                     'fields': 'userEnteredFormat.textFormat.fontSize'}}
-    batch_update_structure_body["requests"].append(cells_request)
+    structure_data["requests"].append(cells_request)
 
 
-def prepare_background_color_request(cells_range, rgb):  # string 'A1:B1', rgb list of int [0.1, 0.1, 0.1]
+def prepare_background_color_request(cells_range, rgb, structure_data):  # string 'A1:B1', int list [0.1, 0.1, 0.1]
     a = edit_ranges(cells_range)
     cells_request = {'repeatCell': {'range': {'sheetId': 0,
                                               'startRowIndex': a[0],
@@ -143,13 +143,10 @@ def prepare_background_color_request(cells_range, rgb):  # string 'A1:B1', rgb l
                                                                                        'blue': rgb[2]}
                                                                    }},
                                     'fields': 'userEnteredFormat.backgroundColor'}}
-    batch_update_structure_body["requests"].append(cells_request)
+    structure_data["requests"].append(cells_request)
 
 
-batch_update_values_data = []
-
-
-def update_spreadsheet_values(spreadsheet_id, serv):
+def update_spreadsheet_values(spreadsheet_id, serv, batch_update_values_data):
     serv.spreadsheets().values().batchUpdate(spreadsheetId=spreadsheet_id, body={
         "valueInputOption": "USER_ENTERED",
         "data": batch_update_values_data
@@ -157,7 +154,7 @@ def update_spreadsheet_values(spreadsheet_id, serv):
     batch_update_values_data.clear()
 
 
-def prepare_spreadsheet_values_data(grid_range, dimension, values):
+def prepare_spreadsheet_values_data(grid_range, dimension, batch_update_values_data, values):
     update_spreadsheet_values_data = {"range": "Лист1!" + grid_range,
                                       "majorDimension": dimension,
                                       "values": values}
@@ -176,21 +173,21 @@ def edit_ranges(grid_range):
     return [int(start_row)-1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, serv, drive_serv, row_count):
+def create_sample(title, serv, drive_serv, row_count, values_data, structure_data):
     spreadsheet_id = create_sheet(title, serv, row_count)
     set_permissions_anyone(spreadsheet_id, 'reader', drive_serv)
-    prepare_merge_request('A1:I1')
-    prepare_merge_request('A2:B2')
-    prepare_changing_width(0, 1, 50)
-    prepare_changing_width(1, 2, 150)
-    prepare_changing_height(0, 3, 30)
-    prepare_spreadsheet_values_data('A6:L6', 'ROWS', values=[
+    prepare_merge_request('A1:I1', structure_data)
+    prepare_merge_request('A2:B2', structure_data)
+    prepare_changing_width(0, 1, 50, structure_data)
+    prepare_changing_width(1, 2, 150, structure_data)
+    prepare_changing_height(0, 3, 30, structure_data)
+    prepare_spreadsheet_values_data('A6:L6', 'ROWS', values_data, values=[
                 [
                     '№', 'ФИО', 'Степень кю/дан', 'Тренер', 'группа по возрасту', 'группа по программе',
                     'на какой кю аттестуется', 'годовой взнос', 'семинар', 'аттестация', 'паспорт', 'примечания'
                 ]
                 ])
-    prepare_spreadsheet_values_data('A1:B4', 'ROWS', values=[
+    prepare_spreadsheet_values_data('A1:B4', 'ROWS', values_data, values=[
         [
          'Ведомость на семинар', ''
         ],
@@ -198,10 +195,10 @@ def create_sample(title, serv, drive_serv, row_count):
         ['клуб', 'детский'],
         ['город', 'Екб']
     ])
-    prepare_background_color_request('A6:L6', [0.28, 0.45, 0.9])
-    prepare_text_format_request('A6:L6', True)
-    prepare_font_size_request('A1:A1', 32)
-    prepare_text_format_request('A1:A1', True)
-    prepare_changing_height(0, 1, 60)
-    update_spreadsheet_values(spreadsheet_id, serv)
-    update_spreadsheet_structure(spreadsheet_id, serv)
+    prepare_background_color_request('A6:L6', [0.28, 0.45, 0.9], structure_data)
+    prepare_text_format_request('A6:L6', True, structure_data)
+    prepare_font_size_request('A1:A1', 32, structure_data)
+    prepare_text_format_request('A1:A1', True, structure_data)
+    prepare_changing_height(0, 1, 60, structure_data)
+    update_spreadsheet_values(spreadsheet_id, serv, values_data)
+    update_spreadsheet_structure(spreadsheet_id, serv, structure_data)

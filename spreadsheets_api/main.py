@@ -15,7 +15,7 @@ def main():
     drive_service = apiclient.discovery.build('drive', 'v3', http=http_auth)
     batch_update_structure_body = {"requests": []}
     batch_update_values_data = []
-    spr.create_sample('Ведомость', service, drive_service, 20)
+    spr.create_sample('Ведомость', service, drive_service, 20, batch_update_values_data, batch_update_structure_body)
 
 
 if __name__ == '__main__':
