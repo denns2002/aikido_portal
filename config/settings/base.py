@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "ckeditor",
+    "spreadsheets.apps.SpreadsheetsConfig",
     "authentication.apps.AuthenticationConfig",
     "user.apps.UserConfig",
     "cities.apps.CitiesConfig",
