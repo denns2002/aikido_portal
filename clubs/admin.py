@@ -2,7 +2,7 @@ from django.contrib import admin
 from super_inlines.admin import SuperInlineModelAdmin
 
 from clubs.models.club import Club
-from clubs.models.group import Group, GroupMember, Debts
+from clubs.models.group import Debts, Group, GroupMember
 from events.models.event import PlannedEvents
 from phones.admin import ClubPhoneInline
 
@@ -14,14 +14,14 @@ class GroupMemberInline(SuperInlineModelAdmin, admin.StackedInline):
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    filter_horizontal = ["addresses", 'groups', 'photos']
+    list_display = ["name"]
+    filter_horizontal = ["addresses", "groups", "photos"]
     inlines = [ClubPhoneInline]
 
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ['name', 'number']
+    list_display = ["name", "number"]
     filter_horizontal = ["trainers"]
     inlines = [GroupMemberInline]
 

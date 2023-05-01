@@ -4,23 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('user', '0003_city_club_country_profile_rank_role_userrank_and_more'),
+        ("user", "0003_city_club_country_profile_rank_role_userrank_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='city',
-            options={'verbose_name': 'City', 'verbose_name_plural': 'Cities'},
+            name="city",
+            options={"verbose_name": "City", "verbose_name_plural": "Cities"},
         ),
         migrations.AlterModelOptions(
-            name='country',
-            options={'verbose_name': 'Country', 'verbose_name_plural': 'Countries'},
+            name="country",
+            options={"verbose_name": "Country", "verbose_name_plural": "Countries"},
         ),
         migrations.AddField(
-            model_name='profile',
-            name='groups',
-            field=models.ManyToManyField(to='user.group'),
+            model_name="profile",
+            name="groups",
+            field=models.ManyToManyField(to="user.group"),
         ),
     ]

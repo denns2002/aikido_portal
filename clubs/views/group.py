@@ -15,4 +15,4 @@ class GroupListAPIView(ListCreateAPIView):
 class GroupDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = GroupSerializer
     queryset = Group.objects.filter()
-    lookup_field = 'slug'
+    lookup_field = "slug"

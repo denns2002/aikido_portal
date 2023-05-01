@@ -15,4 +15,4 @@ class ClubListAPIView(ListCreateAPIView):
 class ClubDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ClubSerializer
     queryset = Club.objects.filter()
-    lookup_field = 'slug'
+    lookup_field = "slug"

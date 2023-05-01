@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('cities', '0001_initial'),
+        ("cities", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='city',
-            name='timezone',
+            model_name="city",
+            name="timezone",
         ),
     ]

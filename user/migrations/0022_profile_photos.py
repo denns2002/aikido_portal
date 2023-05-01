@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('photos', '0005_remove_userphoto_photo_remove_userphoto_profile_and_more'),
-        ('user', '0021_remove_profile_clubs'),
+        ("photos", "0005_remove_userphoto_photo_remove_userphoto_profile_and_more"),
+        ("user", "0021_remove_profile_clubs"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='photos',
-            field=models.ManyToManyField(to='photos.photo', verbose_name='Фото'),
+            model_name="profile",
+            name="photos",
+            field=models.ManyToManyField(to="photos.photo", verbose_name="Фото"),
         ),
     ]
