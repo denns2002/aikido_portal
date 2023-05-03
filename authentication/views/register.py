@@ -15,9 +15,9 @@ class RegisterAPIView(generics.GenericAPIView):
     @swagger_auto_schema(
         auto_schema=SwaggerAutoSchema,
         security=[],
-        operation_id='register',
-        operation_description='Register and send email verify.',
-        tags=['register'],
+        operation_id="register",
+        operation_description="Register and send email verify.",
+        tags=["register"],
     )
     def post(self, request):
         user = request.data

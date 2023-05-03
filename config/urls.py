@@ -1,50 +1,51 @@
+from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from django.conf import settings
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Aikido Potal API",
-      default_version='v0.1',
-      description="be sport",
-      terms_of_service="nope",
-      contact=openapi.Contact(email="denis.israfilov2002@mail.ru"),
-      # license=openapi.License(name="Test License"),
-   ),
-   public=True,
-   permission_classes=[permissions.AllowAny],
+    openapi.Info(
+        title="Aikido Potal API",
+        default_version="v0.1",
+        description="be sport",
+        terms_of_service="nope",
+        contact=openapi.Contact(email="denis.israfilov2002@mail.ru"),
+        # license=openapi.License(name="Test License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
 )
 
-api = 'api/'
+api = "api/"
 
 urlpatterns = [
     # SWAGGER
-    path(api + '', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path(api + 'redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-
+    path(
+        api + "",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path(
+        api + "redoc/",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
+    ),
     # Admin
-    path(api + 'admin/', include('admincustom.urls')),
-
+    path(api + "admin/", include("admincustom.urls")),
     # Authentication urls
-    path(api + 'auth/', include('authentication.urls')),
-
+    path(api + "auth/", include("authentication.urls")),
     # Profile and user info
-    path(api + 'profile/', include('user.urls')),
-
+    path(api + "profile/", include("user.urls")),
     # Events
-    path(api + 'events/', include('events.urls')),
-
+    path(api + "events/", include("events.urls")),
     # Clubs
-    path(api + '', include('clubs.urls')),
-
+    path(api + "", include("clubs.urls")),
     # Cities
-    path(api + '', include('cities.urls')),
-
+    path(api + "", include("cities.urls")),
     # Notifications
-    path(api + 'notifications/', include('notifications.urls'))
+    path(api + "notifications/", include("notifications.urls")),
 ]
 
 if settings.DEBUG:

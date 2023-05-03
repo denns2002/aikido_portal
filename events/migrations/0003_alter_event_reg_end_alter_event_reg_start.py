@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('events', '0002_event_slug'),
+        ("events", "0002_event_slug"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='reg_end',
+            model_name="event",
+            name="reg_end",
             field=models.DateField(),
         ),
         migrations.AlterField(
-            model_name='event',
-            name='reg_start',
+            model_name="event",
+            name="reg_start",
             field=models.DateField(),
         ),
     ]

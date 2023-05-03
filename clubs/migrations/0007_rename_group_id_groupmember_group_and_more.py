@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clubs', '0006_club_photos'),
+        ("clubs", "0006_club_photos"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='groupmember',
-            old_name='group_id',
-            new_name='group',
+            model_name="groupmember",
+            old_name="group_id",
+            new_name="group",
         ),
         migrations.RenameField(
-            model_name='groupmember',
-            old_name='profile_id',
-            new_name='profile',
+            model_name="groupmember",
+            old_name="profile_id",
+            new_name="profile",
         ),
         migrations.AlterField(
-            model_name='debts',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Активна'),
+            model_name="debts",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Активна"),
         ),
     ]

@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,8 +11,7 @@ class MyProfileAPIView(APIView):
     serializer_class = ProfileSerializer
 
     def get_object(self, queryset=None):
-        profile = Profile.objects.get(user=self.request.user.id)
-        return profile
+        return Profile.objects.get(user=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
         user = self.get_object()
@@ -23,16 +22,16 @@ class MyProfileAPIView(APIView):
 
 class ProfileAPIView(RetrieveAPIView):
     serializer_class = ProfileSerializer
-    lookup_field = 'slug'
+    lookup_field = "slug"
 
     def get_queryset(self):
-        return Profile.objects.filter(slug=self.kwargs['slug'])
+        return Profile.objects.filter(slug=self.kwargs["slug"])
 
 
 class UpdateProfileView(UpdateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UpdateUserSerializer
-    lookup_field = 'slug'
+    lookup_field = "slug"
 
     def get_object(self):
-        return Profile.objects.get(slug=self.kwargs['slug'])
+        return Profile.objects.get(slug=self.kwargs["slug"])
