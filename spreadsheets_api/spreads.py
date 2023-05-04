@@ -106,7 +106,7 @@ def prepare_multiple_merge_request(merge_ranges, structure_data):  # list of str
         prepare_merge_request(merge_ranges[i], structure_data)
 
 
-def prepare_horiz_alignment_request(cells_range, structure_data):  # string 'A1:B1'
+def prepare_horizontal_alignment_request(cells_range, structure_data):  # string 'A1:B1'
     a = edit_ranges(cells_range)
     cells_request = {
         "repeatCell": {
