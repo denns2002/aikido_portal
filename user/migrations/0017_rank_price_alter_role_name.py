@@ -4,20 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('user', '0016_remove_group_club_remove_userrank_rank_and_more'),
+        ("user", "0016_remove_group_club_remove_userrank_rank_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rank',
-            name='price',
+            model_name="rank",
+            name="price",
             field=models.IntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='role',
-            name='name',
-            field=models.CharField(choices=[('Trainer', 'Trainer'), ('Student', 'Student'), ('Supervisor', 'Supervisor')], max_length=255),
+            model_name="role",
+            name="name",
+            field=models.CharField(
+                choices=[
+                    ("Trainer", "Trainer"),
+                    ("Student", "Student"),
+                    ("Supervisor", "Supervisor"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

@@ -4,20 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('user', '0012_rename_photo_profile_avatar_photo'),
+        ("user", "0012_rename_photo_profile_avatar_photo"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=55, verbose_name='URL'),
+            model_name="profile",
+            name="slug",
+            field=models.SlugField(blank=True, max_length=55, verbose_name="URL"),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='avatar',
-            field=models.ImageField(blank=True, null=True, upload_to='photo/%Y/%m/%d/', verbose_name='Avatar'),
+            model_name="profile",
+            name="avatar",
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to="photo/%Y/%m/%d/",
+                verbose_name="Avatar",
+            ),
         ),
     ]

@@ -4,19 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('clubs', '0004_club_slug_group_slug_alter_groupmember_group_id_and_more'),
+        ("clubs", "0004_club_slug_group_slug_alter_groupmember_group_id_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='group',
-            name='club',
+            model_name="group",
+            name="club",
         ),
         migrations.AddField(
-            model_name='club',
-            name='groups',
-            field=models.ManyToManyField(blank=True, to='clubs.group', verbose_name='Группы'),
+            model_name="club",
+            name="groups",
+            field=models.ManyToManyField(blank=True, to="clubs.group", verbose_name="Группы"),
         ),
     ]

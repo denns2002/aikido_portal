@@ -1,9 +1,8 @@
-from rest_framework.generics import ListCreateAPIView, GenericAPIView
+from rest_framework.generics import GenericAPIView, ListCreateAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 
-from notifications.models import UserNotification, Notification
-from notifications.serializers import UserNotificationSerializer, \
-    NotificationSerializer, UserNotificationListSerializer
+from notifications.models import Notification, UserNotification
+from notifications.serializers import NotificationSerializer, UserNotificationListSerializer, UserNotificationSerializer
 
 
 class UserNotificationListView(ListModelMixin, GenericAPIView):
@@ -26,4 +25,3 @@ class NotificationConnectView(CreateModelMixin, GenericAPIView):
 
     def get_queryset(self):
         return UserNotification.objects.all()
-

@@ -4,49 +4,56 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('authentication', '0001_initial'),
+        ("authentication", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='user',
-            options={'verbose_name': 'Пользователь', 'verbose_name_plural': 'Пользователи'},
+            name="user",
+            options={
+                "verbose_name": "Пользователь",
+                "verbose_name_plural": "Пользователи",
+            },
         ),
         migrations.AlterField(
-            model_name='user',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Создан'),
+            model_name="user",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Создан"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(db_index=True, max_length=255, unique=True, verbose_name='Электронная почта'),
+            model_name="user",
+            name="email",
+            field=models.EmailField(
+                db_index=True,
+                max_length=255,
+                unique=True,
+                verbose_name="Электронная почта",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Активный'),
+            model_name="user",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Активный"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_staff',
-            field=models.BooleanField(default=False, verbose_name='Персонал'),
+            model_name="user",
+            name="is_staff",
+            field=models.BooleanField(default=False, verbose_name="Персонал"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_verified',
-            field=models.BooleanField(default=False, verbose_name='Верифицированный'),
+            model_name="user",
+            name="is_verified",
+            field=models.BooleanField(default=False, verbose_name="Верифицированный"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='updated_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='Обновлен'),
+            model_name="user",
+            name="updated_at",
+            field=models.DateTimeField(auto_now=True, verbose_name="Обновлен"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='username',
-            field=models.CharField(db_index=True, max_length=255, unique=True, verbose_name='Логин'),
+            model_name="user",
+            name="username",
+            field=models.CharField(db_index=True, max_length=255, unique=True, verbose_name="Логин"),
         ),
     ]

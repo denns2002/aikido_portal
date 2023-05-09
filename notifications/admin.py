@@ -11,7 +11,7 @@ class UserNotificationInline(SuperInlineModelAdmin, admin.StackedInline):
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    search_fields = ['title', 'message']
-    readonly_fields = ['timestamp']
+    list_display = ["title"]
+    search_fields = ["title", "message"]
+    readonly_fields = ["timestamp"]
     inlines = [UserNotificationInline]

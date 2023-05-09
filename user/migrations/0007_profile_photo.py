@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('user', '0006_alter_role_name'),
+        ("user", "0006_alter_role_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='photo',
-            field=models.ImageField(blank=True, upload_to='photo/%Y/%m/%d/'),
+            model_name="profile",
+            name="photo",
+            field=models.ImageField(blank=True, upload_to="photo/%Y/%m/%d/"),
         ),
     ]
