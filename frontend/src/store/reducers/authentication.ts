@@ -1,10 +1,9 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { AuthenticationState } from "../types/authentication"
 
 const initialState: AuthenticationState = {
 	isAuthenticated: false,
 	isLoading: false,
-	error: "",
 }
 
 export const authenticationSlice = createSlice({
@@ -17,11 +16,9 @@ export const authenticationSlice = createSlice({
 		signInSuccess(state) {
 			state.isLoading = false
 			state.isAuthenticated = true
-			state.error = ""
 		},
-		signInFail(state, action: PayloadAction<string>) {
+		signInFail(state) {
 			state.isLoading = false
-			state.error = action.payload
 			state.isAuthenticated = false
 		},
 		verifyToken(state) {
@@ -31,9 +28,19 @@ export const authenticationSlice = createSlice({
 			state.isLoading = false
 			state.isAuthenticated = true
 		},
-		verifyTokenFail(state, action: PayloadAction<string>) {
+		verifyTokenFail(state) {
 			state.isLoading = false
-			state.error = action.payload
+			state.isAuthenticated = false
+		},
+		logOut(state) {
+			state.isLoading = true
+		},
+		logOutSuccess(state) {
+			state.isLoading = false
+			state.isAuthenticated = false
+		},
+		logOutFail(state) {
+			state.isLoading = false
 			state.isAuthenticated = false
 		},
 	},

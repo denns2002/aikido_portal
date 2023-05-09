@@ -31,7 +31,7 @@ function Sidebar(props: SidebarProps) {
 		window.addEventListener("resize", handleResize)
 	})
 
-	const { signOut } = useActions()
+	const { logOut } = useActions()
 
 	const navLinks: INavLink[] = [
 		{
@@ -129,7 +129,7 @@ function Sidebar(props: SidebarProps) {
 							<button
 								type="button"
 								onClick={() => {
-									signOut()
+									logOut()
 									setHidden(true)
 								}}
 							>

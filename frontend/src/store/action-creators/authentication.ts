@@ -4,6 +4,9 @@ import { ISignInData } from "../types/authentication"
 import { api } from "./api"
 import { tokenService } from "../services/tokens"
 import { loadUserProfile } from "./profile"
+import { NotificationType } from "../types/notifications"
+import { addNotification } from './notifications';
+import { v4 } from "uuid"
 
 export function signIn(data: ISignInData) {
 	return async function (dispatch: AppDispatch) {
@@ -11,26 +14,23 @@ export function signIn(data: ISignInData) {
 			dispatch(authenticationActions.signIn())
 
 			const body = JSON.stringify({ ...data })
-			console.log(body);
 
 			const response = await api.post("/auth/login/", body)
 
 			if (response.data?.tokens?.access) {
 				tokenService.setTokens(response.data.tokens)
 			}
-			console.log(response)
 
 			dispatch(authenticationActions.signInSuccess())
 
 			dispatch(loadUserProfile())
-		} catch (e) {
-			console.log(e);
-
+			dispatch(addNotification({id: v4(), type: NotificationType.Success, message: "Вы успешно авторизовались"}))
+		} catch (e: any) {
 			dispatch(
-				authenticationActions.signInFail(
-					"Произошла ошибка при попытке входа"
-				)
+				authenticationActions.signInFail()
 			)
+
+			dispatch(addNotification({id: v4(), type: NotificationType.Error, message: "Не удалось авторизоваться"}))
 		}
 	}
 }
@@ -49,14 +49,26 @@ export function verifyToken() {
 			console.log(e);
 
 			dispatch(
-				authenticationActions.verifyTokenFail(
-					"у токена истек срок жизни"
-				)
+				authenticationActions.verifyTokenFail()
 			)
 		}
 	}
 }
 
-export function signOut() {
-	return function (dispatch: AppDispatch) {}
+export function logOut() {
+	return async function (dispatch: AppDispatch) {
+		try {
+			dispatch(authenticationActions.logOut())
+
+			const body = JSON.stringify({refresh: `${tokenService.getLocalRefreshToken()}`})
+
+			await api.post("/auth/logout/", body)
+
+			dispatch(authenticationActions.logOutSuccess())
+
+			tokenService.removeTokens()
+		} catch(e) {
+			dispatch(authenticationActions.logOutFail())
+		}
+	}
 }

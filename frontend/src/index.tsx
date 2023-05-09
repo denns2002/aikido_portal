@@ -6,13 +6,14 @@ import { BrowserRouter } from "react-router-dom"
 import { Provider } from "react-redux"
 import { store } from "./store/store"
 import { setupInterceptors } from "./store/action-creators/api"
+import NotificationProvider from "./components/notifications/NotificationProvider"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 
 root.render(
 	<BrowserRouter>
 		<Provider store={store}>
-			<App />
+			<NotificationProvider><App /></NotificationProvider>
 		</Provider>
 	</BrowserRouter>
 )
