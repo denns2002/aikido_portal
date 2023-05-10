@@ -40,6 +40,7 @@ class StatementSerializer(serializers.ModelSerializer):
         print(validated_data)
 
         members = []
+
         for item in validated_data["statementmember_set"]:
             member = {}
             profile = Profile.objects.get(user=item["member"].id)
@@ -49,23 +50,30 @@ class StatementSerializer(serializers.ModelSerializer):
                 fio += f" {str(profile.mid_name)}"
 
             member["fio"] = fio
-            member["rank"] = Rank.objects.get(id=profile.rank.id)
-            member["next_rank"] = Rank.objects.get(id=profile.next_rank.id)
+            member["rank"] = Rank.objects.get(id=profile.rank.id).name
+            member["next_rank"] = Rank.objects.get(id=profile.next_rank.id).name
 
-            group = GroupMember.objects.get(profile=profile.id)
-            print(group)
+            groupmember = GroupMember.objects.get(profile=profile.id)
+            member['annual_fee'] = groupmember.annual_fee
+            group = groupmember.group
             member["group_type"] = group.type
 
             trainer = group.trainer
             trainer_fio = f"{str(trainer.first_name)} {str(trainer.last_name)}"
 
-            if profile.mid_name:
-                fio += f" {str(trainer.mid_name)}"
+            if trainer.mid_name:
+                trainer_fio += f" {str(trainer.mid_name)}"
 
             member["trainer_fio"] = trainer_fio
 
+            event = validated_data['event']
+
+            member["attestation_date"] = event.attestation_date
+            member["seminar_date"] = event.seminar_date
+
             members.append(member)
-            print(members)
+
+        print(members)
 
         # фио!, текущий ранк!, тренер фио!, группа по возрасту!, по программе, на какой аттестуется!, годовой взнос, семинар, аттестация, паспорт
         return super().create(validated_data)
