@@ -22,7 +22,6 @@ class ClubAdmin(admin.ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ["name", "number"]
-    filter_horizontal = ["trainers"]
     inlines = [GroupMemberInline]
 
 

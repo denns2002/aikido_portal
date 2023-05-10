@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from user.models.profile import Profile
-from user.serializers.profile_serializer import ProfileSerializer, UpdateUserSerializer
+from user.serializers.profile_serializer import (ProfileSerializer,
+                                                 UpdateUserSerializer)
 
 
 class MyProfileAPIView(APIView):

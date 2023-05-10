@@ -41,7 +41,9 @@ class Region(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
-    postal_code = models.CharField(max_length=255, verbose_name=multilang_verb("Postal Code", "Почтовый индекс"))
+    postal_code = models.CharField(
+        max_length=255, verbose_name=multilang_verb("Postal Code", "Почтовый индекс")
+    )
     region = models.ForeignKey(
         Region,
         null=True,

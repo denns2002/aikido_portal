@@ -23,12 +23,16 @@ def create_sheet(title, service, row_count):  # string name of spreadsheet
     )
 
     with open("IDs.txt", mode="a") as IDs:
-        IDs.write("https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n")
+        IDs.write(
+            "https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n"
+        )
     return spreadsheet["spreadsheetId"]
 
 
 def set_permissions_anyone(spreadsheet_id, role, drive_serv):
-    drive_serv.permissions().create(fileId=spreadsheet_id, body={"type": "anyone", "role": role}, fields="id").execute()
+    drive_serv.permissions().create(
+        fileId=spreadsheet_id, body={"type": "anyone", "role": role}, fields="id"
+    ).execute()
 
 
 def set_permissions_user(spreadsheet_id, email, role, drive_serv):
@@ -101,7 +105,9 @@ def prepare_merge_request(merge_range, structure_data):  # string 'A1:B1'
     structure_data["requests"].append(merge_request)
 
 
-def prepare_multiple_merge_request(merge_ranges, structure_data):  # list of string ranges ['A1:B1', 'A2:B2', ...]
+def prepare_multiple_merge_request(
+    merge_ranges, structure_data
+):  # list of string ranges ['A1:B1', 'A2:B2', ...]
     for i in range(len(merge_ranges)):
         prepare_merge_request(merge_ranges[i], structure_data)
 
@@ -160,7 +166,9 @@ def prepare_font_size_request(cells_range, font_size, structure_data):  # string
     structure_data["requests"].append(cells_request)
 
 
-def prepare_background_color_request(cells_range, rgb, structure_data):  # string 'A1:B1', int list [0.1, 0.1, 0.1]
+def prepare_background_color_request(
+    cells_range, rgb, structure_data
+):  # string 'A1:B1', int list [0.1, 0.1, 0.1]
     a = edit_ranges(cells_range)
     cells_request = {
         "repeatCell": {
@@ -171,7 +179,9 @@ def prepare_background_color_request(cells_range, rgb, structure_data):  # strin
                 "startColumnIndex": a[2],
                 "endColumnIndex": a[3],
             },
-            "cell": {"userEnteredFormat": {"backgroundColor": {"red": rgb[0], "green": rgb[1], "blue": rgb[2]}}},
+            "cell": {
+                "userEnteredFormat": {"backgroundColor": {"red": rgb[0], "green": rgb[1], "blue": rgb[2]}}
+            },
             "fields": "userEnteredFormat.backgroundColor",
         }
     }

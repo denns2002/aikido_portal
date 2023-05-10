@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="phone",
             name="number",
-            field=phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None, unique=True, verbose_name="Телефон"),
+            field=phonenumber_field.modelfields.PhoneNumberField(
+                max_length=128, region=None, unique=True, verbose_name="Телефон"
+            ),
         ),
     ]

@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import (ListAPIView, ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 
-from clubs.models.group import Group
-from clubs.serializers.group_serializer import GroupSerializer
+from clubs.models.group import Group, GroupMember
+from clubs.serializers.group_serializer import (GroupMemberSerializer,
+                                                GroupSerializer)
 
 
 class GroupListAPIView(ListCreateAPIView):
@@ -27,3 +29,13 @@ class TrainerGroupListAPIView(ListAPIView):
         groups = Group.objects.filter(trainers__id=trainer.id)
 
         return groups
+
+
+class GroupMemberAPIView(ListAPIView):
+    serializer_class = GroupMemberSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        members = GroupMember.objects.filter(group__slug=self.kwargs.get("slug"))
+
+        return members

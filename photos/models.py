@@ -7,7 +7,9 @@ from utils.check_language import check_ru_lang, multilang_verb
 class Photo(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     link = models.ImageField(upload_to="photo/%Y/%m/%d/", verbose_name=multilang_verb("Link", "Ссылка"))
-    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=multilang_verb("Uploaded at", "Загружено"))
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=multilang_verb("Uploaded at", "Загружено")
+    )
 
     def get_photo(self):
         if not self.link:

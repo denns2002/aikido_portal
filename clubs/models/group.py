@@ -8,10 +8,18 @@ from utils.check_language import check_ru_lang, multilang_verb
 
 
 class Group(models.Model):
+    TYPES = [("Children's", "Детская"), ("Adult", "Взрослая")]
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     number = models.IntegerField(unique=True, verbose_name=multilang_verb("Number", "Номер"))
-    trainers = models.ManyToManyField(get_user_model(), blank=True, verbose_name=multilang_verb("Trainers", "Тренеры"))
+    trainer = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=multilang_verb("Trainer", "Тренер"),
+    )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
+    type = models.CharField(max_length=20, choices=TYPES, verbose_name=multilang_verb("Type", "Тип"))
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
@@ -23,7 +31,6 @@ class Group(models.Model):
                 slug = slug + get_random_string(length=10)
 
             self.slug = slug
-
             super(Group, self).save()
 
     def __str__(self):
@@ -42,10 +49,13 @@ class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=multilang_verb("Group", "Группа"))
     profile = models.ForeignKey(
         Profile,
+        unique=True,
         on_delete=models.CASCADE,
         verbose_name=multilang_verb("Profile", "Профиль"),
     )
-    annual_fee = models.BooleanField(default=False, verbose_name=multilang_verb("Annual Fee", "Ежегодная выплата"))
+    annual_fee = models.BooleanField(
+        default=False, verbose_name=multilang_verb("Annual Fee", "Ежегодная выплата")
+    )
 
     class Meta:
         if check_ru_lang():
