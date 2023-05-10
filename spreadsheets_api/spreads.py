@@ -1,3 +1,27 @@
+import apiclient
+from oauth2client.service_account import ServiceAccountCredentials
+import httplib2
+
+
+def start_services(creds):
+    credentials_file = creds
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        credentials_file,
+        [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive",
+        ],
+    )
+
+    http_auth = credentials.authorize(httplib2.Http())
+    service = apiclient.discovery.build("sheets", "v4", http=http_auth)
+    drive_service = apiclient.discovery.build("drive", "v3", http=http_auth)
+    return {
+            'service': service,
+            'drive_service': drive_service
+            }
+
+
 def create_sheet(title, service, row_count):  # string name of spreadsheet
     spreadsheet = (
         service.spreadsheets()
@@ -22,10 +46,10 @@ def create_sheet(title, service, row_count):  # string name of spreadsheet
         .execute()
     )
 
-    with open("IDs.txt", mode="a") as IDs:
-        IDs.write(
-            "https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n"
-        )
+    # with open("IDs.txt", mode="a") as IDs:
+    #     IDs.write(
+    #         "https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n"
+    #     )
     return spreadsheet["spreadsheetId"]
 
 
@@ -264,3 +288,4 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
     prepare_changing_height(0, 1, 60, structure_data)
     update_spreadsheet_values(spreadsheet_id, service, values_data)
     update_spreadsheet_structure(spreadsheet_id, service, structure_data)
+    return spreadsheet_id
