@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.conf import settings
-
 # https://django-phonenumber-field.readthedocs.io/en/latest/
 from django.urls import reverse_lazy
 

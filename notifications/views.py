@@ -2,7 +2,9 @@ from rest_framework.generics import GenericAPIView, ListCreateAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 
 from notifications.models import Notification, UserNotification
-from notifications.serializers import NotificationSerializer, UserNotificationListSerializer, UserNotificationSerializer
+from notifications.serializers import (NotificationSerializer,
+                                       UserNotificationListSerializer,
+                                       UserNotificationSerializer)
 
 
 class UserNotificationListView(ListModelMixin, GenericAPIView):

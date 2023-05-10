@@ -11,7 +11,9 @@ from utils.check_language import check_ru_lang, multilang_verb
 class Club(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     info = models.TextField(verbose_name=multilang_verb("Info", "Информация"))
-    addresses = models.ManyToManyField(Address, blank=True, verbose_name=multilang_verb("Addresses", "Адреса"))
+    addresses = models.ManyToManyField(
+        Address, blank=True, verbose_name=multilang_verb("Addresses", "Адреса")
+    )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
     groups = models.ManyToManyField(Group, blank=True, verbose_name=multilang_verb("Groups", "Группы"))
     photos = models.ManyToManyField(Photo, verbose_name=multilang_verb("Photos", "Фото"))

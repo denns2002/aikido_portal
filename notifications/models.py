@@ -8,7 +8,9 @@ from utils.check_language import check_ru_lang, multilang_verb
 class Notification(models.Model):
     title = models.CharField(max_length=255, verbose_name=multilang_verb("Title", "Заголовок"))
     message = models.TextField(blank=True, verbose_name=multilang_verb("Message", "Сообщение"))
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name=multilang_verb("Timestamp", "Временная отметка"))
+    timestamp = models.DateTimeField(
+        auto_now_add=True, verbose_name=multilang_verb("Timestamp", "Временная отметка")
+    )
 
     class Meta:
         if check_ru_lang():

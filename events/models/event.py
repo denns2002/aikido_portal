@@ -40,8 +40,16 @@ class Event(models.Model):
         related_name="co_organizers",
         verbose_name=multilang_verb("Co-organizers", "Соорганизаторы"),
     )
-    is_attestation = models.BooleanField(default=False, verbose_name=multilang_verb("Is attestation", "Аттестация"))
+    is_attestation = models.BooleanField(
+        default=False, verbose_name=multilang_verb("Is attestation", "Аттестация")
+    )
+    attestation_date = models.DateTimeField(
+        blank=True, null=True, verbose_name=multilang_verb("Attestation date", "Дата и время аттестации")
+    )
     is_seminar = models.BooleanField(default=False, verbose_name=multilang_verb("Is seminar", "Семинар"))
+    seminar_date = models.DateTimeField(
+        blank=True, null=True, verbose_name=multilang_verb("Seminar date", "Дата и время семинара")
+    )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):

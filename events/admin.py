@@ -1,5 +1,4 @@
 from django.contrib import admin
-from super_inlines.admin import SuperInlineModelAdmin, SuperModelAdmin
 
 from .models.event import Event
 
@@ -14,7 +13,9 @@ class EventAdmin(admin.ModelAdmin):
                     "slug",
                     "name",
                     "is_attestation",
+                    "attestation_date",
                     "is_seminar",
+                    "seminar_date",
                     "about",
                     "reg_start",
                     "reg_end",
