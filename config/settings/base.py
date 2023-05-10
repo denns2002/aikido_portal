@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "ckeditor",
-    "spreadsheets.apps.SpreadsheetsConfig",
     "authentication.apps.AuthenticationConfig",
     "user.apps.UserConfig",
     "cities.apps.CitiesConfig",
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     "phones.apps.PhonesConfig",
     "photos.apps.PhotosConfig",
     "notifications.apps.NotificationsConfig",
+    "statements.apps.StatementsConfig",
     "corsheaders",
 ]
 

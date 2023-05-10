@@ -59,7 +59,9 @@ class Profile(models.Model):
     )
     first_name = models.CharField(max_length=255, verbose_name=multilang_verb("First Name", "Имя"))
     last_name = models.CharField(max_length=255, verbose_name=multilang_verb("Last Name", "Фамилия"))
-    mid_name = models.CharField(blank=True, max_length=255, verbose_name=multilang_verb("Mid Name", "Отчество"))
+    mid_name = models.CharField(
+        blank=True, max_length=255, verbose_name=multilang_verb("Mid Name", "Отчество")
+    )
     avatar = models.ImageField(
         upload_to="photo/%Y/%m/%d/",
         blank=True,
@@ -84,11 +86,20 @@ class Profile(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         verbose_name=multilang_verb("Rank", "Ранг"),
+        related_name="rank",
+    )
+    next_rank = models.ForeignKey(
+        Rank,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name=multilang_verb("Next Rank", "Следующий Ранг"),
+        related_name="next_rank",
     )
     roles = models.ManyToManyField(Role, blank=True, verbose_name=multilang_verb("Roles", "Роли"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=multilang_verb("Updated at", "Обновлен"))
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
-    photos = models.ManyToManyField(Photo, verbose_name=multilang_verb("Photos", "Фото"))
+    photos = models.ManyToManyField(Photo, verbose_name=multilang_verb("Photos", "Фото"), blank=True)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
@@ -106,6 +117,9 @@ class Profile(models.Model):
 
         if self.mid_name:
             self.mid_name = str(self.mid_name)[0].upper() + str(self.mid_name)[1:]
+
+        if self.rank:
+            self.next_rank = Rank.objects.get(id=self.rank.id + 1)
 
         super(Profile, self).save()
 

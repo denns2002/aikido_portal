@@ -7,7 +7,9 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from authentication.serializers.reset_pass_serializer import ChangePasswordSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+from authentication.serializers.reset_pass_serializer import (
+    ChangePasswordSerializer, ResetPasswordEmailRequestSerializer,
+    SetNewPasswordSerializer)
 from utils.reset_password import send_reset_password
 
 
@@ -23,7 +25,6 @@ class ChangePasswordAPIView(GenericAPIView):
         tags=["password"],
     )
     def patch(self, request, *args, **kwargs):
-        user = request.user
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
@@ -44,7 +45,6 @@ class RequestPasswordResetAPIView(GenericAPIView):
         tags=["password"],
     )
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
         email = request.data.get("email", "")
 
         if get_user_model().objects.filter(email=email).exists():
@@ -80,7 +80,7 @@ class PasswordTokenCheckAPI(GenericAPIView):
 
             return Response({"OK": True, "message": "Valid", "uidb64": uidb64, "token": token})
 
-        except DjangoUnicodeDecodeError as _:
+        except DjangoUnicodeDecodeError:
             return Response(
                 {"error": "Token is not valid, please request a new one"},
                 status=status.HTTP_400_BAD_REQUEST,

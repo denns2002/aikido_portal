@@ -1,7 +1,8 @@
 from django.urls import path
 
 from clubs.views.club import ClubDetailAPIView, ClubListAPIView
-from clubs.views.group import GroupDetailAPIView, GroupListAPIView, TrainerGroupListAPIView
+from clubs.views.group import (GroupDetailAPIView, GroupListAPIView,
+                               GroupMemberAPIView, TrainerGroupListAPIView)
 
 urlpatterns = [
     path("clubs/", ClubListAPIView.as_view(), name="clubs"),

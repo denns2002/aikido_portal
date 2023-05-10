@@ -25,7 +25,7 @@ class ProfileFields:
                 ),
             },
         ),
-        ("Achievements in sports", {"fields": ("rank", "roles"), "classes": ("wide",)}),
+        ("Achievements in sports", {"fields": ("rank", "next_rank", "roles"), "classes": ("wide",)}),
         ("Photos", {"fields": ("photos",), "classes": ("wide",)}),
     )
 
@@ -43,7 +43,7 @@ class ProfileFields:
         "roles",
     ]
     inlines = [UserPhoneInline]
-    readonly_fields = ["updated_at", "avatar_full"]
+    readonly_fields = ["updated_at", "avatar_full", "next_rank"]
     filter_horizontal = ["roles", "photos"]
 
 

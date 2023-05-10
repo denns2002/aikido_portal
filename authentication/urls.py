@@ -5,7 +5,10 @@ from authentication.views.email_verify import ConfirmEmailAPIView
 from authentication.views.login import LoginAPIView
 from authentication.views.logout import LogoutAPIView
 from authentication.views.register import RegisterAPIView
-from authentication.views.reset_pass_views import ChangePasswordAPIView, PasswordTokenCheckAPI, RequestPasswordResetAPIView, SetNewPasswordAPIView
+from authentication.views.reset_pass_views import (ChangePasswordAPIView,
+                                                   PasswordTokenCheckAPI,
+                                                   RequestPasswordResetAPIView,
+                                                   SetNewPasswordAPIView)
 
 urlpatterns = [
     # Default Auth URLs
