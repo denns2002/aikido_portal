@@ -1,6 +1,6 @@
 import apiclient.discovery
 import httplib2
-import spreads as spr
+import spreads as s
 from oauth2client.service_account import ServiceAccountCredentials
 
 
@@ -19,7 +19,7 @@ def main():
     drive_service = apiclient.discovery.build("drive", "v3", http=http_auth)
     batch_update_structure_body = {"requests": []}
     batch_update_values_data = []
-    spr.create_sample(
+    s.create_sample(
         "Ведомость",
         service,
         drive_service,
@@ -27,6 +27,10 @@ def main():
         batch_update_values_data,
         batch_update_structure_body,
     )
+    # id = '1CQI5dDEBpj-S486tWOPNYqJDFadroEu17qIwre2ohA8'
+    # s.prepare_spreadsheet_values_data('A8:C8', 'ROWS', batch_update_values_data,
+    #                                   values=[[100, 50, '=СУММ(A8:B8)']])
+    # s.update_spreadsheet_values(id, service, batch_update_values_data)
 
 
 if __name__ == "__main__":

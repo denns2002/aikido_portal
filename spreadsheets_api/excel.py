@@ -6,12 +6,8 @@ df1 = xl.parse(xl.sheet_names[0])
 keys = df1.keys()
 
 
-def get_sheet_data(dataframe):
-    data = []
-    key_list = []
-    for key in keys:
-        key_list.append(key)
-    data.append(key_list)
+def get_excel_data(dataframe):
+    data = [['Ведомость на семинар', '', '', '', '', '', '', '', '', '', '', '']]
     for row in range(len(dataframe)):
         row_data = []
         for columns in range(len(keys)):
@@ -20,4 +16,4 @@ def get_sheet_data(dataframe):
     print(data)
 
 
-get_sheet_data(df1)
+get_excel_data(df1)

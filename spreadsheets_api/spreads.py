@@ -1,6 +1,6 @@
-def create_sheet(title, serv, row_count):  # string name of spreadsheet
+def create_sheet(title, service, row_count):  # string name of spreadsheet
     spreadsheet = (
-        serv.spreadsheets()
+        service.spreadsheets()
         .create(
             body={
                 "properties": {"title": title, "locale": "ru_RU"},
@@ -39,8 +39,8 @@ def set_permissions_user(spreadsheet_id, email, role, drive_serv):
     ).execute()
 
 
-def get_spreadsheet(spreadsheet_id, serv):
-    spreadsheet = serv.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+def get_spreadsheet(spreadsheet_id, service):
+    spreadsheet = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
     return spreadsheet
 
 
@@ -178,8 +178,8 @@ def prepare_background_color_request(cells_range, rgb, structure_data):  # strin
     structure_data["requests"].append(cells_request)
 
 
-def update_spreadsheet_values(spreadsheet_id, serv, batch_update_values_data):
-    serv.spreadsheets().values().batchUpdate(
+def update_spreadsheet_values(spreadsheet_id, service, batch_update_values_data):
+    service.spreadsheets().values().batchUpdate(
         spreadsheetId=spreadsheet_id,
         body={"valueInputOption": "USER_ENTERED", "data": batch_update_values_data},
     ).execute()
@@ -207,8 +207,8 @@ def edit_ranges(grid_range):
     return [int(start_row) - 1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, serv, drive_serv, row_count, values_data, structure_data):
-    spreadsheet_id = create_sheet(title, serv, row_count)
+def create_sample(title, service, drive_serv, row_count, values_data, structure_data):
+    spreadsheet_id = create_sheet(title, service, row_count)
     set_permissions_anyone(spreadsheet_id, "reader", drive_serv)
     prepare_merge_request("A1:I1", structure_data)
     prepare_merge_request("A2:B2", structure_data)
@@ -252,5 +252,5 @@ def create_sample(title, serv, drive_serv, row_count, values_data, structure_dat
     prepare_font_size_request("A1:A1", 32, structure_data)
     prepare_text_format_request("A1:A1", True, structure_data)
     prepare_changing_height(0, 1, 60, structure_data)
-    update_spreadsheet_values(spreadsheet_id, serv, values_data)
-    update_spreadsheet_structure(spreadsheet_id, serv, structure_data)
+    update_spreadsheet_values(spreadsheet_id, service, values_data)
+    update_spreadsheet_structure(spreadsheet_id, service, structure_data)
