@@ -7,6 +7,8 @@ from statements.models.statement import Statement, StatementMember
 from user.models.profile import Profile, Rank
 from user.serializers.profile_serializer import ProfileSerializer
 
+import spreadsheets_api.spreads as s
+
 
 class StatementMemberSerializer(serializers.ModelSerializer):
     # first_name = serializers.CharField(source='member.first_name')
@@ -74,6 +76,40 @@ class StatementSerializer(serializers.ModelSerializer):
             members.append(member)
 
         print(members)
+
+        services = s.start_services('credentials.json')
+        batch_update_structure_body = {"requests": []}
+        batch_update_values_data = []
+        values = []
+        for i in range(len(members)):
+            inside_values = [i+1,
+                             members[i]['fio'],
+                             members[i]['rank'],
+                             members[i]['trainer_fio'],
+                             members[i]['group_type'],
+                             'program group?',
+                             members[i]['next_rank'],
+                             members[i]['annual_fee'],
+                             members[i]['seminar_date'],
+                             members[i]['attestation_date'],
+                             'passport?',
+                             'notes'
+                             ]
+            values.append(inside_values)
+        s.prepare_spreadsheet_values_data(f'A7:L{6+len(members)}',
+                                          "ROWS",
+                                          batch_update_values_data,
+                                          values)
+        spreadsheet_id = s.create_sample(
+            "Ведомость",
+            services['service'],
+            services['drive_service'],
+            10 + len(members),
+            batch_update_values_data,
+            batch_update_structure_body,
+        )
+        link = "https://docs.google.com/spreadsheets/d/" + spreadsheet_id + "/edit#gid=0"
+
 
         # фио!, текущий ранк!, тренер фио!, группа по возрасту!, по программе, на какой аттестуется!, годовой взнос, семинар, аттестация, паспорт
         return super().create(validated_data)
