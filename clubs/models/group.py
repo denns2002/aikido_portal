@@ -21,7 +21,7 @@ class Group(models.Model):
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
     type = models.CharField(max_length=20, choices=TYPES, verbose_name=multilang_verb("Type", "Тип"))
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    def save(self, *args, **kwargs):
         if not self.slug:
             slug = str(self.name) + str(self.number)
             slug = translit(slug[:10], language_code="ru", reversed=True)
@@ -31,7 +31,8 @@ class Group(models.Model):
                 slug = slug + get_random_string(length=10)
 
             self.slug = slug
-            super(Group, self).save()
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "№" + str(self.number) + " - " + str(self.name)

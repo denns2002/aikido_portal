@@ -36,7 +36,7 @@ def create_sheet(title, service, row_count):  # string name of spreadsheet
                             "title": "Лист1",
                             "gridProperties": {
                                 "rowCount": row_count,
-                                "columnCount": 12,
+                                "columnCount": 20,
                             },
                         }
                     }
