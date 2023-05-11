@@ -20,7 +20,10 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ["username", "password", "tokens"]
 
     def validate(self, attrs):
-        user_obj = get_user_model().objects.filter(email=attrs.get("username")).first() or get_user_model().objects.filter(username=attrs.get("username")).first()
+        user_obj = (
+            get_user_model().objects.filter(email=attrs.get("username")).first()
+            or get_user_model().objects.filter(username=attrs.get("username")).first()
+        )
         credentials = {"username": "", "password": attrs.get("password")}
 
         if user_obj:

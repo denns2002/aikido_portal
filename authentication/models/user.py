@@ -52,7 +52,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     is_staff = models.BooleanField(default=False, verbose_name=multilang_verb("Is staff", "Персонал"))
     is_active = models.BooleanField(default=True, verbose_name=multilang_verb("Is active", "Активный"))
-    is_verified = models.BooleanField(default=False, verbose_name=multilang_verb("Is verified", "Верифицированный"))
+    is_verified = models.BooleanField(
+        default=False, verbose_name=multilang_verb("Is verified", "Верифицированный")
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=multilang_verb("Created at", "Создан"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=multilang_verb("Updated at", "Обновлен"))
 

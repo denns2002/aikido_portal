@@ -7,7 +7,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
 from rest_framework.response import Response
 
-from authentication.serializers.email_verify_serializer import EmailVerifySerializer
+from authentication.serializers.email_verify_serializer import \
+    EmailVerifySerializer
 from config.settings import base as settings
 from config.settings import packeges
 

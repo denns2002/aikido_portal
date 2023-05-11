@@ -8,12 +8,20 @@ from utils.check_language import check_ru_lang, multilang_verb
 
 
 class Group(models.Model):
+    TYPES = [("Children's", "Детская"), ("Adult", "Взрослая")]
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     number = models.IntegerField(unique=True, verbose_name=multilang_verb("Number", "Номер"))
-    trainers = models.ManyToManyField(get_user_model(), blank=True, verbose_name=multilang_verb("Trainers", "Тренеры"))
+    trainer = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=multilang_verb("Trainer", "Тренер"),
+    )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
+    type = models.CharField(max_length=20, choices=TYPES, verbose_name=multilang_verb("Type", "Тип"))
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    def save(self, *args, **kwargs):
         if not self.slug:
             slug = str(self.name) + str(self.number)
             slug = translit(slug[:10], language_code="ru", reversed=True)
@@ -24,7 +32,8 @@ class Group(models.Model):
 
             self.slug = slug
 
-            super(Group, self).save()
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return "№" + str(self.number) + " - " + str(self.name)
@@ -42,10 +51,13 @@ class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name=multilang_verb("Group", "Группа"))
     profile = models.ForeignKey(
         Profile,
+        unique=True,
         on_delete=models.CASCADE,
         verbose_name=multilang_verb("Profile", "Профиль"),
     )
-    annual_fee = models.BooleanField(default=False, verbose_name=multilang_verb("Annual Fee", "Ежегодная выплата"))
+    annual_fee = models.BooleanField(
+        default=False, verbose_name=multilang_verb("Annual Fee", "Ежегодная выплата")
+    )
 
     class Meta:
         if check_ru_lang():
@@ -66,6 +78,9 @@ class Debts(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     price = models.IntegerField(default=0, verbose_name=multilang_verb("Price", "Стоимость"))
     paid = models.IntegerField(default=0, verbose_name=multilang_verb("Paid", "Выплачено"))
+
+    def get_remainder(self):
+        return int(self.price) - int(self.paid)
 
     class Meta:
         if check_ru_lang():

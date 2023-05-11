@@ -46,6 +46,8 @@ urlpatterns = [
     path(api + "", include("cities.urls")),
     # Notifications
     path(api + "notifications/", include("notifications.urls")),
+    # Statements
+    path(api + "statements/", include("statements.urls")),
 ]
 
 if settings.DEBUG:
