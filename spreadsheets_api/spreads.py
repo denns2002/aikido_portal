@@ -241,7 +241,7 @@ def edit_ranges(grid_range):
     return [int(start_row) - 1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, service, drive_serv, row_count, values_data, structure_data):
+def create_sample(title, service, drive_serv, row_count, values_data, structure_data, city, club_name):
     spreadsheet_id = create_sheet(title, service, row_count)
     set_permissions_anyone(spreadsheet_id, "reader", drive_serv)
     prepare_merge_request("A1:I1", structure_data)
@@ -277,8 +277,8 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
         values=[
             ["Ведомость на семинар", ""],
             ["2023 Год", ""],
-            ["клуб", "детский"],
-            ["город", "Екб"],
+            ["клуб", club_name],
+            ["город", city],
         ],
     )
     prepare_background_color_request("A6:L6", [0.28, 0.45, 0.9], structure_data)

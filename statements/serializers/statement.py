@@ -109,6 +109,8 @@ class StatementSerializer(serializers.ModelSerializer):
             10 + len(members),
             batch_update_values_data,
             batch_update_structure_body,
+            members[0]["city"],
+            members[0]["club"]
         )
         link = "https://docs.google.com/spreadsheets/d/" + spreadsheet_id + "/edit#gid=0"
 
