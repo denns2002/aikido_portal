@@ -19,11 +19,12 @@ class Club(models.Model):
     photos = models.ManyToManyField(Photo, blank=True, verbose_name=multilang_verb("Photos", "Фото"))
     is_active = models.BooleanField(default=True, verbose_name=multilang_verb("Active", "Активно"))
 
+
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = translit(str(self.name)[:10], language_code="ru", reversed=True)
-            slug = slugify(slug) + get_random_string(length=10)
-
+            slug = slug + get_random_string(length=10)
+            print(slug)
             while Club.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)
 

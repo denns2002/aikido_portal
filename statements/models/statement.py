@@ -7,9 +7,8 @@ from user.models.profile import Profile
 
 class Statement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(null=True, blank=True, upload_to="statements/")
+    link = models.CharField(max_length=255, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
-    creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
 
 
 class StatementMember(models.Model):
