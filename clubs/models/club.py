@@ -17,6 +17,8 @@ class Club(models.Model):
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
     groups = models.ManyToManyField(Group, blank=True, verbose_name=multilang_verb("Groups", "Группы"))
     photos = models.ManyToManyField(Photo, blank=True, verbose_name=multilang_verb("Photos", "Фото"))
+    is_active = models.BooleanField(default=True, verbose_name=multilang_verb("Active", "Активно"))
+
 
     def save(self, *args, **kwargs):
         if not self.slug:
