@@ -1,6 +1,30 @@
-def create_sheet(title, serv, row_count):  # string name of spreadsheet
+import apiclient
+from oauth2client.service_account import ServiceAccountCredentials
+import httplib2
+
+
+def start_services(creds):
+    credentials_file = creds
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        credentials_file,
+        [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive",
+        ],
+    )
+
+    http_auth = credentials.authorize(httplib2.Http())
+    service = apiclient.discovery.build("sheets", "v4", http=http_auth)
+    drive_service = apiclient.discovery.build("drive", "v3", http=http_auth)
+    return {
+            'service': service,
+            'drive_service': drive_service
+            }
+
+
+def create_sheet(title, service, row_count):  # string name of spreadsheet
     spreadsheet = (
-        serv.spreadsheets()
+        service.spreadsheets()
         .create(
             body={
                 "properties": {"title": title, "locale": "ru_RU"},
@@ -12,7 +36,7 @@ def create_sheet(title, serv, row_count):  # string name of spreadsheet
                             "title": "Лист1",
                             "gridProperties": {
                                 "rowCount": row_count,
-                                "columnCount": 12,
+                                "columnCount": 20,
                             },
                         }
                     }
@@ -22,10 +46,10 @@ def create_sheet(title, serv, row_count):  # string name of spreadsheet
         .execute()
     )
 
-    with open("IDs.txt", mode="a") as IDs:
-        IDs.write(
-            "https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n"
-        )
+    # with open("IDs.txt", mode="a") as IDs:
+    #     IDs.write(
+    #         "https://docs.google.com/spreadsheets/d/" + spreadsheet["spreadsheetId"] + "/edit#gid=0" + "\n"
+    #     )
     return spreadsheet["spreadsheetId"]
 
 
@@ -43,8 +67,8 @@ def set_permissions_user(spreadsheet_id, email, role, drive_serv):
     ).execute()
 
 
-def get_spreadsheet(spreadsheet_id, serv):
-    spreadsheet = serv.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+def get_spreadsheet(spreadsheet_id, service):
+    spreadsheet = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
     return spreadsheet
 
 
@@ -112,7 +136,7 @@ def prepare_multiple_merge_request(
         prepare_merge_request(merge_ranges[i], structure_data)
 
 
-def prepare_horiz_alignment_request(cells_range, structure_data):  # string 'A1:B1'
+def prepare_horizontal_alignment_request(cells_range, structure_data):  # string 'A1:B1'
     a = edit_ranges(cells_range)
     cells_request = {
         "repeatCell": {
@@ -188,8 +212,8 @@ def prepare_background_color_request(
     structure_data["requests"].append(cells_request)
 
 
-def update_spreadsheet_values(spreadsheet_id, serv, batch_update_values_data):
-    serv.spreadsheets().values().batchUpdate(
+def update_spreadsheet_values(spreadsheet_id, service, batch_update_values_data):
+    service.spreadsheets().values().batchUpdate(
         spreadsheetId=spreadsheet_id,
         body={"valueInputOption": "USER_ENTERED", "data": batch_update_values_data},
     ).execute()
@@ -217,8 +241,8 @@ def edit_ranges(grid_range):
     return [int(start_row) - 1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, serv, drive_serv, row_count, values_data, structure_data):
-    spreadsheet_id = create_sheet(title, serv, row_count)
+def create_sample(title, service, drive_serv, row_count, values_data, structure_data):
+    spreadsheet_id = create_sheet(title, service, row_count)
     set_permissions_anyone(spreadsheet_id, "reader", drive_serv)
     prepare_merge_request("A1:I1", structure_data)
     prepare_merge_request("A2:B2", structure_data)
@@ -262,5 +286,6 @@ def create_sample(title, serv, drive_serv, row_count, values_data, structure_dat
     prepare_font_size_request("A1:A1", 32, structure_data)
     prepare_text_format_request("A1:A1", True, structure_data)
     prepare_changing_height(0, 1, 60, structure_data)
-    update_spreadsheet_values(spreadsheet_id, serv, values_data)
-    update_spreadsheet_structure(spreadsheet_id, serv, structure_data)
+    update_spreadsheet_values(spreadsheet_id, service, values_data)
+    update_spreadsheet_structure(spreadsheet_id, service, structure_data)
+    return spreadsheet_id

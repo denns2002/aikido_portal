@@ -1,8 +1,8 @@
 from rest_framework.generics import (ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
+                                     RetrieveUpdateDestroyAPIView, UpdateAPIView)
 
 from clubs.models.club import Club
-from clubs.serializers.club_serializer import ClubSerializer
+from clubs.serializers.club_serializer import ClubSerializer, ArchiveClubSerializer
 
 
 class ClubListAPIView(ListCreateAPIView):
@@ -16,4 +16,10 @@ class ClubListAPIView(ListCreateAPIView):
 class ClubDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ClubSerializer
     queryset = Club.objects.filter()
+    lookup_field = "slug"
+
+
+class ArchiveClubAPIView(UpdateAPIView):
+    serializer_class = ArchiveClubSerializer
+    queryset = Club.objects.all()
     lookup_field = "slug"

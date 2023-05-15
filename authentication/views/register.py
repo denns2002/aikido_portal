@@ -1,7 +1,6 @@
 from drf_yasg.inspectors import SwaggerAutoSchema
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from authentication.serializers.register_serializer import RegisterSerializer
@@ -9,7 +8,6 @@ from utils.email_verification import send_verify_email
 
 
 class RegisterAPIView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
 
     @swagger_auto_schema(

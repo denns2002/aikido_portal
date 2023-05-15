@@ -16,4 +16,4 @@ class UserNotificationSerializer(serializers.ModelSerializer):
 
 
 class UserNotificationListSerializer(UserNotificationSerializer):
-    notifications = NotificationSerializer()
+        notification = NotificationSerializer()

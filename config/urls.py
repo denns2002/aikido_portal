@@ -21,6 +21,17 @@ schema_view = get_schema_view(
 api = "api/"
 
 urlpatterns = [
+    path(api + "admin/", include("admincustom.urls")),  # Admin
+    path(api + "auth/", include("authentication.urls")),  # Authentication urls
+    path(api + "profile/", include("profile.urls")),  # Profile
+    path(api + "events/", include("events.urls")),  # Events
+    path(api + "clubs/", include("clubs.urls")),  # Clubs
+    path(api + "cities/", include("cities.urls")),  # Cities
+    path(api + "notifications/", include("notifications.urls")),  # Notifications
+    path(api + "statements/", include("statements.urls")),  # Statements
+]
+
+urlpatterns += [
     # SWAGGER
     path(
         api + "",
@@ -32,23 +43,6 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
-    # Admin
-    path(api + "admin/", include("admincustom.urls")),
-    # Authentication urls
-    path(api + "auth/", include("authentication.urls")),
-    # Profile and user info
-    path(api + "profile/", include("user.urls")),
-    # Events
-    path(api + "events/", include("events.urls")),
-    # Clubs
-    path(api + "", include("clubs.urls")),
-    # Cities
-    path(api + "", include("cities.urls")),
-    # Notifications
-    path(api + "notifications/", include("notifications.urls")),
-    # Statements
-    path(api + "statements/", include("statements.urls")),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

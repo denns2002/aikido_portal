@@ -3,7 +3,7 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from rest_framework.generics import (GenericAPIView, ListAPIView,
                                      RetrieveUpdateDestroyAPIView,
-                                     UpdateAPIView)
+                                     UpdateAPIView, ListCreateAPIView)
 from rest_framework.permissions import AllowAny
 
 from clubs.models.group import Group
@@ -19,7 +19,7 @@ class EventMixin(GenericAPIView):
     lookup_field = "slug"
 
 
-class EventListAPIView(ListAPIView, EventMixin):
+class EventListCreateAPIView(ListCreateAPIView, EventMixin):
     """
     GET a list of all events.
     """
@@ -46,7 +46,7 @@ class EventAddOrgAPIView(UpdateAPIView):
 
     queryset = Event.objects.all()
     serializer_class = EventOrganizersSerializer
-
+    lookup_field = "slug"
 
 class EventAddCoOrgAPIView(UpdateAPIView):
     """
@@ -57,7 +57,7 @@ class EventAddCoOrgAPIView(UpdateAPIView):
 
     queryset = Event.objects.all()
     serializer_class = EventOrganizersSerializer
-
+    lookup_field = "slug"
 
 class PlannedEventsAPIView(ListAPIView):
     """

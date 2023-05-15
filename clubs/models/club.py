@@ -16,17 +16,20 @@ class Club(models.Model):
     )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
     groups = models.ManyToManyField(Group, blank=True, verbose_name=multilang_verb("Groups", "Группы"))
-    photos = models.ManyToManyField(Photo, verbose_name=multilang_verb("Photos", "Фото"))
+    photos = models.ManyToManyField(Photo, blank=True, verbose_name=multilang_verb("Photos", "Фото"))
+    is_active = models.BooleanField(default=True, verbose_name=multilang_verb("Active", "Активно"))
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    def save(self, *args, **kwargs):
         if not self.slug:
             slug = translit(str(self.name)[:10], language_code="ru", reversed=True)
-            slug = slugify(slug) + get_random_string(length=10)
-
+            slug = slug + get_random_string(length=10)
+            print(slug)
             while Club.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)
 
             self.slug = slug
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
