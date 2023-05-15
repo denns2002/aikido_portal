@@ -1,5 +1,5 @@
-from rest_framework.generics import GenericAPIView, ListCreateAPIView
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, ListAPIView
+from rest_framework.mixins import CreateModelMixin
 
 from notifications.models import Notification, UserNotification
 from notifications.serializers import (NotificationSerializer,
@@ -7,7 +7,7 @@ from notifications.serializers import (NotificationSerializer,
                                        UserNotificationSerializer)
 
 
-class UserNotificationListView(ListCreateAPIView, GenericAPIView):
+class UserNotificationListView(ListAPIView, GenericAPIView):
     serializer_class = UserNotificationListSerializer
 
     def get_queryset(self):

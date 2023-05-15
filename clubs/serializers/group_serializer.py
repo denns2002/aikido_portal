@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from clubs.models.group import Group, GroupMember
-from user.serializers.profile_serializer import ProfileSerializer
+from profile.serializers.profile_serializer import ProfileSerializer
 
 
 class GroupSerializer(serializers.ModelSerializer):

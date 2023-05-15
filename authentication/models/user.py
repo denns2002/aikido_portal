@@ -10,12 +10,10 @@ class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if username is None:
             raise TypeError("Users should have a username")
-        # if email is None:
-        #     raise TypeError("Users should have a Email")
 
         user = self.model(
             username=username,
-            # email=self.normalize_email(email).lower(),
+            email=self.normalize_email(email).lower() if email else None,
             **extra_fields,
         )
         user.set_password(password)
@@ -48,6 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
         db_index=True,
+        blank=True,
+        null=True,
         verbose_name=multilang_verb("Email", "Электронная почта"),
     )
     is_staff = models.BooleanField(default=False, verbose_name=multilang_verb("Is staff", "Персонал"))

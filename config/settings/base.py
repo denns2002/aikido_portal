@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "ckeditor",
     "authentication.apps.AuthenticationConfig",
-    "user.apps.UserConfig",
+    "profile.apps.ProfileConfig",
     "cities.apps.CitiesConfig",
     "clubs.apps.ClubsConfig",
     "events.apps.EventsConfig",

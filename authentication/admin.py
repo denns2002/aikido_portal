@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from super_inlines.admin import SuperModelAdmin
 
-from user.admin import ProfileInline
+from profile.admin import ProfileInline
 
 
 @admin.register(get_user_model())

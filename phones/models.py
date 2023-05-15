@@ -2,7 +2,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 from clubs.models.club import Club
-from user.models.profile import Profile
+from profile.models.profile import Profile
 from utils.check_language import check_ru_lang, multilang_verb
 
 

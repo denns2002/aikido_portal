@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from user.models.profile import Profile
+from profile.models.profile import Profile
 from utils.check_language import check_ru_lang, multilang_verb
 
 

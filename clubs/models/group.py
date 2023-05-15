@@ -3,12 +3,12 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from transliterate import slugify, translit
 
-from user.models.profile import Profile
+from profile.models.profile import Profile
 from utils.check_language import check_ru_lang, multilang_verb
 
 
 class Group(models.Model):
-    TYPES = [("Children's", "Детская"), ("Adult", "Взрослая")]
+    TYPES = [("Детская", "Детская"), ("Взрослая", "Взрослая")]
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     number = models.IntegerField(unique=True, verbose_name=multilang_verb("Number", "Номер"))
     trainer = models.ForeignKey(
