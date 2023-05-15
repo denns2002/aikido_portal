@@ -78,6 +78,9 @@ class Debts(models.Model):
     price = models.IntegerField(default=0, verbose_name=multilang_verb("Price", "Стоимость"))
     paid = models.IntegerField(default=0, verbose_name=multilang_verb("Paid", "Выплачено"))
 
+    def get_remainder(self):
+        return int(self.price) - int(self.paid)
+
     class Meta:
         if check_ru_lang():
             verbose_name = "Задолжность"
