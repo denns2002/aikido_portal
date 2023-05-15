@@ -6,7 +6,6 @@ from rest_framework.validators import UniqueValidator
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
-        required=True,
         validators=[UniqueValidator(queryset=get_user_model().objects.all())],
     )
 

@@ -19,7 +19,7 @@ class EventMixin(GenericAPIView):
     lookup_field = "slug"
 
 
-class EventListAPIView(ListCreateAPIView, EventMixin):
+class EventListCreateAPIView(ListCreateAPIView, EventMixin):
     """
     GET a list of all events.
     """

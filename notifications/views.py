@@ -7,12 +7,11 @@ from notifications.serializers import (NotificationSerializer,
                                        UserNotificationSerializer)
 
 
-class UserNotificationListView(ListModelMixin, GenericAPIView):
+class UserNotificationListView(ListCreateAPIView, GenericAPIView):
     serializer_class = UserNotificationListSerializer
-    get = ListCreateAPIView.get
 
     def get_queryset(self):
-        return UserNotification.objects.filter(users=self.request.user).order_by("-notifications__timestamp")
+        return UserNotification.objects.filter(user=self.request.user).order_by("-notification__timestamp")
 
 
 class NotificationCreateView(CreateModelMixin, GenericAPIView):

@@ -1,11 +1,10 @@
 from django.urls import path
 
 from events.views.event import (EventAddCoOrgAPIView, EventAddOrgAPIView,
-                                EventDetailAPIView, EventListAPIView,
-                                PlannedEventsAPIView)
+                                EventDetailAPIView, EventListCreateAPIView)
 
 urlpatterns = [
-    path("", EventListAPIView.as_view(), name="event-list"),
+    path("", EventListCreateAPIView.as_view(), name="event-list"),
     path("<slug:slug>/", EventDetailAPIView.as_view(), name="event-detail"),
     # Add organizers and co-organizers
     path("add-org/<slug:slug>/", EventAddOrgAPIView.as_view(), name="event-add-org"),

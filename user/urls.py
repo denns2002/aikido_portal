@@ -4,7 +4,7 @@ from user.views.profile import (MyProfileAPIView, ProfileAPIView,
                                 UpdateProfileView)
 
 urlpatterns = [
-    path("profile/<slug:slug>", ProfileAPIView.as_view(), name="login"),
-    path("my_profile/", MyProfileAPIView.as_view(), name="my-profile"),
-    path("update_profile/<str:slug>/", UpdateProfileView.as_view(), name="update-profile"),
+    path("<slug:slug>/", ProfileAPIView.as_view(), name="login"),
+    path("my-profile/", MyProfileAPIView.as_view(), name="my-profile"),
+    path("update-profile/<str:slug>/", UpdateProfileView.as_view(), name="update-profile"),
 ]
