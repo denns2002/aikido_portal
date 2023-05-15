@@ -4,8 +4,8 @@ import { ISignInData } from "../types/authentication"
 import { api } from "./api"
 import { tokenService } from "../services/tokens"
 import { loadUserProfile } from "./profile"
-import { NotificationType } from "../types/notifications"
-import { addNotification } from './notifications';
+import { PushNotificationType } from "../types/pushNotifications"
+import { addPushNotification } from './pushNotifications';
 import { v4 } from "uuid"
 
 export function signIn(data: ISignInData) {
@@ -24,13 +24,13 @@ export function signIn(data: ISignInData) {
 			dispatch(authenticationActions.signInSuccess())
 
 			dispatch(loadUserProfile())
-			dispatch(addNotification({id: v4(), type: NotificationType.Success, message: "Вы успешно авторизовались"}))
+			dispatch(addPushNotification({id: v4(), type: PushNotificationType.Success, message: "Вы успешно авторизовались"}))
 		} catch (e: any) {
 			dispatch(
 				authenticationActions.signInFail()
 			)
 
-			dispatch(addNotification({id: v4(), type: NotificationType.Error, message: "Не удалось авторизоваться"}))
+			dispatch(addPushNotification({id: v4(), type: PushNotificationType.Error, message: "Не удалось авторизоваться"}))
 		}
 	}
 }

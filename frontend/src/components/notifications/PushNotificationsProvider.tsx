@@ -1,14 +1,14 @@
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
-import Notification from "./Notification"
-import { INotification } from "../../store/types/notifications"
+import Notification from "./PushNotification"
+import { IPushNotification } from "../../store/types/pushNotifications"
 
-interface NotificationProvideProps {
-	notifications: INotification[]
+interface PushNotificationsProvideProps {
+	notifications: IPushNotification[]
 	children: React.ReactNode
 }
 
-function NotificationProvider(props: NotificationProvideProps) {
+function PushNotificationsProvider(props: PushNotificationsProvideProps) {
 	return (
 		<>
 			<div className="fixed top-3 right-3 w-52 flex flex-col gap-1">
@@ -28,8 +28,8 @@ function NotificationProvider(props: NotificationProvideProps) {
 
 function mapStateToProps(state: IRootState) {
 	return {
-		notifications: state.notifications.notifications
+		notifications: state.pushNotifications.notifications
 	}
 }
 
-export default connect(mapStateToProps)(NotificationProvider)
+export default connect(mapStateToProps)(PushNotificationsProvider)

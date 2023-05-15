@@ -1,12 +1,14 @@
 export interface IGroup {
-    id: number | null
+    id: number
     name: string
     number: string
     slug: string
     trainers: number[]
 }
 
-export interface GroupsState {
-    groups: IGroup[]
-    isLoading: boolean
+export interface IGroupList {
+    count: number
+    next: string
+    previous: string
+    results: IGroup[]
 }

@@ -1,12 +1,4 @@
-export interface IRegion {
-	name: string
-}
-
-export interface ICity {
-	region?: IRegion | undefined
-	name?: string
-	id: number | undefined
-}
+import { ICity } from "./cities"
 
 export interface IRank {
 	id: number | undefined

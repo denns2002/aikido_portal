@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
-import { INotification, NotificationType } from "../../store/types/notifications"
+import { IPushNotification, PushNotificationType } from "../../store/types/pushNotifications"
 import { useActions } from "../../hooks/useActions"
 
 interface NotificationProps {
-	information: INotification
+	information: IPushNotification
 }
 
-function Notification(props: NotificationProps) {
+function PushNotification(props: NotificationProps) {
 	const [mounted, setMounted] = useState(false)
 
-	const { removeNotification } = useActions()
+	const { removePushNotification } = useActions()
 
 	useEffect(() => {
 		setMounted(true)
@@ -19,7 +19,7 @@ function Notification(props: NotificationProps) {
 		}, 2000)
 
 		setTimeout(() => {
-			removeNotification(props.information.id)
+			removePushNotification(props.information.id)
 		}, 2700)
 	}, [])
 
@@ -28,7 +28,7 @@ function Notification(props: NotificationProps) {
 			className={`p-1 shadow-md border-2 rounded-md overflow-hidden transform-all transition-opacity duration-700 ${
 				mounted ? "opacity-100" : "opacity-0"
 			} ${
-				props?.information?.type === NotificationType.Success
+				props?.information?.type === PushNotificationType.Success
 					? "border-green-400"
 					: "border-red-500"
 			}`}
@@ -38,4 +38,4 @@ function Notification(props: NotificationProps) {
 	)
 }
 
-export default Notification
+export default PushNotification

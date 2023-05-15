@@ -26,9 +26,11 @@ const initialState: ProfileState = {
 		updated_at: "",
 		slug: "",
 		city: {
-			id: undefined,
+			id: 0,
 			name: "",
-			region: undefined,
+			region: {
+				name: ""
+			},
 		},
 		rank: {
 			id: undefined,
