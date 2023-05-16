@@ -6,5 +6,5 @@ from statements.views.statement import (StatementCreateAPIView,
 urlpatterns = [
     path("", StatementCreateAPIView.as_view(), name="statement-create"),
     # path("", StatementUploadAPIView.as_view(), name="statement-upload"),
-    path("<int:pk>", StatementDetailAPIView.as_view(), name="statement-detail"),
+    path("<int:pk>/", StatementDetailAPIView.as_view(), name="statement-detail"),
 ]

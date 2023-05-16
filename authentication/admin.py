@@ -18,6 +18,7 @@ class UserAdmin(SuperModelAdmin):
     ]
     list_filter = ["created_at", "updated_at"]
     fields = [
+        "id",
         "username",
         "email",
         "is_staff",
@@ -26,5 +27,5 @@ class UserAdmin(SuperModelAdmin):
         "created_at",
         "updated_at",
     ]
-    readonly_fields = ["created_at", "updated_at"]
+    readonly_fields = ["id", "created_at", "updated_at"]
     inlines = [ProfileInline]
