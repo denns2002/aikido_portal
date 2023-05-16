@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query"
-import { IChangePassword, ISetPassword } from "../types/authentication"
+import { IChangePassword, IResetPasswordEmailRequest, ISetPassword } from "../types/authentication"
 
 export const authenticationApi = createApi({
 	reducerPath: "authenticationApi",
@@ -32,6 +32,16 @@ export const authenticationApi = createApi({
 			query: ({ token, uidb64 }) => ({
 				url: `/password-reset/${uidb64}/${token}/`,
 				method: "GET",
+			}),
+		}),
+		postRequestPasswordReset: builder.mutation<
+			IResetPasswordEmailRequest,
+			IResetPasswordEmailRequest
+		>({
+			query: (email) => ({
+				url: `/password-reset-complete/`,
+				method: "PATCH",
+				body: email,
 			}),
 		}),
 	}),

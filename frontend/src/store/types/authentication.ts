@@ -24,3 +24,7 @@ export interface ISetPassword {
 	token: string
 	uidb64: string
 }
+
+export interface IResetPasswordEmailRequest {
+	email: string
+}

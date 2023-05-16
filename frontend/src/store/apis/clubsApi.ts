@@ -9,7 +9,7 @@ export const clubsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		getClubs: builder.query<IClubList, number>({
-			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/clubs/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
