@@ -1,6 +1,7 @@
 import React from "react"
 import {
 	useGetTrainerGroupQuery,
+	usePatchEventBySlugMutation,
 	usePostAddUserMutation,
 } from "../store/apis"
 
@@ -8,11 +9,11 @@ function Home() {
 	const { data, error } = useGetTrainerGroupQuery({slug: "adminadminRMZfW2R3YX", page: 1})
 	console.log(data, error)
 
-	const [test, { data: testData, error: testError }] = usePostAddUserMutation()
+	const [test, { data: testData, error: testError }] = usePatchEventBySlugMutation()
 	console.log(testData, testError)
 
 	async function handleClick() {
-		await test({username: "cringe", password: "cringevald123", password2: "cringevald123", email: "8aniwoov8@gmail.com"}).unwrap()
+		await test({slug: "testeventXUfTORRdeT", event: {name: "TestEventChange", reg_start: "2023-05-10", reg_end: "2023-05-11", date_start: "2023-05-12", date_end: "2023-05-13", about: "TestEventChange" }}).unwrap()
 	}
 
 	return (
