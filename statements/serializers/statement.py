@@ -102,6 +102,7 @@ class StatementSerializer(serializers.ModelSerializer):
                                           "ROWS",
                                           batch_update_values_data,
                                           values)
+        s.prepare_filter_set_basic_request(batch_update_structure_body)
         spreadsheet_id = s.create_sample(
             "Ведомость",
             services['service'],

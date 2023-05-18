@@ -17,6 +17,8 @@
 #     s.set_permissions_anyone(spread_id, "writer", services["drive_service"])
 #     s.prepare_filter_set_basic_request(batch_update_structure_body)
 #     s.update_spreadsheet_structure(spread_id, services['service'], batch_update_structure_body)
+#     x = s.get_spreadsheet_data(spread_id, services['service'])
+#     print(x)
 #
 #
 # if __name__ == "__main__":
