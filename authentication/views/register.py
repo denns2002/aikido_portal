@@ -15,7 +15,6 @@ class RegisterAPIView(generics.GenericAPIView):
         security=[],
         operation_id="register",
         operation_description="Register and send email verify.",
-        tags=["register"],
     )
     def post(self, request):
         user = request.data
@@ -23,6 +22,8 @@ class RegisterAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
-        send_verify_email(user_data, request)
+
+        if user.email and not user.is_verified:
+            send_verify_email(user_data, request)
 
         return Response(user_data, status=status.HTTP_201_CREATED)
