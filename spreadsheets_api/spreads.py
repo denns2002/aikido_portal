@@ -73,7 +73,7 @@ def get_spreadsheet(spreadsheet_id, service):
 
 
 def get_spreadsheet_data(spreadsheet_id, service):
-    spreadsheet = service.spreadsheets().values().get(spreadsheetId='1CQI5dDEBpj-S486tWOPNYqJDFadroEu17qIwre2ohA8',
+    spreadsheet = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id,
                                                       range='Лист1',
                                                       valueRenderOption='FORMATTED_VALUE',
                                                       dateTimeRenderOption='FORMATTED_STRING').execute()
