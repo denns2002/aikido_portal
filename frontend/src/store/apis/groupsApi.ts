@@ -1,13 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { IGroup, IGroupList } from "../types/groups"
+import {
+	IGroup,
+	IGroupList,
+	ITrainerGroup,
+	ITrainerGroupList,
+	ITrainerList,
+} from "../types/groups"
 
 export const groupsApi = createApi({
 	reducerPath: "groupsApi",
 	tagTypes: ["Groups"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/group" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/clubs" }),
 	endpoints: (builder) => ({
 		getGroups: builder.query<IGroupList, number>({
-			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/group/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -20,26 +26,61 @@ export const groupsApi = createApi({
 					: [{ type: "Groups", id: "LIST" }],
 		}),
 		postGroup: builder.mutation<IGroup, IGroup>({
-			query: (group) => ({ url: "/", method: "POST", body: group }),
+			query: (group) => ({ url: "/group/", method: "POST", body: group }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		deleteGroup: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/group/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		getGroupBySlug: builder.query<IGroup, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/group/${slug}/`, method: "GET" }),
 		}),
 		patchGroupBySlug: builder.mutation<
 			IGroup,
 			{ slug: string; group: IGroup }
 		>({
 			query: ({ slug, group }) => ({
-				url: `/${slug}/`,
+				url: `/group/${slug}/`,
 				method: "PATCH",
 				body: group,
 			}),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
+		}),
+		patchChangeGroupTrainer: builder.mutation<
+			IGroup,
+			{ groupSlug: string; trainer: number }
+		>({
+			query: ({ groupSlug, trainer }) => ({
+				url: `/group-trainer-change/${groupSlug}/`,
+				method: "PATCH",
+				body: { trainer: trainer },
+			}),
+			invalidatesTags: [{ type: "Groups", id: "LIST" }],
+		}),
+		getGroupTrainer: builder.query<
+			ITrainerList,
+			{ slug: string; page: number }
+		>({
+			query: ({ slug, page }) => ({
+				url: `/group-trainer/${slug}/?page=${page}`,
+				method: "GET",
+			}),
+		}),
+		getTrainerGroups: builder.query<ITrainerGroupList, number>({
+			query: (page) => ({
+				url: `/trainer-groups/?page=${page}`,
+				method: "GET",
+			}),
+		}),
+		getTrainerGroup: builder.query<
+			ITrainerList,
+			{ slug: string; page: number }
+		>({
+			query: ({ slug, page }) => ({
+				url: `/trainer-groups/${slug}/?page=${page}`,
+				method: "GET",
+			}),
 		}),
 	}),
 })
@@ -50,4 +91,8 @@ export const {
 	useGetGroupBySlugQuery,
 	useGetGroupsQuery,
 	usePatchGroupBySlugMutation,
+	usePatchChangeGroupTrainerMutation,
+	useGetGroupTrainerQuery,
+	useGetTrainerGroupsQuery,
+	useGetTrainerGroupQuery,
 } = groupsApi

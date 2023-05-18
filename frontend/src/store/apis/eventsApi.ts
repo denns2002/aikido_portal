@@ -19,43 +19,16 @@ export const eventsApi = createApi({
 					  ]
 					: [{ type: "Events", id: "LIST" }],
 		}),
-		patchCoOrganizersToEvent: builder.mutation<
-			number[],
-			{ slug: string; coOrgs: number[] }
+		postEvent: builder.mutation<
+			IEvent,
+			IEvent
 		>({
-			query: ({ slug, coOrgs }) => ({
-				url: `/add-co-org/${slug}/`,
-				method: "PATCH",
-				body: coOrgs,
+			query: (event) => ({
+				url: `/`,
+				method: "POST",
+				body: event,
 			}),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
-		}),
-		patchOrganizersToEvent: builder.mutation<
-			number[],
-			{ slug: string; orgs: number[] }
-		>({
-			query: ({ slug, orgs }) => ({
-				url: `/add-org/${slug}/`,
-				method: "PATCH",
-				body: orgs,
-			}),
-			invalidatesTags: [{ type: "Events", id: "LIST" }],
-		}),
-		getPlannedEvents: builder.query<IEventList, number>({
-			query: (page) => ({
-				url: `/planned-events/?page=${page}/`,
-				method: "GET",
-			}),
-			providesTags: (result) =>
-				result
-					? [
-							...result.results.map(({ id }) => ({
-								type: "Events" as const,
-								id,
-							})),
-							{ type: "Events", id: "LIST" },
-					  ]
-					: [{ type: "Events", id: "LIST" }],
 		}),
 		getEventBySlug: builder.query<IEvent, string>({
 			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
@@ -75,6 +48,28 @@ export const eventsApi = createApi({
 			query: (slug) => ({ url: `/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
 		}),
+		patchCoOrganizersToEvent: builder.mutation<
+			number[],
+			{ slug: string; coOrgs: number[] }
+		>({
+			query: ({ slug, coOrgs }) => ({
+				url: `/${slug}/add-co-org/`,
+				method: "PATCH",
+				body: {organizers: coOrgs},
+			}),
+			invalidatesTags: [{ type: "Events", id: "LIST" }],
+		}),
+		patchOrganizersToEvent: builder.mutation<
+			number[],
+			{ slug: string; orgs: number[] }
+		>({
+			query: ({ slug, orgs }) => ({
+				url: `/${slug}/add-org/`,
+				method: "PATCH",
+				body: {organizers: orgs},
+			}),
+			invalidatesTags: [{ type: "Events", id: "LIST" }],
+		}),
 	}),
 })
 
@@ -82,8 +77,8 @@ export const {
 	useGetEventsQuery,
 	useDeleteEventBySlugMutation,
 	useGetEventBySlugQuery,
-	useGetPlannedEventsQuery,
 	usePatchCoOrganizersToEventMutation,
 	usePatchEventBySlugMutation,
 	usePatchOrganizersToEventMutation,
+	usePostEventMutation,
 } = eventsApi

@@ -5,7 +5,7 @@ export interface IRegion {
 export interface ICity {
 	region: IRegion
 	name: string
-	id: number
+	id?: number
 }
 
 export interface ICitiesList {

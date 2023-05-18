@@ -8,6 +8,14 @@ export interface ISignInData {
 	password: string
 }
 
+export interface ISignUpData {
+	username: string
+	email: string
+	password: string
+	password2: string
+	is_verified: boolean
+}
+
 export interface ITokens {
 	access: string
 	refresh: string

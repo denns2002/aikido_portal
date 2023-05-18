@@ -16,10 +16,14 @@ export const profileApi = createApi({
 			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Profiles", id: "LIST" }],
 		}),
-		patchProfileBySlug: builder.mutation<IProfile, IUpdatedProfile>({
-			query: (slug) => ({
-				url: `/update-profile/${slug}/`,
+		patchProfileBySlug: builder.mutation<
+			IProfile,
+			{ slug: string; profile: IUpdatedProfile }
+		>({
+			query: ({ slug, profile }) => ({
+				url: `/${slug}/update-profile/`,
 				method: "PATCH",
+				body: profile,
 			}),
 			invalidatesTags: [{ type: "Profiles", id: "LIST" }],
 		}),

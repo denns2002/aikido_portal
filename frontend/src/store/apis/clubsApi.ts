@@ -22,17 +22,17 @@ export const clubsApi = createApi({
 					: [{ type: "Clubs", id: "LIST" }],
 		}),
 		postClub: builder.mutation<IClub, IClub>({
-			query: (club) => ({ url: `/`, method: "POST", body: club }),
+			query: (club) => ({ url: `/clubs/`, method: "POST", body: club }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		getClubBySlug: builder.query<IClub, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/clubs/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchClubBySlug: builder.mutation<IClub, { slug: string; club: IClub }>(
 			{
 				query: ({ slug, club }) => ({
-					url: `/${slug}/`,
+					url: `/clubs/${slug}/`,
 					method: "PATCH",
 					body: club,
 				}),
@@ -40,7 +40,29 @@ export const clubsApi = createApi({
 			}
 		),
 		deleteClubBySlug: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/clubs/${slug}/`, method: "DELETE" }),
+			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
+		}),
+		patchArchiveClub: builder.mutation<
+			void,
+			{ slug: string; is_active: boolean }
+		>({
+			query: ({ slug, is_active }) => ({
+				url: `/clubs/${slug}/archive/`,
+				method: "PATCH",
+				body: { is_active: is_active },
+			}),
+			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
+		}),
+		patchChangeUserGroup: builder.mutation<
+			void,
+			{ userSlug: string; groupSlug: number }
+		>({
+			query: ({ userSlug, groupSlug }) => ({
+				url: `/group-member-change/${userSlug}/`,
+				method: "PATCH",
+				body: { group: groupSlug },
+			}),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 	}),
@@ -52,4 +74,6 @@ export const {
 	useGetClubsQuery,
 	usePatchClubBySlugMutation,
 	usePostClubMutation,
+	usePatchArchiveClubMutation,
+	usePatchChangeUserGroupMutation,
 } = clubsApi

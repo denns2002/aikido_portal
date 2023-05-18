@@ -13,7 +13,7 @@ export const notificationsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		getNotifications: builder.query<INotificationList, number>({
-			query: (page) => ({ url: `/?page=${page}/`, method: "GET" }),
+			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -25,7 +25,7 @@ export const notificationsApi = createApi({
 					  ]
 					: [{ type: "Notifications", id: "LIST" }],
 		}),
-		postNotification: builder.mutation<INotification, INotification>({
+		postAddNotification: builder.mutation<INotification, INotification>({
 			query: (notification) => ({
 				url: `/add/`,
 				method: "POST",
@@ -33,7 +33,7 @@ export const notificationsApi = createApi({
 			}),
 			invalidatesTags: [{ type: "Notifications", id: "LIST" }],
 		}),
-		postNotifications: builder.mutation<
+		postConnectNotifications: builder.mutation<
 			INotificationWrapper,
 			INotificationWrapper
 		>({
@@ -49,6 +49,6 @@ export const notificationsApi = createApi({
 
 export const {
 	useGetNotificationsQuery,
-	usePostNotificationMutation,
-	usePostNotificationsMutation,
+	usePostAddNotificationMutation,
+	usePostConnectNotificationsMutation,
 } = notificationsApi

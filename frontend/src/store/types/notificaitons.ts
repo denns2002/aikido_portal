@@ -1,13 +1,13 @@
 export interface INotification {
-	id: number
+	id?: number
 	title: string
 	message: string
-	timestamp: string
+	timestamp?: string
 }
 
 export interface INotificationWrapper {
-	id: number
-	notification: INotification
+	id?: number
+	notification: number
 	is_read: boolean
 	user: number
 }

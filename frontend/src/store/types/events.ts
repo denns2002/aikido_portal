@@ -1,17 +1,17 @@
 export interface IEvent {
-    id: number
+    id?: number
     name: string
     reg_start: string
     reg_end: string
-    date_satrt: string
+    date_start: string
     date_end: string
     about: string
     is_attestation: boolean
     attestation_date: string
     is_seminar: boolean
     seminar_date: string
-    slug: string
-    addresses: number
+    slug?: string
+    addresses: number | null
     members: number[]
     organizers: number[]
     co_organizers: number[]

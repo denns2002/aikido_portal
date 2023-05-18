@@ -46,8 +46,12 @@ export interface IUpdatedProfile {
 	last_name: string
 	mid_name: string
 	birth_date: string
-	city: ICity
+	city: ICityUpdate
 	updated_at?: string
+}
+
+export interface ICityUpdate {
+	id: number
 }
 
 export interface ProfileState {

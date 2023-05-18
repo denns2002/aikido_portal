@@ -69,7 +69,6 @@ export const profileSlice = createSlice({
 			state.profile.last_name = action.payload.last_name
 			state.profile.mid_name = action.payload.mid_name
 			state.profile.birth_date = action.payload.birth_date
-			state.profile.city = action.payload.city
 		},
 		userProfileUpdateFail(state, action: PayloadAction<string>) {
 			state.isLoading = false
