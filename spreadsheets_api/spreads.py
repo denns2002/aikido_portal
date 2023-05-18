@@ -72,7 +72,13 @@ def get_spreadsheet(spreadsheet_id, service):
     return spreadsheet
 
 
-# structure_data = {"requests": []}
+def get_spreadsheet_data(spreadsheet_id, service):
+    spreadsheet = service.spreadsheets().values().get(spreadsheetId='1CQI5dDEBpj-S486tWOPNYqJDFadroEu17qIwre2ohA8',
+                                                      range='Лист1',
+                                                      valueRenderOption='FORMATTED_VALUE',
+                                                      dateTimeRenderOption='FORMATTED_STRING').execute()
+    values_data = spreadsheet['values']
+    return values_data
 
 
 def update_spreadsheet_structure(spreadsheet_id, serv, structure_data):
