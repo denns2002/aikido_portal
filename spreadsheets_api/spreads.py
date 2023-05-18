@@ -218,6 +218,29 @@ def prepare_background_color_request(
     structure_data["requests"].append(cells_request)
 
 
+def prepare_filter_set_basic_request(structure_data):
+    filter_request = {
+            'setBasicFilter': {
+                'filter': {
+                    'range': {
+                        "sheetId": 0,
+                        "startRowIndex": 5,
+                        #  "endRowIndex": 20,
+                        "startColumnIndex": 0,
+                        "endColumnIndex": 12
+                    },
+                    'sortSpecs': [
+                        {
+                            'dimensionIndex': 1,
+                            'sortOrder': 'ASCENDING'
+                        }
+                    ]
+                }
+            }
+    }
+    structure_data["requests"].append(filter_request)
+
+
 def update_spreadsheet_values(spreadsheet_id, service, batch_update_values_data):
     service.spreadsheets().values().batchUpdate(
         spreadsheetId=spreadsheet_id,
@@ -249,7 +272,7 @@ def edit_ranges(grid_range):
 
 def create_sample(title, service, drive_serv, row_count, values_data, structure_data, city, club_name):
     spreadsheet_id = create_sheet(title, service, row_count)
-    set_permissions_anyone(spreadsheet_id, "reader", drive_serv)
+    set_permissions_anyone(spreadsheet_id, "writer", drive_serv)
     prepare_merge_request("A1:I1", structure_data)
     prepare_merge_request("A2:B2", structure_data)
     prepare_changing_width(0, 1, 50, structure_data)
