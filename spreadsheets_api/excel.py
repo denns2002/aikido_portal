@@ -13,7 +13,12 @@ def get_excel_data(dataframe):
         for columns in range(len(keys)):
             row_data.append(dataframe[keys[columns]][row])
         data.append(row_data)
-    print(data)
+    values_data = []
+    for i in range(len(data)):
+        if i > 5:
+            values_data.append(data[i])
+    return {'data': data, 'values_data': values_data}
 
 
-get_excel_data(df1)
+prints = get_excel_data(df1)
+print(prints['values_data'])
