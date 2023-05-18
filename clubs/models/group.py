@@ -3,12 +3,12 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from transliterate import slugify, translit
 
-from user.models.profile import Profile
+from profile.models.profile import Profile
 from utils.check_language import check_ru_lang, multilang_verb
 
 
 class Group(models.Model):
-    TYPES = [("Children's", "Детская"), ("Adult", "Взрослая")]
+    TYPES = [("Детская", "Детская"), ("Взрослая", "Взрослая")]
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     number = models.IntegerField(unique=True, verbose_name=multilang_verb("Number", "Номер"))
     trainer = models.ForeignKey(
@@ -77,6 +77,9 @@ class Debts(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     price = models.IntegerField(default=0, verbose_name=multilang_verb("Price", "Стоимость"))
     paid = models.IntegerField(default=0, verbose_name=multilang_verb("Paid", "Выплачено"))
+
+    def get_remainder(self):
+        return int(self.price) - int(self.paid)
 
     class Meta:
         if check_ru_lang():

@@ -10,7 +10,8 @@ from clubs.models.group import Group
 from events.models.event import Event, PlannedEvents
 from events.serializers.serializers import (EventOrganizersSerializer,
                                             EventSerializer,
-                                            PlannedEventSerializer)
+                                            PlannedEventSerializer,
+                                            EventCoOrganizersSerializer)
 
 
 class EventMixin(GenericAPIView):
@@ -19,7 +20,7 @@ class EventMixin(GenericAPIView):
     lookup_field = "slug"
 
 
-class EventListAPIView(ListCreateAPIView, EventMixin):
+class EventListCreateAPIView(ListCreateAPIView, EventMixin):
     """
     GET a list of all events.
     """
@@ -48,6 +49,7 @@ class EventAddOrgAPIView(UpdateAPIView):
     serializer_class = EventOrganizersSerializer
     lookup_field = "slug"
 
+
 class EventAddCoOrgAPIView(UpdateAPIView):
     """
     Add co-organizers to events.
@@ -56,7 +58,7 @@ class EventAddCoOrgAPIView(UpdateAPIView):
     """
 
     queryset = Event.objects.all()
-    serializer_class = EventOrganizersSerializer
+    serializer_class = EventCoOrganizersSerializer
     lookup_field = "slug"
 
 class PlannedEventsAPIView(ListAPIView):

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from events.models.event import Event
-from user.models.profile import Profile
+from profile.models.profile import Profile
 
 
 class Statement(models.Model):

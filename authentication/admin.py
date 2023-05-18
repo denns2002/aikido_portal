@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from super_inlines.admin import SuperModelAdmin
 
-from user.admin import ProfileInline
+from profile.admin import ProfileInline
 
 
 @admin.register(get_user_model())
@@ -18,6 +18,7 @@ class UserAdmin(SuperModelAdmin):
     ]
     list_filter = ["created_at", "updated_at"]
     fields = [
+        "id",
         "username",
         "email",
         "is_staff",
@@ -26,5 +27,5 @@ class UserAdmin(SuperModelAdmin):
         "created_at",
         "updated_at",
     ]
-    readonly_fields = ["created_at", "updated_at"]
+    readonly_fields = ["id", "created_at", "updated_at"]
     inlines = [ProfileInline]

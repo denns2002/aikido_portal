@@ -4,7 +4,7 @@ from cities.models import Address
 from clubs.models.club import Club
 from clubs.models.group import GroupMember
 from statements.models.statement import Statement, StatementMember
-from user.models.profile import Profile, Rank
+from profile.models.profile import Profile, Rank
 
 import spreadsheets_api.spreads as s
 
