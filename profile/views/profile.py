@@ -5,20 +5,25 @@ from rest_framework.generics import RetrieveAPIView, UpdateAPIView, \
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.serializers.user_serializer import UserSerializer
 from profile.models.profile import Profile
-from profile.serializers.profile_serializer import (ProfileSerializer,
-                                                    UpdateUserSerializer)
+from profile.serializers.profile_serializer import (ProfileSerializer, UpdateUserSerializer)
 
 
-class MyProfileAPIView(GenericAPIView):
+class MyProfileAPIView(APIView):
     serializer_class = ProfileSerializer
 
     def get_object(self, queryset=None):
-        return Profile.objects.get(user=self.request.user.id)
+        user = self.request.user
+        print(user)
+        profile = Profile.objects.get(user=user.id)
+        print(profile)
+        return profile
 
     def get(self, request, *args, **kwargs):
         user = self.get_object()
-        serializer = self.serializer_class(user)
+        serializer = ProfileSerializer(user)
+
         return Response(serializer.data)
 
 
@@ -31,6 +36,10 @@ class ProfileAPIView(RetrieveAPIView):
 
 
 class UpdateProfileView(UpdateAPIView):
+    """
+    Update profile for owner or trainer and etc.
+    """
+
     queryset = get_user_model().objects.all()
     serializer_class = UpdateUserSerializer
     lookup_field = "slug"
