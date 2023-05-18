@@ -7,7 +7,7 @@ from clubs.views.group import (GroupDetailAPIView, GroupListAPIView, TrainerGrou
                                GroupMemberDebtsAPIView,
                                GroupTrainerListAPIView,
                                GroupTrainerChangeAPIView,
-                               GroupMemberChangeAPIView)
+                               GroupMemberChangeAPIView, GroupMemberDeleteAPIView)
 
 urlpatterns = [
     path("clubs/", ClubListAPIView.as_view(), name="clubs"),
@@ -33,4 +33,7 @@ urlpatterns = [
     path("group-member-change/<slug:profile__slug>/",
          GroupMemberChangeAPIView.as_view(),
          name="group-member-change"),
+    path("group-member-delete/<slug:profile__slug>/",
+         GroupMemberDeleteAPIView.as_view(),
+         name="group-member-delete"),
 ]

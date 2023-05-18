@@ -43,14 +43,16 @@ class TrainerGroupDetailSerializer(serializers.ModelSerializer):
         fields = ['groupmember_set', 'name']
 
 
-class TrainerProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = "__all__"
-
-
 class TrainerChangeSerializer(serializers.ModelSerializer):
+    trainer_slug = serializers.SlugField(source="trainer.slug")
 
     class Meta:
         model = Group
-        fields = ['trainer']
+        fields = ['trainer_slug']
+
+    def update(self, instance, validated_data):
+        if 'trainer' in validated_data and 'slug' in validated_data['trainer']:
+            # print(validated_data)
+            instance.trainer = Profile.objects.get(slug=validated_data['trainer']['slug'])
+        instance.save()
+        return instance

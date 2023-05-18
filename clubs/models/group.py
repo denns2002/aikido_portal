@@ -25,7 +25,7 @@ class Group(models.Model):
         if not self.slug:
             slug = str(self.name) + str(self.number)
             slug = translit(slug[:10], language_code="ru", reversed=True)
-            slug = str(slugify(slug)) + get_random_string(length=10)
+            slug = slugify(slug, language_code="uk") + get_random_string(length=10)
 
             while Group.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=10)
