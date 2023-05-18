@@ -19,7 +19,7 @@ export function signIn(data: ISignInData) {
 
 			if (response.data?.tokens?.access) {
 				tokenService.setTokens(response.data.tokens)
-			}
+			}		
 
 			dispatch(authenticationActions.signInSuccess())
 

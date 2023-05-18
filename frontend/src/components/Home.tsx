@@ -1,22 +1,18 @@
 import React from "react"
 import {
 	useGetTrainerGroupQuery,
-	useGetTrainerGroupsQuery,
-	usePatchChangeGroupTrainerMutation,
+	usePostAddUserMutation,
 } from "../store/apis"
 
 function Home() {
-	const { data } = useGetTrainerGroupQuery({
-		slug: "NoneoEaxvAzTQg",
-		page: 1,
-	})
-	console.log(data)
+	const { data, error } = useGetTrainerGroupQuery({slug: "adminadminRMZfW2R3YX", page: 1})
+	console.log(data, error)
 
-	const [test, { error }] = usePatchChangeGroupTrainerMutation()
-	console.log(error)
+	const [test, { data: testData, error: testError }] = usePostAddUserMutation()
+	console.log(testData, testError)
 
 	async function handleClick() {
-		await test({ groupSlug: "NoneoEaxvAzTQg", trainer: 1 }).unwrap()
+		await test({username: "cringe", password: "cringevald123", password2: "cringevald123", email: "8aniwoov8@gmail.com"}).unwrap()
 	}
 
 	return (

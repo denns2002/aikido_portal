@@ -6,11 +6,20 @@ import {
 	ITrainerGroupList,
 	ITrainerList,
 } from "../types/groups"
+import { tokenService } from "../services/tokens";
 
 export const groupsApi = createApi({
 	reducerPath: "groupsApi",
 	tagTypes: ["Groups"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/clubs" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/clubs", prepareHeaders: (headers) => {
+		const access = tokenService.getLocalAccessToken()
+		
+		if (access) {
+			headers.set("Authorization", `JWT ${access}`)
+		}
+
+		return headers
+	} }),
 	endpoints: (builder) => ({
 		getGroups: builder.query<IGroupList, number>({
 			query: (page) => ({ url: `/group/?page=${page}`, method: "GET" }),

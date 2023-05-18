@@ -8,6 +8,7 @@ import {
 	groupsApi,
 	notificationsApi,
 	profileApi,
+	statementsApi,
 } from "./apis"
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
 			profileApi.middleware,
 			clubsApi.middleware,
 			citiesApi.middleware,
-			authenticationApi.middleware
+			authenticationApi.middleware,
+			statementsApi.middleware
 		)
 	},
 })

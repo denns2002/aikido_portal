@@ -10,6 +10,7 @@ import {
 	groupsApi,
 	notificationsApi,
 	profileApi,
+	statementsApi,
 } from "../apis"
 
 export const rootReducer = combineReducers({
@@ -23,4 +24,5 @@ export const rootReducer = combineReducers({
 	[clubsApi.reducerPath]: clubsApi.reducer,
 	[citiesApi.reducerPath]: citiesApi.reducer,
 	[authenticationApi.reducerPath]: authenticationApi.reducer,
+	[statementsApi.reducerPath]: statementsApi.reducer,
 })

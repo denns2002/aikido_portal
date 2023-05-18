@@ -55,7 +55,7 @@ export const eventsApi = createApi({
 			query: ({ slug, coOrgs }) => ({
 				url: `/${slug}/add-co-org/`,
 				method: "PATCH",
-				body: {organizers: coOrgs},
+				body: {co_organizers: coOrgs},
 			}),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
 		}),

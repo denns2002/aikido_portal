@@ -6,14 +6,15 @@ export interface AuthenticationState {
 export interface ISignInData {
 	username: string
 	password: string
+	tokens?: ITokens
 }
 
 export interface ISignUpData {
 	username: string
-	email: string
+	email?: string
 	password: string
 	password2: string
-	is_verified: boolean
+	is_verified?: boolean
 }
 
 export interface ITokens {
