@@ -20,7 +20,6 @@ class LoginAPIView(generics.GenericAPIView):
         security=[],
         operation_id="login",
         operation_description="Login.",
-        tags=["login"],
     )
     def post(self, request):
         user = request.data

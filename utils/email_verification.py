@@ -14,7 +14,7 @@ def send_verify_email(user_data, request):
         token = RefreshToken.for_user(user).access_token
         domain = get_current_site(request).domain
         relative_link = reverse("confirm-email")
-        url = f"https://{domain}{relative_link}?token={str(token)}"
+        url = f"http://{domain}{relative_link}?token={str(token)}"
 
         email_body = "Hi, " + user.username + "!\nUse link to verify your email. \n" + url
 

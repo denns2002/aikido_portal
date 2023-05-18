@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./components/Home"
 import PrivateExample from "./components/PrivateExample"
 import PrivateRoute from "./components/PrivateRoute"
-import SignIn from "./components/SignIn"
-import SignUp from "./components/SignUp"
+import SignIn from "./components/forms/SignIn"
+import SignUp from "./components/forms/SignUp"
 import Layout from "./hocs/Layout"
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
 				<Route
 					path="/private"
 					element={
-						<PrivateRoute accessRoles={["SPORTSMAN"]}>
+						<PrivateRoute accessRoles={["Student"]}>
 							<PrivateExample />
 						</PrivateRoute>
 					}

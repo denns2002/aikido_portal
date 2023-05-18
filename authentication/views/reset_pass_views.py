@@ -15,7 +15,7 @@ from utils.reset_password import send_reset_password
 
 class ChangePasswordAPIView(GenericAPIView):
     """
-    Changing password with.
+    Changing password for auth users in update profile page.
     """
 
     serializer_class = ChangePasswordSerializer
