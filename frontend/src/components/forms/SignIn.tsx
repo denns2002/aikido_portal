@@ -1,8 +1,8 @@
 import React from "react"
 import { useState } from "react"
-import FormInput from "./forms/FormInput"
-import { IInputAttributes } from "../store/types/components"
-import { useActions } from "../hooks/useActions"
+import FormInput from "../FormInput"
+import { IInputAttributes } from "../../store/types/components"
+import { useActions } from "../../hooks/useActions"
 import { NavLink } from "react-router-dom"
 
 function SignIn() {
@@ -47,6 +47,8 @@ function SignIn() {
 	function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
 		event.preventDefault()
 
+		signIn(inputsValues)
+
 		console.log(inputsValues)
 	}
 
@@ -61,6 +63,7 @@ function SignIn() {
 				...errors,
 				[event.target.name]: "Это поле необходимо заполнить!",
 			})
+			
 			return
 		} else {
 			setErrors({ ...errors, [event.target.name]: "" })
@@ -93,7 +96,13 @@ function SignIn() {
 						onBlur={handleBlur}
 						errors={[errors.password]}
 					/>
-					<div className="flex flex-col mt-1">
+					<NavLink
+						to="#"
+						className="underline text-sky-200 hover:text-sky-300 text-sm -mt-1"
+					>
+						Забыли пароль?
+					</NavLink>
+					<div className="flex flex-col">
 						{(errors.password && touched.password) ||
 						(errors.username && touched.username) ? (
 							<span className="text-red-400">
@@ -110,15 +119,6 @@ function SignIn() {
 							Войти
 						</button>
 					</div>
-					<span className="text-sm text-center mt-2 text-slate-200">
-						Все еще нет аккаунта?{" "}
-						<NavLink
-							to="/signup"
-							className="underline text-sky-100 hover:text-sky-300"
-						>
-							Создайте!
-						</NavLink>
-					</span>
 				</form>
 			</div>
 		</div>

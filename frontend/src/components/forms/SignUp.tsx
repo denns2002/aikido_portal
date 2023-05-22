@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-escape */
 import React from "react"
 import { useState } from "react"
-import FormInput from "./forms/FormInput"
-import { IInputAttributes } from "../store/types/components"
+import FormInput from "../FormInput"
+import { IInputAttributes } from "../../store/types/components"
 import { NavLink } from "react-router-dom"
 import { Popover } from "@headlessui/react"
 import {FaExclamationCircle} from "react-icons/fa"
@@ -327,15 +327,6 @@ function SignUp() {
 							Зарегистрироваться
 						</button>
 					</div>
-					<span className="text-sm text-center mt-2 text-slate-200">
-						Уже есть аккаунт?{" "}
-						<NavLink
-							to="/signin"
-							className="underline text-sky-100 hover:text-sky-300"
-						>
-							Войдите!
-						</NavLink>
-					</span>
 				</form>
 			</div>
 		</div>

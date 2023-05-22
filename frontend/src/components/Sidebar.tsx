@@ -31,31 +31,13 @@ function Sidebar(props: SidebarProps) {
 		window.addEventListener("resize", handleResize)
 	})
 
-	const { signOut } = useActions()
+	const { logOut } = useActions()
 
 	const navLinks: INavLink[] = [
 		{
 			to: "/private",
 			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
-			icon: <TbShield className="h-5 w-5" />,
-		},
-		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["SPORTSMAN"],
+			accessRoles: ["Student"],
 			icon: <TbShield className="h-5 w-5" />,
 		},
 	]
@@ -147,7 +129,7 @@ function Sidebar(props: SidebarProps) {
 							<button
 								type="button"
 								onClick={() => {
-									signOut()
+									logOut()
 									setHidden(true)
 								}}
 							>
