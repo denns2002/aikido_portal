@@ -7,7 +7,11 @@ from rest_framework.views import APIView
 
 from authentication.serializers.user_serializer import UserSerializer
 from profile.models.profile import Profile
-from profile.serializers.profile_serializer import (ProfileSerializer, UpdateUserSerializer)
+from profile.serializers.profile_serializer import (ProfileSerializer,
+                                                    UpdateUserSerializer,
+                                                    ProfileChangeRolesSerializer,
+                                                    ProfileChangeCitySerializer,
+                                                    ProfileChangeRankSerializer)
 
 
 class MyProfileAPIView(APIView):
@@ -46,3 +50,21 @@ class UpdateProfileView(UpdateAPIView):
 
     def get_object(self):
         return Profile.objects.get(slug=self.kwargs["slug"])
+
+
+class ProfileChangeRolesAPIView(UpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileChangeRolesSerializer
+    lookup_field = "slug"
+
+
+class ProfileChangeCityAPIView(UpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileChangeCitySerializer
+    lookup_field = "slug"
+
+
+class ProfileChangeRankAPIView(UpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileChangeRankSerializer
+    lookup_field = "slug"
