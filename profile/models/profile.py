@@ -101,7 +101,7 @@ class Profile(models.Model):
     photos = models.ManyToManyField(Photo, verbose_name=multilang_verb("Photos", "Фото"), blank=True)
     is_child = models.BooleanField(default=False)
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    def save(self, *args, **kwargs):
         if not self.slug:
             slug = str(self.first_name) + str(self.last_name) + str(self.mid_name)
             slug = translit(slug[:10], language_code="ru", reversed=True)
@@ -121,7 +121,7 @@ class Profile(models.Model):
         if self.rank:
             self.next_rank = Rank.objects.get(id=self.rank.id + 1)
 
-        super(Profile, self).save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return " ".join([self.first_name, self.mid_name, self.last_name])

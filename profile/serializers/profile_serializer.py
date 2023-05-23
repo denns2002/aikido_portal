@@ -39,7 +39,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     city = CitySerializer()
     rank = RankSerializer()
-    roles = RoleSerializer()
+    roles = RoleSerializer(many=True)
 
     class Meta:
         model = Profile
@@ -59,8 +59,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    city = CityUpdateSerializer()
-
     class Meta:
         model = Profile
         fields = (
@@ -70,7 +68,8 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             "avatar",
             "birth_date",
             "city",
-            "updated_at",
+            "rank",
+            "roles"
         )
 
     def validate_email(self, value):

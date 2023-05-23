@@ -8,7 +8,6 @@ from utils.check_language import check_ru_lang, multilang_verb
 
 
 class Group(models.Model):
-    TYPES = [("Детская", "Детская"), ("Взрослая", "Взрослая")]
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     number = models.IntegerField(unique=True, verbose_name=multilang_verb("Number", "Номер"))
     trainer = models.ForeignKey(
@@ -19,7 +18,6 @@ class Group(models.Model):
         verbose_name=multilang_verb("Trainer", "Тренер"),
     )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=multilang_verb("URL", "Ссылка"))
-    type = models.CharField(max_length=20, choices=TYPES, verbose_name=multilang_verb("Type", "Тип"))
 
     def save(self, *args, **kwargs):
         if not self.slug:
