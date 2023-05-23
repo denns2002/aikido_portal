@@ -1,15 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
 import { IClub, IClubList } from "../types/clubs"
+import { tokenService } from "../services/tokens"
 
 export const clubsApi = createApi({
 	reducerPath: "clubsApi",
 	tagTypes: ["Clubs"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/clubs",
-	}),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/clubs", prepareHeaders: (headers) => {
+		const access = tokenService.getLocalAccessToken()
+		
+		if (access) {
+			headers.set("Authorization", `JWT ${access}`)
+		}
+
+		return headers
+	} }),
 	endpoints: (builder) => ({
 		getClubs: builder.query<IClubList, number>({
-			query: (page) => ({ url: `/clubs/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/club/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -22,17 +29,17 @@ export const clubsApi = createApi({
 					: [{ type: "Clubs", id: "LIST" }],
 		}),
 		postClub: builder.mutation<IClub, IClub>({
-			query: (club) => ({ url: `/clubs/`, method: "POST", body: club }),
+			query: (club) => ({ url: `/club/`, method: "POST", body: club }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		getClubBySlug: builder.query<IClub, string>({
-			query: (slug) => ({ url: `/clubs/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/club/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchClubBySlug: builder.mutation<IClub, { slug: string; club: IClub }>(
 			{
 				query: ({ slug, club }) => ({
-					url: `/clubs/${slug}/`,
+					url: `/club/${slug}/`,
 					method: "PATCH",
 					body: club,
 				}),
@@ -40,7 +47,7 @@ export const clubsApi = createApi({
 			}
 		),
 		deleteClubBySlug: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/clubs/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/club/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchArchiveClub: builder.mutation<

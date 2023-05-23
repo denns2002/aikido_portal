@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/base/Sidebar"
 import { useActions } from "../hooks/useActions"
 
 interface LayoutProps {

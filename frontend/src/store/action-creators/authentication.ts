@@ -44,7 +44,7 @@ export function verifyToken() {
 
 			await api.post("/auth/verify/", body)
 
-		
+			dispatch(authenticationActions.verifyTokenSuccess())
 		} catch (e) {
 			console.log(e);
 

@@ -6,11 +6,23 @@ import {
 	ISignInData,
 	ISignUpData,
 } from "../types/authentication"
+import { tokenService } from "../services/tokens"
 
 export const authenticationApi = createApi({
 	reducerPath: "authenticationApi",
 	tagTypes: ["Authentication"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/auth" }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: "http://127.0.0.1:8000/api/auth",
+		prepareHeaders: (headers) => {
+			const access = tokenService.getLocalAccessToken()
+
+			if (access) {
+				headers.set("Authorization", `JWT ${access}`)
+			}
+
+			return headers
+		},
+	}),
 	endpoints: (builder) => ({
 		postSignIn: builder.mutation<ISignInData, ISignInData>({
 			query: (data) => ({
@@ -51,7 +63,7 @@ export const authenticationApi = createApi({
 				body: password,
 			}),
 		}),
-		getCompletePassword: builder.query<
+		getVerifyPasswordReset: builder.query<
 			ISetPassword,
 			{ token: string; uidb64: string }
 		>({
@@ -65,8 +77,8 @@ export const authenticationApi = createApi({
 			IResetPasswordEmailRequest
 		>({
 			query: (email) => ({
-				url: `/password-reset-complete/`,
-				method: "PATCH",
+				url: `/request-pass-reset/`,
+				method: "POST",
 				body: email,
 			}),
 		}),
@@ -75,7 +87,7 @@ export const authenticationApi = createApi({
 
 export const {
 	usePostSignInMutation,
-	useGetCompletePasswordQuery,
+	useGetVerifyPasswordResetQuery,
 	usePatchChangePasswordMutation,
 	usePatchCompletePasswordResetMutation,
 	usePostRequestPasswordResetMutation,

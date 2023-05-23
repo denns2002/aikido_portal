@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
 	IGroup,
 	IGroupList,
-	ITrainerGroup,
 	ITrainerGroupList,
 	ITrainerList,
 } from "../types/groups"

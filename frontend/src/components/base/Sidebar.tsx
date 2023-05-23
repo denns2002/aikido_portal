@@ -1,12 +1,18 @@
 import { FaBars, FaUser } from "react-icons/fa"
-import { TbShield, TbLayoutGrid, TbLogout, TbLogin } from "react-icons/tb"
+import {
+	TbShield,
+	TbLayoutGrid,
+	TbLogout,
+	TbLogin,
+	TbCalendarEvent,
+} from "react-icons/tb"
 import { NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { IRootState } from "../store/store"
+import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { INavLink } from "../store/types/components"
-import { useActions } from "../hooks/useActions"
-import { IProfile } from "../store/types/profile"
+import { INavLink } from "../../store/types/components"
+import { useActions } from "../../hooks/useActions"
+import { IProfile } from "../../store/types/profile"
 
 interface SidebarProps {
 	isAuthenticated: boolean
@@ -35,9 +41,15 @@ function Sidebar(props: SidebarProps) {
 
 	const navLinks: INavLink[] = [
 		{
-			to: "/private",
-			label: "Защищенная",
-			accessRoles: ["Student"],
+			to: "/events",
+			label: "Мероприятия",
+			accessRoles: [],
+			icon: <TbCalendarEvent className="h-5 w-5" />,
+		},
+		{
+			to: "/clubs",
+			label: "Клубы",
+			accessRoles: [],
 			icon: <TbShield className="h-5 w-5" />,
 		},
 	]
@@ -85,7 +97,7 @@ function Sidebar(props: SidebarProps) {
 										{ accessRoles, icon, label, to },
 										index
 									) => {
-										if (haveAccessRole(accessRoles)) {
+										if (!haveAccessRole(accessRoles)) {
 											return null
 										}
 
