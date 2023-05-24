@@ -318,3 +318,13 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
     update_spreadsheet_values(spreadsheet_id, service, values_data)
     update_spreadsheet_structure(spreadsheet_id, service, structure_data)
     return spreadsheet_id
+
+
+def unite_data_spreads(list_ids, service):
+    united_data = []
+    for spread_num in range(len(list_ids)):
+        cur_data = get_spreadsheet_data(list_ids[spread_num])
+        for row_num in range(len(cur_data)):
+            if row_num > 5:
+                united_data.append(cur_data[row_num])
+    return united_data
