@@ -1,6 +1,5 @@
 import { useState } from "react"
 import {
-    useGetGroupBySlugQuery,
 	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
 } from "../../store/apis"
@@ -8,9 +7,9 @@ import {
 function Trainer() {
 	const { data: groups, isLoading: groupsAreLoading } = useGetTrainerGroupsQuery(1)
 	const [activeGroup, setActiveGroup] = useState(groups?.results[0].slug)
-    const { data: group, isLoading: groupIsLoading} = useGetGroupBySlugQuery(activeGroup ? activeGroup : "")
+    const { data: group, isLoading: groupIsLoading} = useGetTrainerGroupQuery({slug: activeGroup ? activeGroup : "", page: 1})
 
-	console.log(groups)
+	console.log(group)
 
 	return (
 		<div className="flex flex-col w-[48rem] h-full">
@@ -34,8 +33,10 @@ function Trainer() {
 				</div>
 			)}
             {groupIsLoading ? null : (
-            <div>
-                
+            <div className="rounded-md border-2 border-sky-700 p-2 mt-5">
+                <div className="">
+					
+				</div>
             </div>)}
 		</div>
 	)

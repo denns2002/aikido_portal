@@ -1,28 +1,66 @@
-import { usePostEventMutation } from "../../store/apis"
-import { IInputAttributes } from "../../store/types/components"
-import { IEvent } from "../../store/types/events"
 import { FormEvent, useState } from "react"
+import {
+	useGetEventBySlugQuery,
+	usePatchEventBySlugMutation,
+} from "../../store/apis"
+import { IEvent } from "../../store/types/events"
+import { useParams } from "react-router-dom"
 import Input from "../forms/Input"
 import TextArea from "../forms/TextArea"
+import { IInputAttributes } from "../../store/types/components"
 
-function AddEvent() {
-	const [addEvent, { error }] = usePostEventMutation()
+function EditEvent() {
+	const { slug } = useParams()
+
+	const { data: event, isLoading } = useGetEventBySlugQuery(slug ? slug : "")
+	const [addEvent, { error }] = usePatchEventBySlugMutation()
 
 	console.log(error)
 
-	const [settings, setSettings] = useState({
-		seminar: false,
-		attestation: false,
-	})
+	const [settings, setSettings] = useState(
+		event
+			? {
+					seminar: event.is_seminar,
+					attestation: event.is_attestation,
+			  }
+			: {
+					seminar: false,
+					attestation: false,
+			  }
+	)
 
-	const [inputsValues, setInputValues] = useState<IEvent>({
-		name: "",
-		about: "",
-		reg_start: "",
-		reg_end: "",
-		date_end: "",
-		date_start: "",
-	})
+    // function getCorrectDate(date: string): string {
+    //     let newDate = date.slice(0, 16)
+
+    //     let arr = newDate.split(":")
+
+    //     arr[arr.length - 1] = arr[arr.length - 1].t
+
+    //     return ""
+    // }
+
+	const [inputsValues, setInputValues] = useState<IEvent>(
+		event
+			? {
+					...event,
+					attestation_date: event.attestation_date
+						? event.attestation_date.slice(0, 16)
+						: "",
+					seminar_date: event.seminar_date
+						? event.seminar_date.slice(0, 16)
+						: "",
+			  }
+			: {
+					name: "",
+					about: "",
+					reg_start: "",
+					reg_end: "",
+					date_end: "",
+					date_start: "",
+			  }
+	)
+
+	console.log(inputsValues)
 
 	const [touched, setTouched] = useState({
 		name: false,
@@ -100,7 +138,7 @@ function AddEvent() {
 		},
 		{
 			label: "Семинар",
-			type: "date",
+			type: "datetime-local",
 			placeholder: "seminar_date",
 			name: "seminar_date",
 			value: inputsValues.seminar_date,
@@ -108,7 +146,7 @@ function AddEvent() {
 		},
 		{
 			label: "Аттестация",
-			type: "date",
+			type: "datetime-local",
 			placeholder: "attestation_date",
 			name: "attestation_date",
 			value: inputsValues.attestation_date,
@@ -119,7 +157,7 @@ function AddEvent() {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
-		await addEvent(inputsValues).unwrap()
+		await addEvent({ slug: slug ? slug : "", event: inputsValues }).unwrap()
 	}
 
 	function handleChange(
@@ -145,7 +183,7 @@ function AddEvent() {
 		<div className="flex h-full w-full">
 			<div className="relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7 text-white">
 				<label className="font-bold text-2xl text-white">
-					Добавить мероприятие
+					Редактировать мероприятие
 				</label>
 				<form
 					className="flex flex-col gap-2 mt-6 w-[30rem]"
@@ -259,7 +297,8 @@ function AddEvent() {
 									}))
 								} else {
 									setInputValues((prev) => {
-										const { is_attestation: _, ...rest } = prev
+										const { is_attestation: _, ...rest } =
+											prev
 
 										return rest
 									})
@@ -284,7 +323,7 @@ function AddEvent() {
 							className="font-semibold rounded-md p-1 w-52 h-9 mt-1 enabled:hover:bg-sky-500 enabled:bg-sky-300 disabled:bg-sky-100"
 							type="submit"
 						>
-							Добавить
+							Сохранить
 						</button>
 					</div>
 				</form>
@@ -293,4 +332,4 @@ function AddEvent() {
 	)
 }
 
-export default AddEvent
+export default EditEvent

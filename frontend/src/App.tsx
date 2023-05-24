@@ -11,6 +11,7 @@ import AddEvent from "./components/events/AddEvent"
 import Clubs from "./components/clubs/Clubs"
 import Club from "./components/clubs/Club"
 import Trainer from "./components/trainer/Trainer"
+import EditEvent from "./components/events/EditEvent"
 
 function App() {
 	return (
@@ -40,6 +41,12 @@ function App() {
 					path="/events/add"
 					element={
 							<AddEvent />
+					}
+				/>
+				<Route
+					path="/events/:slug/edit"
+					element={
+							<EditEvent />
 					}
 				/>
 				<Route

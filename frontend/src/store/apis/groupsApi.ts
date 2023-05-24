@@ -3,6 +3,7 @@ import {
 	IGroup,
 	IGroupList,
 	ITrainerGroupList,
+	ITrainerGroupMembersList,
 	ITrainerList,
 } from "../types/groups"
 import { tokenService } from "../services/tokens";
@@ -82,11 +83,11 @@ export const groupsApi = createApi({
 			}),
 		}),
 		getTrainerGroup: builder.query<
-			ITrainerList,
+			ITrainerGroupMembersList,
 			{ slug: string; page: number }
 		>({
 			query: ({ slug, page }) => ({
-				url: `/trainer-groups/${slug}/?page=${page}`,
+				url: `/trainer-groups/${slug}?page=${page}`,
 				method: "GET",
 			}),
 		}),
