@@ -10,6 +10,7 @@ class EventAdmin(admin.ModelAdmin):
             "Information",
             {
                 "fields": (
+                    "id",
                     "slug",
                     "name",
                     "is_attestation",
@@ -34,7 +35,7 @@ class EventAdmin(admin.ModelAdmin):
     )
 
     list_display = ["name", "is_attestation", "is_seminar", "date_start"]
-
+    readonly_fields = ["id"]
     search_fields = ["name", "addresses", "about"]
     list_filter = ["date_start"]
     filter_horizontal = ["organizers", "co_organizers", "members"]

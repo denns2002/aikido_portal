@@ -12,6 +12,7 @@ class ProfileFields:
             "Personal Information",
             {
                 "fields": (
+                    "id",
                     "slug",
                     "user",
                     "first_name",
@@ -43,7 +44,7 @@ class ProfileFields:
         "roles",
     ]
     inlines = [UserPhoneInline]
-    readonly_fields = ["updated_at", "avatar_full", "next_rank"]
+    readonly_fields = ["updated_at", "avatar_full", "next_rank", "id"]
     filter_horizontal = ["roles", "photos"]
 
 

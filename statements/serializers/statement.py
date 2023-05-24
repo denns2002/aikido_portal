@@ -19,7 +19,26 @@ class StatementMemberSerializer(serializers.ModelSerializer):
         ]
 
 
-class StatementSerializer(serializers.ModelSerializer):
+class GroupStatementSerializer(serializers.ModelSerializer):
+    """
+    {
+      "statementmember_set": [
+        {
+          "member": 0,
+          "attestation": true,
+          "seminar": true
+        },
+
+        {
+          "member": 1,
+          "attestation": true,
+          "seminar": true
+        },
+      ],
+      "event": 0
+    }
+    """
+
     statementmember_set = StatementMemberSerializer(many=True)
 
     class Meta:
@@ -33,6 +52,7 @@ class StatementSerializer(serializers.ModelSerializer):
         for item in validated_data["statementmember_set"]:
             profile = Profile.objects.get(user=item["member"].id)
             fio = f"{str(profile.first_name)} {str(profile.last_name)}"
+
             if profile.mid_name:
                 fio += f" {str(profile.mid_name)}"
 
@@ -41,6 +61,7 @@ class StatementSerializer(serializers.ModelSerializer):
 
             trainer = group.trainer
             trainer_fio = f"{str(trainer.first_name)} {str(trainer.last_name)}"
+
             if trainer.mid_name:
                 trainer_fio += f" {str(trainer.mid_name)}"
 
@@ -68,14 +89,14 @@ class StatementSerializer(serializers.ModelSerializer):
                 "rank": Rank.objects.get(id=profile.rank.id).name,
                 "next_rank": Rank.objects.get(id=profile.next_rank.id).name,
                 "annual_fee": groupmember.annual_fee,
-                "group_type": group.type,
+                "group_type": 'детская',
                 "trainer_fio": trainer_fio,
                 "attestation_date": attestation_date,
                 "seminar_date": seminar_date,
                 "club": club_name,
                 "city": city,
             }
-            print(member)
+
             members.append(member)
 
         services = s.start_services('credentials.json')
@@ -98,6 +119,7 @@ class StatementSerializer(serializers.ModelSerializer):
                              'notes'
                              ]
             values.append(inside_values)
+
         s.prepare_spreadsheet_values_data(f'A7:L{6+len(members)}',
                                           "ROWS",
                                           batch_update_values_data,
@@ -117,7 +139,74 @@ class StatementSerializer(serializers.ModelSerializer):
 
         statement = Statement(
             link=link,
-            event=validated_data['event']
+            event=validated_data['event'],
+            type='group'
+        )
+        statement.save()
+
+        return statement
+
+
+class FreeStatementSerializer(serializers.ModelSerializer):
+    """
+    {
+      "fio": "string",
+
+      "is_child": false
+    }
+    """
+
+    fio = serializers.CharField(max_length=255)
+    is_child = serializers.BooleanField(default=False)
+
+    class Meta:
+        model = Statement
+        fields = ["fio", "is_child"]
+
+    def create(self, validated_data):
+        fio = validated_data['fio']
+        is_child = validated_data['is_child']
+
+        # HERE
+
+        link = ''
+        statement = Statement(
+            link=link,
+            event=validated_data['event'],
+            type='Свободный'
+        )
+        statement.save()
+
+        return statement
+
+
+class EventStatementSerializer(serializers.ModelSerializer):
+    """
+    {
+      "event": 0
+    }
+    """
+
+    class Meta:
+        model = Statement
+        fields = ["event"]
+
+    def create(self, validated_data):
+        queryset = Statement.objects.filter(event=validated_data['event'])
+
+        links = []
+
+        for item in queryset:
+            links.append(item.link)
+
+        print(links)
+        # HERE
+
+        link = ''
+        statement = Statement(
+            link=link,
+            event=validated_data['event'],
+            type='Мероприятие'
         )
         statement.save()
 

@@ -39,12 +39,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     city = CitySerializer()
     rank = RankSerializer()
-    roles = RoleSerializer()
+    roles = RoleSerializer(many=True)
+
+    group = serializers.SlugField(source="groupmember_set.first.group.slug", read_only=True)
+    club = serializers.SlugField(source="groupmember_set.first.group.club_set.first.slug", read_only=True)
 
     class Meta:
         model = Profile
         fields = (
-            "user",
+            "id",
             "first_name",
             "last_name",
             "mid_name",
@@ -55,12 +58,13 @@ class ProfileSerializer(serializers.ModelSerializer):
             "city",
             "rank",
             "roles",
+            "group",
+            "club",
+            "user",
         )
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    city = CityUpdateSerializer()
-
     class Meta:
         model = Profile
         fields = (
@@ -70,7 +74,8 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             "avatar",
             "birth_date",
             "city",
-            "updated_at",
+            "rank",
+            "roles"
         )
 
     def validate_email(self, value):
