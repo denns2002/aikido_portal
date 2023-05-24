@@ -41,10 +41,13 @@ class ProfileSerializer(serializers.ModelSerializer):
     rank = RankSerializer()
     roles = RoleSerializer(many=True)
 
+    group = serializers.SlugField(source="groupmember_set.first.group.slug", read_only=True)
+    club = serializers.SlugField(source="groupmember_set.first.group.club_set.first.slug", read_only=True)
+
     class Meta:
         model = Profile
         fields = (
-            "user",
+            "id",
             "first_name",
             "last_name",
             "mid_name",
@@ -55,6 +58,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             "city",
             "rank",
             "roles",
+            "group",
+            "club",
+            "user",
         )
 
 
