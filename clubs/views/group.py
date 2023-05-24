@@ -39,7 +39,7 @@ class TrainerGroupDetailAPIView(ListAPIView):
 
     def get_queryset(self):
         trainer = get_user_model().objects.get(id=self.request.user.id)
-        groups = Group.objects.filter(trainer__id=trainer.id)
+        groups = Group.objects.filter(trainer__id=trainer.id, slug=self.kwargs["slug"])
 
         return groups
 
