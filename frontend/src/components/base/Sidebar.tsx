@@ -5,6 +5,7 @@ import {
 	TbLogout,
 	TbLogin,
 	TbCalendarEvent,
+	TbClipboardList,
 } from "react-icons/tb"
 import { NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -43,14 +44,20 @@ function Sidebar(props: SidebarProps) {
 		{
 			to: "/events",
 			label: "Мероприятия",
-			accessRoles: [],
+			accessRoles: ["Тренер"],
 			icon: <TbCalendarEvent className="h-5 w-5" />,
 		},
 		{
 			to: "/clubs",
 			label: "Клубы",
-			accessRoles: [],
+			accessRoles: ["Тренер"],
 			icon: <TbShield className="h-5 w-5" />,
+		},
+		{
+			to: "/trainer",
+			label: "Тренерская",
+			accessRoles: ["Тренер"],
+			icon: <TbClipboardList className="h-5 w-5" />,
 		},
 	]
 

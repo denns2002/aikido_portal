@@ -2,19 +2,29 @@ import React from "react"
 import { connect } from "react-redux/es/exports"
 import { Navigate, useLocation } from "react-router-dom"
 import { IRootState } from "../../store/store"
+import { IProfile } from "../../store/types/profile"
 
 interface PrivateRouteProps {
 	isAuthenticated: boolean
 	accessRoles: string[]
+	profile: IProfile
 	children: React.ReactElement
 }
 
-function PrivateRoute(props: PrivateRouteProps) {
+function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: PrivateRouteProps) {
 	const location = useLocation()
 
-	const { isAuthenticated, children } = props
+	function haveAccessRole(accessRoles: string[]) {
+		for (let index = 0; index < profile.roles.length; index++) {
+			if (!accessRoles.includes(profile.roles[index].name)) {
+				return false
+			}
+		}
 
-	return isAuthenticated ? (
+		return true
+	}
+
+	return isAuthenticated && haveAccessRole(accessRoles) ? (
 		children
 	) : (
 		<Navigate
@@ -27,7 +37,8 @@ function PrivateRoute(props: PrivateRouteProps) {
 
 function mapStateToProps(state: IRootState) {
 	return {
-		isAuthenticated: state.authentication.isAuthenticated
+		isAuthenticated: state.authentication.isAuthenticated,
+		profile: state.profile.profile
 	}
 }
 

@@ -9,6 +9,8 @@ import Events from "./components/events/Events"
 import Event from "./components/events/Event"
 import AddEvent from "./components/events/AddEvent"
 import Clubs from "./components/clubs/Clubs"
+import Club from "./components/clubs/Club"
+import Trainer from "./components/trainer/Trainer"
 
 function App() {
 	return (
@@ -36,11 +38,25 @@ function App() {
 				/>
 				<Route
 					path="/events/add"
-					element={<AddEvent />}
+					element={
+							<AddEvent />
+					}
 				/>
 				<Route
 					path="/clubs"
-					element={<Clubs />}
+					element={
+						<PrivateRoute accessRoles={["Тренер"]}>
+							<Clubs />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/trainer"
+					element={
+						<PrivateRoute accessRoles={["Тренер"]}>
+							<Trainer />
+						</PrivateRoute>
+					}
 				/>
 			</Routes>
 		</Layout>
