@@ -22,8 +22,7 @@ class Club(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = translit(str(self.name)[:10], language_code="ru", reversed=True)
-            slug = slug + get_random_string(length=10)
-            print(slug)
+            slug = slugify(slug, language_code="uk") + get_random_string(length=10)
             while Club.objects.filter(slug=slug).exists():
                 slug = slug + get_random_string(length=4)
 

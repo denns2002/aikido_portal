@@ -44,6 +44,20 @@ class TrainerGroupSerializer(serializers.ModelSerializer):
 
 
 class GroupMemberChangeSerializer(serializers.ModelSerializer):
+    group_slug = serializers.SlugField(source='group.slug')
+
     class Meta:
         model = GroupMember
-        fields = ["group"]
+        fields = ["group_slug"]
+
+    def update(self, instance, validated_data):
+        if 'group' in validated_data and 'slug' in validated_data['group']:
+            instance.group = Group.objects.get(slug=validated_data['group']['slug'])
+        instance.save()
+        return instance
+
+
+class GroupMemberDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupMember
+        fields = "__all__"
