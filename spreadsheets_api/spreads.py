@@ -315,6 +315,7 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
     prepare_font_size_request("A1:A1", 32, structure_data)
     prepare_text_format_request("A1:A1", True, structure_data)
     prepare_changing_height(0, 1, 60, structure_data)
+    prepare_filter_set_basic_request(structure_data)
     update_spreadsheet_values(spreadsheet_id, service, values_data)
     update_spreadsheet_structure(spreadsheet_id, service, structure_data)
     return spreadsheet_id
