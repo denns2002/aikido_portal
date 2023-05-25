@@ -42,12 +42,6 @@ function Sidebar(props: SidebarProps) {
 
 	const navLinks: INavLink[] = [
 		{
-			to: "/events",
-			label: "Мероприятия",
-			accessRoles: ["Тренер"],
-			icon: <TbCalendarEvent className="h-5 w-5" />,
-		},
-		{
 			to: "/clubs",
 			label: "Клубы",
 			accessRoles: ["Тренер"],
@@ -85,7 +79,7 @@ function Sidebar(props: SidebarProps) {
 					<hr className="h-1 bg-white rounded mx-2 my-2" />
 					<nav className="h-full p-1 flex flex-col gap-1 overflow-auto scrollbar-hide">
 						<NavLink
-							to="/"
+							to="/events"
 							className={({ isActive }) =>
 								`p-1 transition-all duration-200 mx-2 rounded-md flex flex-row items-center gap-0.5 hover:bg-white hover:text-sky-700 ${
 									isActive ? "bg-white text-sky-700" : null
@@ -93,9 +87,9 @@ function Sidebar(props: SidebarProps) {
 							}
 							onClick={() => setHidden(true)}
 						>
-							<TbLayoutGrid className="h-5 w-5" />
+							<TbCalendarEvent className="h-5 w-5" />
 							<span className="font-semibold text-lg">
-								Главная
+								Мероприятия
 							</span>
 						</NavLink>
 						{props.isAuthenticated
@@ -135,7 +129,7 @@ function Sidebar(props: SidebarProps) {
 					{props.isAuthenticated ? (
 						<div className="bg-sky-900 rounded-md mx-3 my-3 p-1.5 flex flex-row">
 							<NavLink
-								to="#"
+								to="/profile/me"
 								className="flex flex-row justify-center items-center"
 							>
 								<FaUser className="h-9 w-9 rounded-full border-4 bg-white border-white text-sky-700" />

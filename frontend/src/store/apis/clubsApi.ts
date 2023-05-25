@@ -19,7 +19,7 @@ export const clubsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		getClubs: builder.query<IClubList, number>({
-			query: (page) => ({ url: `/club/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/clubs/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -32,17 +32,17 @@ export const clubsApi = createApi({
 					: [{ type: "Clubs", id: "LIST" }],
 		}),
 		postClub: builder.mutation<IClub, IClub>({
-			query: (club) => ({ url: `/club/`, method: "POST", body: club }),
+			query: (club) => ({ url: `/clubs/`, method: "POST", body: club }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		getClubBySlug: builder.query<IClub, string>({
-			query: (slug) => ({ url: `/club/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/clubs/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchClubBySlug: builder.mutation<IClub, { slug: string; club: IClub }>(
 			{
 				query: ({ slug, club }) => ({
-					url: `/club/${slug}/`,
+					url: `/clubs/${slug}/`,
 					method: "PATCH",
 					body: club,
 				}),
@@ -50,7 +50,7 @@ export const clubsApi = createApi({
 			}
 		),
 		deleteClubBySlug: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/club/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/clubs/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchArchiveClub: builder.mutation<

@@ -9,9 +9,9 @@ import Events from "./components/events/Events"
 import Event from "./components/events/Event"
 import AddEvent from "./components/events/AddEvent"
 import Clubs from "./components/clubs/Clubs"
-import Club from "./components/clubs/Club"
 import Trainer from "./components/trainer/Trainer"
 import EditEvent from "./components/events/EditEvent"
+import ProfileMe from "./components/profile/ProfileMe"
 
 function App() {
 	return (
@@ -47,6 +47,14 @@ function App() {
 					path="/events/:slug/edit"
 					element={
 							<EditEvent />
+					}
+				/>
+				<Route
+					path="/profile/me"
+					element={
+						<PrivateRoute accessRoles={["Тренер"]}>
+						<ProfileMe />
+					</PrivateRoute>
 					}
 				/>
 				<Route

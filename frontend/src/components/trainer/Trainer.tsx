@@ -33,10 +33,19 @@ function Trainer() {
 				</div>
 			)}
             {groupIsLoading ? null : (
-            <div className="rounded-md border-2 border-sky-700 p-2 mt-5">
-                <div className="">
-					
-				</div>
+            <div className="rounded-md border-2 border-sky-700 p-2 mt-5 flex flex-col">
+				{group?.results[0].groupmember_set?.map((member, index) => {
+					return (
+						<div key={index} className="flex flex-row-reverse">
+							<div className="w-30">
+								{member.rank}
+							</div>
+							
+							<div className="flex-1" />
+							{member.last_name} {member.first_name}
+						</div>
+					)
+				})}	
             </div>)}
 		</div>
 	)

@@ -157,6 +157,13 @@ function EditEvent() {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
+		if (!settings.attestation) {
+			delete inputsValues.attestation_date
+		}
+		if (!settings.seminar) {
+			delete inputsValues.seminar_date
+		}
+
 		await addEvent({ slug: slug ? slug : "", event: inputsValues }).unwrap()
 	}
 
@@ -254,13 +261,10 @@ function EditEvent() {
 									}))
 								} else {
 									setInputValues((prev) => {
-										const { is_seminar: _, ...rest } = prev
-
-										return rest
-									})
-									setInputValues((prev) => {
 										const { seminar_date: _, ...rest } =
 											prev
+										
+										prev.is_seminar = false
 
 										return rest
 									})
@@ -297,14 +301,10 @@ function EditEvent() {
 									}))
 								} else {
 									setInputValues((prev) => {
-										const { is_attestation: _, ...rest } =
-											prev
-
-										return rest
-									})
-									setInputValues((prev) => {
 										const { attestation_date: _, ...rest } =
 											prev
+
+										prev.is_attestation = false
 
 										return rest
 									})
