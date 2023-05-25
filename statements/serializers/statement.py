@@ -201,8 +201,21 @@ class EventStatementSerializer(serializers.ModelSerializer):
 
         print(links)
         # HERE
+        services = s.start_services('credentials.json')
+        values_data = s.unite_data_spreads(links, services['service'])
+        batch_data = []
+        struct_data = []
+        s.prepare_spreadsheet_values_data('A6:L', 'ROWS', batch_data, values_data)
+        spread_id = s.create_sample('Ведомость',
+                        services['service'],
+                        services['drive_service'],
+                        20,
+                        batch_data,
+                        struct_data,
+                        'Екат',
+                        'Солнце')
+        link = f'https://docs.google.com/spreadsheets/d/{spread_id}/edit#gid=0'
 
-        link = ''
         statement = Statement(
             link=link,
             event=validated_data['event'],
