@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from "react"
-import FormInput from "../FormInput"
+import Input from "../forms/Input"
 import { IInputAttributes } from "../../store/types/components"
 import { useActions } from "../../hooks/useActions"
 import { NavLink } from "react-router-dom"
@@ -84,13 +84,13 @@ function SignIn() {
 					className="flex flex-col gap-2 mt-6 w-80"
 					onSubmit={handleSubmit}
 				>
-					<FormInput
+					<Input
 						{...formInputs[0]}
 						onChange={handleChange}
 						onBlur={handleBlur}
 						errors={[errors.username]}
 					/>
-					<FormInput
+					<Input
 						{...formInputs[1]}
 						onChange={handleChange}
 						onBlur={handleBlur}

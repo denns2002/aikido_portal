@@ -1,22 +1,22 @@
 import React from "react"
 
-interface FormInputProps {
+interface InputProps {
 	label: string
 	type: string
 	placeholder: string
 	name: string
-	value: string
-	errors: string[]
+	value?: string
+	errors?: string[]
 	required: boolean
-	touched: boolean
+	touched?: boolean
 	onChange(event: React.ChangeEvent<HTMLInputElement>): void
-	onBlur(event: React.ChangeEvent<HTMLInputElement>): void
+	onBlur?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-function FormInput(props: FormInputProps) {
+function Input(props: InputProps) {
 	const { label, errors, touched, ...inputProps } = props
 
-	const filteredErrors = errors.filter((element) => {
+	const filterdErrors = errors?.filter((element) => {
 		return element
 	})
 
@@ -26,15 +26,13 @@ function FormInput(props: FormInputProps) {
 				{...inputProps}
 				id={inputProps.name}
 				className={`py-1 px-2.5 h-12 mt-2 text-white peer placeholder-transparent w-full border-solid border-2 rounded-md focus:outline-none bg-sky-700 ${
-					(!touched && filteredErrors.length > 0) ||
-					(!touched && filteredErrors.length === 0) ||
-					(touched && filteredErrors.length === 0)
-						? "border-sky-100 hover:border-sky-300 focus:border-sky-500"
-						: ""
-				} ${
-					touched && filteredErrors.length > 0
-						? "border-red-400 hover:border-red-600 focus:border-red-200"
-						: ""
+					filterdErrors
+						? (!touched && filterdErrors.length > 0) ||
+						  (!touched && filterdErrors.length === 0) ||
+						  (touched && filterdErrors.length === 0)
+							? "border-sky-100 hover:border-sky-300 focus:border-sky-500"
+							: "border-red-400 hover:border-red-600 focus:border-red-200"
+						: "border-sky-100 hover:border-sky-300 focus:border-sky-500"
 				}`}
 			/>
 			<label
@@ -47,4 +45,4 @@ function FormInput(props: FormInputProps) {
 	)
 }
 
-export default FormInput
+export default Input

@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView, \
+    DestroyAPIView
 
 from clubs.models.group import Group, GroupMember
 from clubs.serializers.group_serializer import GroupSerializer, GroupMemberDebtsSerializer, TrainerGroupSerializer, \
-    GroupMemberChangeSerializer
+    GroupMemberChangeSerializer, GroupMemberDeleteSerializer
 from clubs.serializers.trainer import TrainerGroupsSerializer, TrainerGroupDetailSerializer, TrainerChangeSerializer
 from profile.models.profile import Profile
 
@@ -38,7 +39,7 @@ class TrainerGroupDetailAPIView(ListAPIView):
 
     def get_queryset(self):
         trainer = get_user_model().objects.get(id=self.request.user.id)
-        groups = Group.objects.filter(trainer__id=trainer.id)
+        groups = Group.objects.filter(trainer__id=trainer.id, slug=self.kwargs["slug"])
 
         return groups
 
@@ -73,6 +74,14 @@ class GroupTrainerChangeAPIView(UpdateAPIView):
 class GroupMemberChangeAPIView(UpdateAPIView):
     serializer_class = GroupMemberChangeSerializer
     # queryset = GroupMember.objects.all()
+    lookup_field = "profile__slug"
+
+    def get_queryset(self):
+        return GroupMember.objects.filter(profile__slug=self.kwargs["profile__slug"])
+
+
+class GroupMemberDeleteAPIView(DestroyAPIView):
+    serializer_class = GroupMemberDeleteSerializer
     lookup_field = "profile__slug"
 
     def get_queryset(self):

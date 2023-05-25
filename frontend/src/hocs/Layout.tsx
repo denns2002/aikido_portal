@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/base/Sidebar"
 import { useActions } from "../hooks/useActions"
 
 interface LayoutProps {
@@ -17,7 +17,7 @@ function Layout(props: LayoutProps) {
 	return (
 		<div className="h-full w-full flex relative">
 			<Sidebar />
-			<main className="h-full w-full flex overflow-auto">
+			<main className="h-full w-full flex overflow-auto justify-center">
 				{props.children}
 			</main>
 		</div>

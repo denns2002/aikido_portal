@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
 	IGroup,
 	IGroupList,
-	ITrainerGroup,
 	ITrainerGroupList,
+	ITrainerGroupMembersList,
 	ITrainerList,
 } from "../types/groups"
 import { tokenService } from "../services/tokens";
@@ -83,11 +83,11 @@ export const groupsApi = createApi({
 			}),
 		}),
 		getTrainerGroup: builder.query<
-			ITrainerList,
+			ITrainerGroupMembersList,
 			{ slug: string; page: number }
 		>({
 			query: ({ slug, page }) => ({
-				url: `/trainer-groups/${slug}/?page=${page}`,
+				url: `/trainer-groups/${slug}?page=${page}`,
 				method: "GET",
 			}),
 		}),
