@@ -320,11 +320,15 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
     return spreadsheet_id
 
 
-def unite_data_spreads(list_ids, service):
+def unite_data_spreads(list_links, service):
     united_data = []
-    for spread_num in range(len(list_ids)):
-        cur_data = get_spreadsheet_data(list_ids[spread_num])
-        for row_num in range(len(cur_data)):
-            if row_num > 5:
-                united_data.append(cur_data[row_num])
+    for spread in list_links:
+        link = spread.split('/')
+        for step in range (len(link)):
+            if link[step] == 'd':
+                cur_data = get_spreadsheet_data(link[step+1], service)
+                for row_num in range(len(cur_data)):
+                    if row_num > 5:
+                        united_data.append(cur_data[row_num])
+                break
     return united_data
