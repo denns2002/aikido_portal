@@ -13,8 +13,8 @@ class Event(models.Model):
     name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
     reg_start = models.DateField(verbose_name=multilang_verb("Start of registration", "Начало регистрации"))
     reg_end = models.DateField(verbose_name=multilang_verb("End of registration", "Окончание регистрации"))
-    date_start = models.DateField(verbose_name=multilang_verb("Start date", "Дата начала"))
-    date_end = models.DateField(verbose_name=multilang_verb("End date", "Дата окончания"))
+    # date_start = models.DateField(verbose_name=multilang_verb("Start date", "Дата начала"))
+    # date_end = models.DateField(verbose_name=multilang_verb("End date", "Дата окончания"))
     addresses = models.ForeignKey(
         Address,
         null=True,
@@ -79,3 +79,18 @@ class Event(models.Model):
 class PlannedEvents(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+
+class EventsDate(models.Model):
+    event = models.OneToOneField(Event, on_delete=models.CASCADE, verbose_name=multilang_verb("Event", "Мероприятие"))
+    date = models.DateField(verbose_name=multilang_verb("Date of event", "Дата проведения"))
+    comment = models.TextField(verbose_name=multilang_verb("Info", "Информация"))
+
+
+class EventsTime(models.Model):
+    events_date = models.ForeignKey(EventsDate,
+                                    on_delete=models.CASCADE,
+                                    verbose_name=multilang_verb("Date of event", "Дата проведения"))
+    name = models.CharField(max_length=255, verbose_name=multilang_verb("Name", "Название"))
+    time_start = models.TimeField(verbose_name=multilang_verb("Start time", "Время начала"))
+    time_end = models.TimeField(verbose_name=multilang_verb("End time", "Время окончания"))
