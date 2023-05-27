@@ -10,7 +10,7 @@ class EventsTimeSerializer(serializers.ModelSerializer):
 
 
 class EventsDateSerializer(serializers.ModelSerializer):
-    eventtime_set = EventsTimeSerializer(many=True, read_only=True)
+    eventtime_set = EventsTimeSerializer(many=True, read_only=False)
 
     class Meta:
         model = EventsDate
@@ -18,7 +18,7 @@ class EventsDateSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    eventsdate = EventsDateSerializer(read_only=True)
+    eventsdate = EventsDateSerializer(read_only=False)
 
     class Meta:
         model = Event
