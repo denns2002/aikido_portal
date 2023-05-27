@@ -1,9 +1,8 @@
 /* eslint-disable no-useless-escape */
 import React from "react"
 import { useState } from "react"
-import FormInput from "../FormInput"
+import Input from "../forms/Input"
 import { IInputAttributes } from "../../store/types/components"
-import { NavLink } from "react-router-dom"
 import { Popover } from "@headlessui/react"
 import {FaExclamationCircle} from "react-icons/fa"
 
@@ -199,26 +198,26 @@ function SignUp() {
 					onSubmit={handleSubmit}
 				>
 					<div className="w-full flex flex-row gap-4">
-						<FormInput
+						<Input
 							{...formInputs[0]}
 							errors={[errors.secondName]}
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
-						<FormInput
+						<Input
 							{...formInputs[1]}
 							errors={[errors.firstName]}
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
 					</div>
-					<FormInput
+					<Input
 						{...formInputs[2]}
 						errors={[errors.username]}
 						onChange={handleChange}
 						onBlur={handleBlur}
 					/>
-					<FormInput
+					<Input
 						{...formInputs[3]}
 						errors={[errors.email, errors.emailValid]}
 						onChange={handleChange}
@@ -230,7 +229,7 @@ function SignUp() {
 						</span>
 					) : null}
 					<div className="w-full flex flex-row gap-4 relative">
-						<FormInput
+						<Input
 							errors={[
 								errors.password,
 								errors.passwordLength,
@@ -241,7 +240,7 @@ function SignUp() {
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
-						<FormInput
+						<Input
 							errors={[
 								errors.passwordConfirm,
 								errors.passwordConfirmValid,

@@ -19,11 +19,11 @@ export const statementsApi = createApi({
 	}),
 	endpoints: (builder) => ({
 		getSatementBySlug: builder.query<IStatement, number>({
-			query: (id) => ({ url: `/statements/${id}/`, method: "GET" }),
+			query: (id) => ({ url: `/${id}/`, method: "GET" }),
 		}),
 		postSatement: builder.mutation<IStatement, IStatement>({
 			query: (statement) => ({
-				url: `/statements/`,
+				url: `/`,
 				method: "POST",
 				body: statement,
 			}),

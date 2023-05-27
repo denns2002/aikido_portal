@@ -21,6 +21,8 @@ const initialState: ProfileState = {
 		first_name: "",
 		last_name: "",
 		mid_name: "",
+		club: "",
+		group: "",
 		avatar: "",
 		birth_date: "",
 		updated_at: "",

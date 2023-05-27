@@ -39,6 +39,8 @@ export interface IProfile {
 	city: ICity
 	rank: IRank
 	roles: IRole[]
+	club: string
+	group: string
 }
 
 export interface IUpdatedProfile {

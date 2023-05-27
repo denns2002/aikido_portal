@@ -38,3 +38,24 @@ export interface ITrainerGroupList {
     previous: string
     results: ITrainerGroup[]
 }
+
+export interface IGroupMember {
+    annual_fee: boolean
+    first_name: string
+    last_name: string
+    mid_name: string
+    avatar: string
+    rank: string
+    slug: string
+}
+export interface ITrainerGroupMembers {
+    groupmember_set: IGroupMember[]
+    name: string
+}
+
+export interface ITrainerGroupMembersList {
+    count: number
+    next: string
+    previous: string
+    results: ITrainerGroupMembers[]
+}

@@ -3,9 +3,10 @@ export interface IInputAttributes {
 	type: string
 	placeholder: string
 	name: string
-	value: string
+	value?: string
 	required: boolean
-	touched: boolean
+	touched?: boolean
+	rows?: number
 }
 
 export interface INavLink {
