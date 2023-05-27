@@ -16,12 +16,12 @@ function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: Priva
 
 	function haveAccessRole(accessRoles: string[]) {
 		for (let index = 0; index < profile.roles.length; index++) {
-			if (!accessRoles.includes(profile.roles[index].name)) {
-				return false
+			if (accessRoles.includes(profile.roles[index].name)) {
+				return true
 			}
 		}
 
-		return true
+		return false
 	}
 
 	return isAuthenticated && haveAccessRole(accessRoles) ? (

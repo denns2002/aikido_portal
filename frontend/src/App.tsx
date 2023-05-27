@@ -23,7 +23,11 @@ function App() {
 				/>
 				<Route
 					path="/signup"
-					element={<SignUp />}
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<EditEvent />
+						</PrivateRoute>
+					}
 				/>
 				<Route
 					path="/signin"
@@ -39,22 +43,22 @@ function App() {
 				/>
 				<Route
 					path="/events/add"
-					element={
-							<AddEvent />
-					}
+					element={<AddEvent />}
 				/>
 				<Route
 					path="/events/:slug/edit"
 					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
 							<EditEvent />
+						</PrivateRoute>
 					}
 				/>
 				<Route
 					path="/profile/me"
 					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
-						<ProfileMe />
-					</PrivateRoute>
+						<PrivateRoute accessRoles={["Тренер", "Студент"]}>
+							<ProfileMe />
+						</PrivateRoute>
 					}
 				/>
 				<Route

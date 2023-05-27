@@ -22,22 +22,24 @@ function EditEvent() {
 			? {
 					seminar: event.is_seminar,
 					attestation: event.is_attestation,
+					members: false,
 			  }
 			: {
 					seminar: false,
 					attestation: false,
+					members: false,
 			  }
 	)
 
-    // function getCorrectDate(date: string): string {
-    //     let newDate = date.slice(0, 16)
+	// function getCorrectDate(date: string): string {
+	//     let newDate = date.slice(0, 16)
 
-    //     let arr = newDate.split(":")
+	//     let arr = newDate.split(":")
 
-    //     arr[arr.length - 1] = arr[arr.length - 1].t
+	//     arr[arr.length - 1] = arr[arr.length - 1].t
 
-    //     return ""
-    // }
+	//     return ""
+	// }
 
 	const [inputsValues, setInputValues] = useState<IEvent>(
 		event
@@ -157,11 +159,19 @@ function EditEvent() {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
-		if (!settings.attestation) {
-			delete inputsValues.attestation_date
-		}
 		if (!settings.seminar) {
-			delete inputsValues.seminar_date
+			setInputValues((prev) => {
+				delete prev.seminar_date
+
+				return prev
+			})
+		}
+		if (!settings.attestation) {
+			setInputValues((prev) => {
+				delete prev.attestation_date
+
+				return prev
+			})
 		}
 
 		await addEvent({ slug: slug ? slug : "", event: inputsValues }).unwrap()
@@ -188,8 +198,8 @@ function EditEvent() {
 
 	return (
 		<div className="flex h-full w-full">
-			<div className="relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7 text-white">
-				<label className="font-bold text-2xl text-white">
+			<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
+				<label className="font-bold text-2xl">
 					Редактировать мероприятие
 				</label>
 				<form
@@ -202,7 +212,9 @@ function EditEvent() {
 						onBlur={handleBlur}
 						errors={[errors.name]}
 					/>
-					Регистрация:
+					<div className="border-b-2 border-sky-700 w-24">
+						Регистрация:
+					</div>
 					<div className="flex flex-row gap-4">
 						<Input
 							{...formInputs[1]}
@@ -217,7 +229,9 @@ function EditEvent() {
 							errors={[errors.reg_end]}
 						/>
 					</div>
-					Время проведения:
+					<div className="border-b-2 border-sky-700 w-36">
+						Время проведения:
+					</div>
 					<div className="flex flex-row gap-4">
 						<Input
 							{...formInputs[3]}
@@ -238,13 +252,15 @@ function EditEvent() {
 						onBlur={handleBlur}
 						errors={[errors.about]}
 					/>
-					<div>
-						Cеминар:
-						<input
-							type="checkbox"
-							className="ml-1"
-							defaultChecked={settings.seminar}
-							onChange={() => {
+					<div className="flex flex-row gap-4">
+						<button
+							className={`${
+								settings.seminar
+									? "bg-green-500 hover:bg-green-300"
+									: "bg-slate-500 hover:bg-slate-300"
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white`}
+							type="button"
+							onClick={() => {
 								setSettings((prev) => ({
 									...prev,
 									seminar: !prev.seminar,
@@ -254,76 +270,110 @@ function EditEvent() {
 									setInputValues((prev) => ({
 										...prev,
 										is_seminar: true,
-									}))
-									setInputValues((prev) => ({
-										...prev,
-										seminar_date: "",
+										seminar_date: event?.seminar_date
+										? event.seminar_date.slice(0, 16)
+										: "",
 									}))
 								} else {
-									setInputValues((prev) => {
-										const { seminar_date: _, ...rest } =
-											prev
-										
-										prev.is_seminar = false
-
-										return rest
-									})
+									setInputValues((prev) => ({
+										...prev,
+										is_seminar: false,
+										seminar_date: ""
+									}))
 								}
 							}}
-						/>
-						{settings.seminar ? (
-							<Input
-								{...formInputs[6]}
-								onChange={handleChange}
-							/>
-						) : null}
-					</div>
-					<div>
-						Аттестация:
-						<input
-							type="checkbox"
-							className="ml-1"
-							defaultChecked={settings.attestation}
-							onChange={() => {
+						>
+							Семинар
+						</button>
+						<button
+							className={`${
+								settings.attestation
+									? "bg-green-500 hover:bg-green-300"
+									: "bg-slate-500 hover:bg-slate-300"
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white`}
+							type="button"
+							onClick={() => {
 								setSettings((prev) => ({
 									...prev,
 									attestation: !prev.attestation,
 								}))
 
-								if (!settings.attestation) {
+								if (!settings.seminar) {
 									setInputValues((prev) => ({
 										...prev,
 										is_attestation: true,
-									}))
-									setInputValues((prev) => ({
-										...prev,
-										attestation_date: "",
+										attestation_date: event?.attestation_date
+										? event.attestation_date.slice(0, 16)
+										: "",
 									}))
 								} else {
-									setInputValues((prev) => {
-										const { attestation_date: _, ...rest } =
-											prev
-
-										prev.is_attestation = false
-
-										return rest
-									})
+									setInputValues((prev) => ({
+										...prev,
+										is_attestation: false,
+										attestation_date: ""
+									}))
 								}
 							}}
-						/>
-						{settings.attestation ? (
-							<Input
-								{...formInputs[7]}
-								onChange={handleChange}
-							/>
-						) : null}
-					</div>
-					<div className="peer-pla flex justify-center">
+						>
+							Аттестация
+						</button>
 						<button
-							className="font-semibold rounded-md p-1 w-52 h-9 mt-1 enabled:hover:bg-sky-500 enabled:bg-sky-300 disabled:bg-sky-100"
+							className="bg-sky-700 hover:bg-sky-500 flex-1 font-semibold rounded-md p-1 h-9 text-white"
+							type="button"
+							onClick={() => {
+								setSettings((prev) => ({
+									...prev,
+									members: !prev.members,
+								}))
+
+								// if (!settings.seminar) {
+								// 	setInputValues((prev) => ({
+								// 		...prev,
+								// 		is_seminar: true,
+								// 	}))
+								// } else {
+								// 	setInputValues((prev) => ({
+								// 		...prev,
+								// 		is_seminar: false,
+								// 	}))
+								// }
+							}}
+						>
+							Участники
+						</button>
+					</div>
+					<div className={`border-b-2 w-[5.4rem] ${settings.seminar ? "border-sky-700" : "border-slate-300 text-slate-300"}`}>
+						Семинар:
+					</div>
+					<Input
+						{...formInputs[6]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						disabled={!settings.seminar}
+						errors={[errors.reg_start]}
+					/>
+					<div className={`border-b-2 w-[5.4rem] ${settings.attestation ? "border-sky-700" : "border-slate-300 text-slate-300"}`}>
+						Аттестация:
+					</div>
+					<Input
+						{...formInputs[7]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						disabled={!settings.attestation}
+						errors={[errors.reg_start]}
+					/>
+					<div className="peer-pla flex justify-center flex-row gap-4">
+						<button
+							className="font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
 							type="submit"
 						>
 							Сохранить
+						</button>
+						<button
+							className="font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-red-300 bg-red-500 text-white"
+							type="submit"
+						>
+							Отменить
 						</button>
 					</div>
 				</form>
