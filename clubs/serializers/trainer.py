@@ -24,6 +24,7 @@ class TrainerGroupMemberSerializer(serializers.ModelSerializer):
     avatar = serializers.ImageField(source='profile.avatar', read_only=True)
     rank = serializers.CharField(source='profile.rank.name', read_only=True)
     slug = serializers.SlugField(source='profile.slug', read_only=True)
+    id = serializers.IntegerField(source='profile.user.id')
 
     # @property
     # def debts_sum(self):
@@ -32,7 +33,7 @@ class TrainerGroupMemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroupMember
-        fields = ['annual_fee', 'first_name', 'last_name', 'mid_name', 'avatar', 'rank', 'slug']
+        fields = ['annual_fee', 'first_name', 'last_name', 'mid_name', 'avatar', 'rank', 'slug', 'id']
 
 
 class TrainerGroupDetailSerializer(serializers.ModelSerializer):
