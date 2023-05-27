@@ -76,8 +76,8 @@ function SignIn() {
 
 	return (
 		<div className="flex h-full w-full">
-			<div className="relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7">
-				<label className="font-bold text-2xl text-white">
+			<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
+				<label className="font-bold text-2xl">
 					Авторизация
 				</label>
 				<form
@@ -98,21 +98,21 @@ function SignIn() {
 					/>
 					<NavLink
 						to="#"
-						className="underline text-sky-200 hover:text-sky-300 text-sm -mt-1"
+						className="underline text-sky-500 hover:text-sky-300 text-sm -mt-1"
 					>
 						Забыли пароль?
 					</NavLink>
 					<div className="flex flex-col">
 						{(errors.password && touched.password) ||
 						(errors.username && touched.username) ? (
-							<span className="text-red-400">
+							<span className="text-red-700">
 								Все поля должны быть заполнены!
 							</span>
 						) : null}
 					</div>
 					<div className="peer-pla flex justify-center">
 						<button
-							className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-500 enabled:bg-sky-300 disabled:bg-sky-100"
+							className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100"
 							type="submit"
 							disabled={!(!errors.password && !errors.username)}
 						>

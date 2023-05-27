@@ -9,13 +9,12 @@ interface InputProps {
 	errors?: string[]
 	required: boolean
 	touched?: boolean
+	disabled?: boolean
 	onChange(event: React.ChangeEvent<HTMLInputElement>): void
 	onBlur?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-function Input(props: InputProps) {
-	const { label, errors, touched, ...inputProps } = props
-
+function Input({ label, errors, touched, disabled, ...inputProps }: InputProps) {
 	const filterdErrors = errors?.filter((element) => {
 		return element
 	})
@@ -25,19 +24,20 @@ function Input(props: InputProps) {
 			<input
 				{...inputProps}
 				id={inputProps.name}
-				className={`py-1 px-2.5 h-12 mt-2 text-white peer placeholder-transparent w-full border-solid border-2 rounded-md focus:outline-none bg-sky-700 ${
+				disabled={disabled}
+				className={`py-1 px-2.5 h-12 mt-2 peer transition-all placeholder-transparent w-full border-solid border-2 rounded-md focus:outline-none ${
 					filterdErrors
 						? (!touched && filterdErrors.length > 0) ||
 						  (!touched && filterdErrors.length === 0) ||
 						  (touched && filterdErrors.length === 0)
-							? "border-sky-100 hover:border-sky-300 focus:border-sky-500"
-							: "border-red-400 hover:border-red-600 focus:border-red-200"
-						: "border-sky-100 hover:border-sky-300 focus:border-sky-500"
-				}`}
+							? "border-sky-700 hover:border-sky-500 focus:border-sky-300"
+							: "border-red-700 hover:border-red-500 focus:border-red-300"
+						: "border-sky-700 hover:border-sky-500 focus:border-sky-300"
+				} disabled:border-slate-300 bg-white disabled:text-slate-300`}
 			/>
 			<label
 				htmlFor={inputProps.name}
-				className="absolute left-2 -top-0.5 bg-sky-700 text-sm transition-all text-slate-200 px-0.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-200 peer-placeholder-shown:top-5 peer-focus:-top-0.5 peer-focus:text-slate-200 peer-focus:text-sm"
+				className={`absolute left-2 -top-0.5 bg-white text-sm transition-all px-0.5 peer-placeholder-shown:text-base peer-placeholder-shown:top-5 peer-focus:-top-0.5 ${disabled ? "peer-focus:text-slate-300 peer-placeholder-shown:text-slatte-300 text-slate-300" : "peer-placeholder-shown:text-black peer-focus:text-black"} peer-focus:text-sm`}
 			>
 				{label}
 			</label>
