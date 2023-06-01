@@ -1,13 +1,13 @@
 import { FaBars, FaUser } from "react-icons/fa"
 import { RxCross2 } from "react-icons/rx"
 import {
-	TbShield,
-	TbLayoutGrid,
+	TbShieldFilled,
 	TbLogout,
 	TbLogin,
 	TbCalendarEvent,
 	TbClipboardList,
 } from "react-icons/tb"
+import { BsFillPeopleFill } from "react-icons/bs"
 import { NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { IRootState } from "../../store/store"
@@ -43,10 +43,22 @@ function Sidebar(props: SidebarProps) {
 
 	const navLinks: INavLink[] = [
 		{
+			to: "/groups",
+			label: "Группа",
+			accessRoles: ["Тренер", "Студент"],
+			icon: <BsFillPeopleFill className="h-5 w-5" />,
+		},
+		{
 			to: "/trainer",
 			label: "Тренерская",
 			accessRoles: ["Тренер"],
 			icon: <TbClipboardList className="h-5 w-5" />,
+		},
+		{
+			to: "/clubs",
+			label: "Клубы",
+			accessRoles: ["Тренер"],
+			icon: <TbShieldFilled className="h-5 w-5" />,
 		},
 	]
 
@@ -167,10 +179,16 @@ function Sidebar(props: SidebarProps) {
 					hidden
 						? "bg-transparent text-sky-700"
 						: "bg-sky-700 text-white"
-				} transition-all hover:bg-sky-700 hover:text-white block duration-500 lg:hidden z-20 transform ${hidden ? null : "translate-x-60" }`}
+				} transition-all hover:bg-sky-700 hover:text-white block duration-500 lg:hidden z-20 transform ${
+					hidden ? null : "translate-x-60"
+				}`}
 				onClick={() => setHidden((prev) => !prev)}
 			>
-				{hidden ? <FaBars className="h-6 w-6" /> : <RxCross2 className="h-6 w-6" />}
+				{hidden ? (
+					<FaBars className="h-6 w-6" />
+				) : (
+					<RxCross2 className="h-6 w-6" />
+				)}
 			</button>
 			<div
 				className={`w-screen h-screen fixed top-0 left-0 bg-sky-700 ${

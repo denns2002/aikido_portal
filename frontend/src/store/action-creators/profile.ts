@@ -10,8 +10,6 @@ export function loadUserProfile() {
 
 			const response = await api.get("/me/")
 
-			console.log(response.data);
-
 			dispatch(profileActions.userProfileLoadingSuccess(response.data))
 		} catch (e) {
 			dispatch(
@@ -30,14 +28,10 @@ export function updateUserProfile(data: IUpdatedProfile, slug: string) {
 
 			const body = JSON.stringify({...data})
 
-			console.log(body);
-
 			const response = await api.put(`/profile/update_profile/${slug}/`, body)
 
 			dispatch(profileActions.userProfileUpdateSuccess(response.data))
 		} catch (e) {
-			console.log(e);
-			
 			dispatch(
 				profileActions.userProfileUpdateFail(
 					"Произошла ошибка во время обновления профиля"

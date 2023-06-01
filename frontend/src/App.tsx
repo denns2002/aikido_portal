@@ -12,6 +12,8 @@ import Clubs from "./components/clubs/Clubs"
 import Trainer from "./components/trainer/Trainer"
 import EditEvent from "./components/events/EditEvent"
 import ProfileMe from "./components/profile/ProfileMe"
+import EditProfileMe from "./components/profile/EditProfileMe"
+import Groups from "./components/groups/Groups"
 
 function App() {
 	return (
@@ -22,10 +24,18 @@ function App() {
 					element={<Home />}
 				/>
 				<Route
-					path="/signup"
+					path="/clubs"
 					element={
 						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
-							<EditEvent />
+							<Clubs />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/groups"
+					element={
+						<PrivateRoute accessRoles={["Студент", "Тренер", "Руководитель"]}>
+							<Groups />
 						</PrivateRoute>
 					}
 				/>
@@ -43,7 +53,19 @@ function App() {
 				/>
 				<Route
 					path="/events/add"
-					element={<AddEvent />}
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<AddEvent />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/trainer"
+					element={
+						<PrivateRoute accessRoles={["Тренер"]}>
+							<Trainer />
+						</PrivateRoute>
+					}
 				/>
 				<Route
 					path="/events/:slug/edit"
@@ -62,18 +84,10 @@ function App() {
 					}
 				/>
 				<Route
-					path="/clubs"
+					path="/profile/me/edit"
 					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
-							<Clubs />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path="/trainer"
-					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
-							<Trainer />
+						<PrivateRoute accessRoles={["Тренер", "Студент"]}>
+							<EditProfileMe />
 						</PrivateRoute>
 					}
 				/>

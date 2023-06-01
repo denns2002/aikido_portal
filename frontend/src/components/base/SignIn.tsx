@@ -3,9 +3,15 @@ import { useState } from "react"
 import Input from "../forms/Input"
 import { IInputAttributes } from "../../store/types/components"
 import { useActions } from "../../hooks/useActions"
-import { NavLink } from "react-router-dom"
+import { NavLink, Navigate } from "react-router-dom"
+import { connect } from "react-redux"
+import { IRootState } from "../../store/store"
 
-function SignIn() {
+interface SignInProps {
+	isAuthenticated: boolean
+}
+
+function SignIn({ isAuthenticated }: SignInProps) {
 	const [inputsValues, setInputValues] = useState({
 		username: "",
 		password: "",
@@ -48,8 +54,6 @@ function SignIn() {
 		event.preventDefault()
 
 		signIn(inputsValues)
-
-		console.log(inputsValues)
 	}
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -63,7 +67,7 @@ function SignIn() {
 				...errors,
 				[event.target.name]: "Это поле необходимо заполнить!",
 			})
-			
+
 			return
 		} else {
 			setErrors({ ...errors, [event.target.name]: "" })
@@ -74,12 +78,12 @@ function SignIn() {
 		setTouched({ ...touched, [event.target.name]: true })
 	}
 
-	return (
+	return isAuthenticated ? (
+		<Navigate to="/events" />
+	) : (
 		<div className="flex h-full w-full">
 			<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
-				<label className="font-bold text-2xl">
-					Авторизация
-				</label>
+				<label className="font-bold text-2xl">Авторизация</label>
 				<form
 					className="flex flex-col gap-2 mt-6 w-80"
 					onSubmit={handleSubmit}
@@ -125,4 +129,10 @@ function SignIn() {
 	)
 }
 
-export default SignIn
+function mapStateToProps(state: IRootState) {
+	return {
+		isAuthenticated: state.authentication.isAuthenticated,
+	}
+}
+
+export default connect(mapStateToProps, {})(SignIn)

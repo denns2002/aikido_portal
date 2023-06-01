@@ -98,8 +98,6 @@ function SignUp() {
 
 	function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
 		event.preventDefault()
-
-		console.log(inputsValues)
 	}
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

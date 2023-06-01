@@ -4,11 +4,11 @@ import { IEvent } from "../../store/types/events"
 import { FormEvent, useState } from "react"
 import Input from "../forms/Input"
 import TextArea from "../forms/TextArea"
+import { useNavigate } from "react-router-dom"
 
 function AddEvent() {
 	const [addEvent, { error }] = usePostEventMutation()
-
-	console.log(error)
+	const navigate = useNavigate()
 
 	const [settings, setSettings] = useState({
 		seminar: false,
@@ -34,12 +34,12 @@ function AddEvent() {
 	})
 
 	const [errors, setErrors] = useState({
-		name: "",
-		about: "",
-		reg_start: "",
-		reg_end: "",
-		date_end: "",
-		date_start: "",
+		name: "Это поле необходимо заполнить!",
+		about: "Это поле необходимо заполнить!",
+		reg_start: "Это поле необходимо заполнить!",
+		reg_end: "Это поле необходимо заполнить!",
+		date_end: "Это поле необходимо заполнить!",
+		date_start: "Это поле необходимо заполнить!",
 	})
 
 	const formInputs: IInputAttributes[] = [
@@ -100,7 +100,7 @@ function AddEvent() {
 		},
 		{
 			label: "Семинар",
-			type: "date",
+			type: "datetime-local",
 			placeholder: "seminar_date",
 			name: "seminar_date",
 			value: inputsValues.seminar_date,
@@ -108,7 +108,7 @@ function AddEvent() {
 		},
 		{
 			label: "Аттестация",
-			type: "date",
+			type: "datetime-local",
 			placeholder: "attestation_date",
 			name: "attestation_date",
 			value: inputsValues.attestation_date,
@@ -120,6 +120,8 @@ function AddEvent() {
 		event.preventDefault()
 
 		await addEvent(inputsValues).unwrap()
+
+		navigate("/events")
 	}
 
 	function handleChange(
@@ -131,6 +133,17 @@ function AddEvent() {
 			...inputsValues,
 			[event.target.name]: event.target.value,
 		})
+
+		if (!event.target.value) {
+			setErrors({
+				...errors,
+				[event.target.name]: "Это поле необходимо заполнить!",
+			})
+
+			return
+		} else {
+			setErrors({ ...errors, [event.target.name]: "" })
+		}
 	}
 
 	function handleBlur(
@@ -142,10 +155,10 @@ function AddEvent() {
 	}
 
 	return (
-		<div className="flex h-full w-full">
-			<div className="relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center bg-sky-700 rounded-xl px-8 py-7 text-white">
-				<label className="font-bold text-2xl text-white">
-					Добавить мероприятие
+		<div className="relative flex h-full w-full">
+			<div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
+				<label className="font-bold text-2xl">
+					Создать мероприятие
 				</label>
 				<form
 					className="flex flex-col gap-2 mt-6 w-[30rem]"
@@ -157,7 +170,9 @@ function AddEvent() {
 						onBlur={handleBlur}
 						errors={[errors.name]}
 					/>
-					Регистрация:
+					<div className="border-b-2 border-sky-700 w-24">
+						Регистрация:
+					</div>
 					<div className="flex flex-row gap-4">
 						<Input
 							{...formInputs[1]}
@@ -172,7 +187,9 @@ function AddEvent() {
 							errors={[errors.reg_end]}
 						/>
 					</div>
-					Время проведения:
+					<div className="border-b-2 border-sky-700 w-36">
+						Время проведения:
+					</div>
 					<div className="flex flex-row gap-4">
 						<Input
 							{...formInputs[3]}
@@ -193,13 +210,15 @@ function AddEvent() {
 						onBlur={handleBlur}
 						errors={[errors.about]}
 					/>
-					<div>
-						Cеминар:
-						<input
-							type="checkbox"
-							className="ml-1"
-							defaultChecked={settings.seminar}
-							onChange={() => {
+					<div className="flex flex-row gap-4">
+						<button
+							className={`${
+								settings.seminar
+									? "bg-green-500 hover:bg-green-300"
+									: "bg-slate-500 hover:bg-slate-300"
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
+							type="button"
+							onClick={() => {
 								setSettings((prev) => ({
 									...prev,
 									seminar: !prev.seminar,
@@ -209,40 +228,27 @@ function AddEvent() {
 									setInputValues((prev) => ({
 										...prev,
 										is_seminar: true,
-									}))
-									setInputValues((prev) => ({
-										...prev,
 										seminar_date: "",
 									}))
 								} else {
-									setInputValues((prev) => {
-										const { is_seminar: _, ...rest } = prev
-
-										return rest
-									})
-									setInputValues((prev) => {
-										const { seminar_date: _, ...rest } =
-											prev
-
-										return rest
-									})
+									setInputValues((prev) => ({
+										...prev,
+										is_seminar: false,
+										seminar_date: "",
+									}))
 								}
 							}}
-						/>
-						{settings.seminar ? (
-							<Input
-								{...formInputs[6]}
-								onChange={handleChange}
-							/>
-						) : null}
-					</div>
-					<div>
-						Аттестация:
-						<input
-							type="checkbox"
-							className="ml-1"
-							defaultChecked={settings.attestation}
-							onChange={() => {
+						>
+							Семинар
+						</button>
+						<button
+							className={`${
+								settings.attestation
+									? "bg-green-500 hover:bg-green-300"
+									: "bg-slate-500 hover:bg-slate-300"
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
+							type="button"
+							onClick={() => {
 								setSettings((prev) => ({
 									...prev,
 									attestation: !prev.attestation,
@@ -252,39 +258,76 @@ function AddEvent() {
 									setInputValues((prev) => ({
 										...prev,
 										is_attestation: true,
-									}))
-									setInputValues((prev) => ({
-										...prev,
 										attestation_date: "",
 									}))
 								} else {
-									setInputValues((prev) => {
-										const { is_attestation: _, ...rest } = prev
-
-										return rest
-									})
-									setInputValues((prev) => {
-										const { attestation_date: _, ...rest } =
-											prev
-
-										return rest
-									})
+									setInputValues((prev) => ({
+										...prev,
+										is_attestation: false,
+										attestation_date: "",
+									}))
 								}
 							}}
-						/>
-						{settings.attestation ? (
-							<Input
-								{...formInputs[7]}
-								onChange={handleChange}
-							/>
+						>
+							Аттестация
+						</button>
+					</div>
+					<div
+						className={`border-b-2 w-[4.4rem] ${
+							settings.seminar
+								? "border-sky-700"
+								: "border-slate-300 text-slate-300"
+						}`}
+					>
+						Семинар:
+					</div>
+					<Input
+						{...formInputs[6]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						disabled={!settings.seminar}
+					/>
+					<div
+						className={`border-b-2 w-[5.4rem] ${
+							settings.attestation
+								? "border-sky-700"
+								: "border-slate-300 text-slate-300"
+						}`}
+					>
+						Аттестация:
+					</div>
+					<Input
+						{...formInputs[7]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						disabled={!settings.attestation}
+					/>
+					<div className="flex flex-col">
+						{(errors.name && touched.name) ||
+						(errors.about && touched.about) ||
+						(errors.date_start && touched.date_start) ||
+						(errors.date_end && touched.date_end) ||
+						(errors.reg_end && touched.reg_end) ||
+						(errors.reg_start && touched.reg_start) ? (
+							<span className="text-red-700">
+								Заполните все необходимые поля!
+							</span>
 						) : null}
 					</div>
-					<div className="peer-pla flex justify-center">
+					<div className="peer-pla flex justify-center flex-row gap-4">
 						<button
-							className="font-semibold rounded-md p-1 w-52 h-9 mt-1 enabled:hover:bg-sky-500 enabled:bg-sky-300 disabled:bg-sky-100"
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
 							type="submit"
+							disabled={!(!errors.name && !errors.about && !errors.date_end && !errors.date_start && !errors.reg_start && !errors.reg_end)}
 						>
-							Добавить
+							Создать
+						</button>
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
+							type="button"
+							onClick={() => navigate(`/events`)}
+						>
+							Отменить
 						</button>
 					</div>
 				</form>

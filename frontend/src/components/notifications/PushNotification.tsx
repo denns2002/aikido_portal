@@ -25,7 +25,7 @@ function PushNotification(props: NotificationProps) {
 
 	return (
 		<div
-			className={`p-1 shadow-md border-2 rounded-md overflow-hidden transform-all transition-opacity duration-700 ${
+			className={`p-1 shadow-md border-2 rounded-md overflow-hidden transform-all transition-opacity duration-700 bg-white ${
 				mounted ? "opacity-100" : "opacity-0"
 			} ${
 				props?.information?.type === PushNotificationType.Success

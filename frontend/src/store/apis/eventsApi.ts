@@ -32,6 +32,7 @@ export const eventsApi = createApi({
 		}),
 		getEventBySlug: builder.query<IEvent, string>({
 			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
+			providesTags: [{ type: "Events", id: "LIST" }]
 		}),
 		patchEventBySlug: builder.mutation<
 			IEvent,

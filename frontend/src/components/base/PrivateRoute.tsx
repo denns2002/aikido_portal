@@ -28,7 +28,7 @@ function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: Priva
 		children
 	) : (
 		<Navigate
-			to="/"
+			to="/signin"
 			replace
 			state={{ from: location }}
 		/>
