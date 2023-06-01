@@ -46,8 +46,6 @@ export function verifyToken() {
 
 			dispatch(authenticationActions.verifyTokenSuccess())
 		} catch (e) {
-			console.log(e);
-
 			dispatch(
 				authenticationActions.verifyTokenFail()
 			)

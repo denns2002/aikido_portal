@@ -47,6 +47,7 @@ export interface IGroupMember {
     avatar: string
     rank: string
     slug: string
+    id: number
 }
 export interface ITrainerGroupMembers {
     groupmember_set: IGroupMember[]

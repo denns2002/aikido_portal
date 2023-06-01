@@ -31,9 +31,9 @@ export interface IProfile {
 	user: IUser
 	first_name: string
 	last_name: string
-	mid_name: string
+	mid_name?: string
 	avatar: string
-	birth_date: string
+	birth_date?: string
 	updated_at: string
 	slug: string
 	city: ICity
@@ -46,14 +46,11 @@ export interface IProfile {
 export interface IUpdatedProfile {
 	first_name: string
 	last_name: string
-	mid_name: string
-	birth_date: string
-	city: ICityUpdate
-	updated_at?: string
-}
-
-export interface ICityUpdate {
-	id: number
+	mid_name?: string
+	birth_date?: string
+	city?: number
+	rank?: number
+	roles?: number[] 
 }
 
 export interface ProfileState {

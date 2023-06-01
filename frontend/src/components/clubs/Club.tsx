@@ -5,8 +5,6 @@ function Club() {
     const {slug} = useParams()
     
     const {data} = useGetClubBySlugQuery(slug ? slug : "")
-
-    console.log(slug, data);
     
     return ( <div>
         {data?.name}

@@ -5,7 +5,7 @@ export const profileApi = createApi({
 	reducerPath: "profileApi",
 	tagTypes: ["Profiles"],
 	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/profile",
+		baseUrl: "http://127.0.0.1:8000/api/profiles",
 	}),
 	endpoints: (builder) => ({
 		getMyProfile: builder.query<IProfile, void>({

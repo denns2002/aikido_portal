@@ -1,21 +1,37 @@
 import { FormEvent, useState } from "react"
 import {
+	useDeleteEventBySlugMutation,
 	useGetEventBySlugQuery,
+	useGetTrainerGroupQuery,
+	useGetTrainerGroupsQuery,
 	usePatchEventBySlugMutation,
 } from "../../store/apis"
 import { IEvent } from "../../store/types/events"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Input from "../forms/Input"
 import TextArea from "../forms/TextArea"
 import { IInputAttributes } from "../../store/types/components"
+import { ITrainerGroupMembers } from "../../store/types/groups"
+import { RxCross2 } from "react-icons/rx"
+import { TbPlus } from "react-icons/tb"
 
 function EditEvent() {
 	const { slug } = useParams()
 
 	const { data: event, isLoading } = useGetEventBySlugQuery(slug ? slug : "")
-	const [addEvent, { error }] = usePatchEventBySlugMutation()
+	const [addEvent, { error, isSuccess, status }] = usePatchEventBySlugMutation()
+	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
+	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
+	const { data: group, isLoading: groupIsLoading } = useGetTrainerGroupQuery({
+		slug: activeGroup ? activeGroup : "",
+		page: 1,
+	})
 
-	console.log(error)
+	const [delEvent, {}] = useDeleteEventBySlugMutation()
+
+	const [deleteEvent, setDeleteEvent] = useState(false)
+
+	const navigate = useNavigate()
 
 	const [settings, setSettings] = useState(
 		event
@@ -31,16 +47,6 @@ function EditEvent() {
 			  }
 	)
 
-	// function getCorrectDate(date: string): string {
-	//     let newDate = date.slice(0, 16)
-
-	//     let arr = newDate.split(":")
-
-	//     arr[arr.length - 1] = arr[arr.length - 1].t
-
-	//     return ""
-	// }
-
 	const [inputsValues, setInputValues] = useState<IEvent>(
 		event
 			? {
@@ -51,6 +57,7 @@ function EditEvent() {
 					seminar_date: event.seminar_date
 						? event.seminar_date.slice(0, 16)
 						: "",
+					members: structuredClone(event.members),
 			  }
 			: {
 					name: "",
@@ -61,8 +68,6 @@ function EditEvent() {
 					date_start: "",
 			  }
 	)
-
-	console.log(inputsValues)
 
 	const [touched, setTouched] = useState({
 		name: false,
@@ -175,6 +180,8 @@ function EditEvent() {
 		}
 
 		await addEvent({ slug: slug ? slug : "", event: inputsValues }).unwrap()
+
+		navigate(`/events/${slug}`)
 	}
 
 	function handleChange(
@@ -186,6 +193,17 @@ function EditEvent() {
 			...inputsValues,
 			[event.target.name]: event.target.value,
 		})
+
+		if (!event.target.value) {
+			setErrors({
+				...errors,
+				[event.target.name]: "Это поле необходимо заполнить!",
+			})
+
+			return
+		} else {
+			setErrors({ ...errors, [event.target.name]: "" })
+		}
 	}
 
 	function handleBlur(
@@ -197,8 +215,8 @@ function EditEvent() {
 	}
 
 	return (
-		<div className="flex h-full w-full">
-			<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
+		<div className="relative flex h-full w-full">
+			<div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
 				<label className="font-bold text-2xl">
 					Редактировать мероприятие
 				</label>
@@ -258,7 +276,7 @@ function EditEvent() {
 								settings.seminar
 									? "bg-green-500 hover:bg-green-300"
 									: "bg-slate-500 hover:bg-slate-300"
-							} flex-1 font-semibold rounded-md p-1 h-9 text-white`}
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
 							type="button"
 							onClick={() => {
 								setSettings((prev) => ({
@@ -271,14 +289,14 @@ function EditEvent() {
 										...prev,
 										is_seminar: true,
 										seminar_date: event?.seminar_date
-										? event.seminar_date.slice(0, 16)
-										: "",
+											? event.seminar_date.slice(0, 16)
+											: "",
 									}))
 								} else {
 									setInputValues((prev) => ({
 										...prev,
 										is_seminar: false,
-										seminar_date: ""
+										seminar_date: "",
 									}))
 								}
 							}}
@@ -290,7 +308,7 @@ function EditEvent() {
 								settings.attestation
 									? "bg-green-500 hover:bg-green-300"
 									: "bg-slate-500 hover:bg-slate-300"
-							} flex-1 font-semibold rounded-md p-1 h-9 text-white`}
+							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
 							type="button"
 							onClick={() => {
 								setSettings((prev) => ({
@@ -298,19 +316,23 @@ function EditEvent() {
 									attestation: !prev.attestation,
 								}))
 
-								if (!settings.seminar) {
+								if (!settings.attestation) {
 									setInputValues((prev) => ({
 										...prev,
 										is_attestation: true,
-										attestation_date: event?.attestation_date
-										? event.attestation_date.slice(0, 16)
-										: "",
+										attestation_date:
+											event?.attestation_date
+												? event.attestation_date.slice(
+														0,
+														16
+												  )
+												: "",
 									}))
 								} else {
 									setInputValues((prev) => ({
 										...prev,
 										is_attestation: false,
-										attestation_date: ""
+										attestation_date: "",
 									}))
 								}
 							}}
@@ -318,31 +340,25 @@ function EditEvent() {
 							Аттестация
 						</button>
 						<button
-							className="bg-sky-700 hover:bg-sky-500 flex-1 font-semibold rounded-md p-1 h-9 text-white"
+							className="bg-sky-700 hover:bg-sky-500 flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200"
 							type="button"
 							onClick={() => {
 								setSettings((prev) => ({
 									...prev,
 									members: !prev.members,
 								}))
-
-								// if (!settings.seminar) {
-								// 	setInputValues((prev) => ({
-								// 		...prev,
-								// 		is_seminar: true,
-								// 	}))
-								// } else {
-								// 	setInputValues((prev) => ({
-								// 		...prev,
-								// 		is_seminar: false,
-								// 	}))
-								// }
 							}}
 						>
 							Участники
 						</button>
 					</div>
-					<div className={`border-b-2 w-[5.4rem] ${settings.seminar ? "border-sky-700" : "border-slate-300 text-slate-300"}`}>
+					<div
+						className={`border-b-2 w-[4.4rem] ${
+							settings.seminar
+								? "border-sky-700"
+								: "border-slate-300 text-slate-300"
+						}`}
+					>
 						Семинар:
 					</div>
 					<Input
@@ -350,9 +366,14 @@ function EditEvent() {
 						onChange={handleChange}
 						onBlur={handleBlur}
 						disabled={!settings.seminar}
-						errors={[errors.reg_start]}
 					/>
-					<div className={`border-b-2 w-[5.4rem] ${settings.attestation ? "border-sky-700" : "border-slate-300 text-slate-300"}`}>
+					<div
+						className={`border-b-2 w-[5.4rem] ${
+							settings.attestation
+								? "border-sky-700"
+								: "border-slate-300 text-slate-300"
+						}`}
+					>
 						Аттестация:
 					</div>
 					<Input
@@ -360,23 +381,165 @@ function EditEvent() {
 						onChange={handleChange}
 						onBlur={handleBlur}
 						disabled={!settings.attestation}
-						errors={[errors.reg_start]}
 					/>
+					<div className="flex flex-col">
+						{(errors.name && touched.name) ||
+						(errors.about && touched.about) ||
+						(errors.date_start && touched.date_start) ||
+						(errors.date_end && touched.date_end) ||
+						(errors.reg_end && touched.reg_end) ||
+						(errors.reg_start && touched.reg_start) ? (
+							<span className="text-red-700">
+								Заполните все необходимые поля!
+							</span>
+						) : null}
+					</div>
 					<div className="peer-pla flex justify-center flex-row gap-4">
 						<button
-							className="font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
 							type="submit"
+							disabled={!(!errors.name && !errors.about && !errors.date_end && !errors.date_start && !errors.reg_start && !errors.reg_end)}
 						>
 							Сохранить
 						</button>
 						<button
-							className="font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-red-300 bg-red-500 text-white"
-							type="submit"
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
+							type="button"
+							onClick={() => navigate(`/events/${slug}`)}
 						>
 							Отменить
 						</button>
 					</div>
+					<div className="peer-pla flex justify-center flex-row gap-4">
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-red-300 bg-red-500 text-white"
+							type="button"
+							onClick={() => setDeleteEvent(true)}
+						>
+							Удалить
+						</button>
+					</div>
 				</form>
+			</div>
+			<div
+				className={`${
+					deleteEvent ? "bg-opacity-30" : "hidden bg-opacity-0"
+				} transition-all duration-200 z-8 absolute top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-sky-700 text-white`}
+			>
+				<div
+					className={`z-9 bg-slate-500 relative flex flex-col items-center rounded-xl px-8 py-7 transition-all duration-200 ${
+						deleteEvent ? "opacity-100" : "opacity-0"
+					} w-[20rem]`}
+				>
+					<span className="font-medium text-lg">Удалить мероприятие?</span>
+					<div className="peer-pla flex justify-center flex-row gap-4">
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 bg-red-500 hover:bg-red-300 text-white"
+							type="submit"
+							onClick={async () => {
+								await delEvent(slug ? slug : "").unwrap()
+
+								navigate("/events")
+							}}
+						>
+							Да
+						</button>
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 bg-white hover:bg-slate-300 text-black"
+							type="button"
+							onClick={() => setDeleteEvent(false)}
+						>
+							Нет
+						</button>
+					</div>
+				</div>
+			</div>
+			<div
+				className={`${
+					settings.members ? "bg-opacity-30" : "hidden bg-opacity-0"
+				} transition-all duration-200 z-8 absolute top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-sky-700 text-white`}
+			>
+				<div
+					className={`z-9 bg-sky-700 relative flex flex-col items-center rounded-xl px-8 py-7 transition-all duration-200 ${
+						settings.members ? "opacity-100" : "opacity-0"
+					} w-[30rem]`}
+				>
+					<label className="font-bold text-2xl">Участники</label>
+					<div className="border-y-2 border-sky-300 mt-2 p-1 border-opacity-30 flex felx-row gap-2 w-full">
+						{groupsInfo?.results.map((group, index) => (
+							<span
+								key={index}
+								className={`font-medium rounded p-0.5 transition-all duration-200 ${
+									group.slug === activeGroup
+										? "bg-white text-sky-700"
+										: "hover:bg-sky-500"
+								} cursor-pointer`}
+								onClick={() => setActiveGroup(group.slug)}
+							>
+								{group.name}
+							</span>
+						))}
+					</div>
+					<RxCross2
+						className="h-6 w-6 absolute right-2 top-2 cursor-pointer"
+						onClick={() =>
+							setSettings((prev) => ({ ...prev, members: false }))
+						}
+					/>
+					<div className="transition-all duration-200 scrollbar-hide border-2 border-white h-[25rem] w-full rounded-md mt-4 p-2 flex flex-col gap-2">
+						{group?.results[0]?.groupmember_set?.map(
+							(member, index) => (
+								<span
+									key={index}
+									className="border-b-2 border-white pb-0.5 flex flex-row-reverse"
+								>
+									<div className="flex justify-center items-center">
+										{inputsValues?.members?.includes(
+											member.id
+										) ? (
+											<RxCross2
+												className="h-5 w-5 rounded-full text-white bg-red-700 cursor-pointer"
+												onClick={() =>
+													setInputValues((prev) => {
+														const newMembers =
+															prev.members?.filter(
+																(id) =>
+																	id !==
+																	member.id
+															)
+
+														return {
+															...prev,
+															members: newMembers,
+														}
+													})
+												}
+											/>
+										) : (
+											<TbPlus
+												className="h-5 w-5 rounded-full bg-white text-sky-700 cursor-pointer"
+												onClick={() =>
+													setInputValues((prev) => {
+														prev.members?.push(
+															member.id
+														)
+
+														return { ...prev }
+													})
+												}
+											/>
+										)}
+									</div>
+									<span className="flex-1">
+										{member.last_name}{" "}
+										{member.first_name[0]}.{" "}
+										{member.mid_name[0]}.
+									</span>
+								</span>
+							)
+						)}
+					</div>
+				</div>
 			</div>
 		</div>
 	)
