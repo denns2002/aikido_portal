@@ -19,7 +19,8 @@ function EditEvent() {
 	const { slug } = useParams()
 
 	const { data: event, isLoading } = useGetEventBySlugQuery(slug ? slug : "")
-	const [addEvent, { error, isSuccess, status }] = usePatchEventBySlugMutation()
+	const [addEvent, { error, isSuccess, status }] =
+		usePatchEventBySlugMutation()
 	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
 	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
 	const { data: group, isLoading: groupIsLoading } = useGetTrainerGroupQuery({
@@ -398,7 +399,16 @@ function EditEvent() {
 						<button
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
 							type="submit"
-							disabled={!(!errors.name && !errors.about && !errors.date_end && !errors.date_start && !errors.reg_start && !errors.reg_end)}
+							disabled={
+								!(
+									!errors.name &&
+									!errors.about &&
+									!errors.date_end &&
+									!errors.date_start &&
+									!errors.reg_start &&
+									!errors.reg_end
+								)
+							}
 						>
 							Сохранить
 						</button>
@@ -431,7 +441,9 @@ function EditEvent() {
 						deleteEvent ? "opacity-100" : "opacity-0"
 					} w-[20rem]`}
 				>
-					<span className="font-medium text-lg">Удалить мероприятие?</span>
+					<span className="font-medium text-lg">
+						Удалить мероприятие?
+					</span>
 					<div className="peer-pla flex justify-center flex-row gap-4">
 						<button
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 bg-red-500 hover:bg-red-300 text-white"

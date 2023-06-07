@@ -24,10 +24,13 @@ function Event({ profile, isAuthenicated }: EventProps) {
 	const { data: event, isLoading } = useGetEventBySlugQuery(slug ? slug : "")
 	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
 	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
-	const { data: group, isLoading: groupIsLoading } = useGetTrainerGroupQuery({
+	const { data: group, isLoading: groupIsLoading, error } = useGetTrainerGroupQuery({
 		slug: activeGroup ? activeGroup : "",
 		page: 1,
 	})
+
+	console.log(error);
+	
 
 	const [showList, setShowList] = useState(false)
 

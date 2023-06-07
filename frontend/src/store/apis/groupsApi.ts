@@ -6,23 +6,15 @@ import {
 	ITrainerGroupMembersList,
 	ITrainerList,
 } from "../types/groups"
-import { tokenService } from "../services/tokens";
+import { customFetchBase } from './customFetchBase';
 
 export const groupsApi = createApi({
 	reducerPath: "groupsApi",
 	tagTypes: ["Groups"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/clubs", prepareHeaders: (headers) => {
-		const access = tokenService.getLocalAccessToken()
-		
-		if (access) {
-			headers.set("Authorization", `JWT ${access}`)
-		}
-
-		return headers
-	} }),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getGroups: builder.query<IGroupList, number>({
-			query: (page) => ({ url: `/group/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/clubs/group/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -35,22 +27,22 @@ export const groupsApi = createApi({
 					: [{ type: "Groups", id: "LIST" }],
 		}),
 		postGroup: builder.mutation<IGroup, IGroup>({
-			query: (group) => ({ url: "/group/", method: "POST", body: group }),
+			query: (group) => ({ url: "/clubs/group/", method: "POST", body: group }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		deleteGroup: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/group/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/clubs/group/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		getGroupBySlug: builder.query<IGroup, string>({
-			query: (slug) => ({ url: `/group/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/clubs/group/${slug}/`, method: "GET" }),
 		}),
 		patchGroupBySlug: builder.mutation<
 			IGroup,
 			{ slug: string; group: IGroup }
 		>({
 			query: ({ slug, group }) => ({
-				url: `/group/${slug}/`,
+				url: `/clubs/group/${slug}/`,
 				method: "PATCH",
 				body: group,
 			}),
@@ -61,7 +53,7 @@ export const groupsApi = createApi({
 			{ groupSlug: string; trainer: number }
 		>({
 			query: ({ groupSlug, trainer }) => ({
-				url: `/group-trainer-change/${groupSlug}/`,
+				url: `/clubs/group-trainer-change/${groupSlug}/`,
 				method: "PATCH",
 				body: { trainer: trainer },
 			}),
@@ -72,13 +64,13 @@ export const groupsApi = createApi({
 			{ slug: string; page: number }
 		>({
 			query: ({ slug, page }) => ({
-				url: `/group-trainer/${slug}/?page=${page}`,
+				url: `/clubs/group-trainer/${slug}/?page=${page}`,
 				method: "GET",
 			}),
 		}),
 		getTrainerGroups: builder.query<ITrainerGroupList, number>({
 			query: (page) => ({
-				url: `/trainer-groups/?page=${page}`,
+				url: `/clubs/trainer-groups/?page=${page}`,
 				method: "GET",
 			}),
 		}),
@@ -87,7 +79,7 @@ export const groupsApi = createApi({
 			{ slug: string; page: number }
 		>({
 			query: ({ slug, page }) => ({
-				url: `/trainer-groups/${slug}?page=${page}`,
+				url: `/clubs/trainer-groups/${slug}?page=${page}`,
 				method: "GET",
 			}),
 		}),

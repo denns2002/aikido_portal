@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
 import {
-	IChangePassword,
-	IResetPasswordEmailRequest,
-	ISetPassword,
 	ISignInData,
 	ISignUpData,
 } from "../types/authentication"
 import { tokenService } from "../services/tokens"
+import { ITokens } from "../types"
 
 export const authenticationApi = createApi({
 	reducerPath: "authenticationApi",
@@ -24,11 +22,31 @@ export const authenticationApi = createApi({
 		},
 	}),
 	endpoints: (builder) => ({
+		getConfirmEmail: builder.query<void, string>({
+			query: (token) => ({
+				url: `/confirm-email/?token=${token}`,
+				method: `GET`,
+			})
+		}),
 		postSignIn: builder.mutation<ISignInData, ISignInData>({
 			query: (data) => ({
 				url: `/login/`,
 				method: "POST",
 				body: data,
+			}),
+		}),
+		postLogout: builder.mutation<ITokens, ITokens>({
+			query: (tokens) => ({
+				url: `/logout/`,
+				method: "POST",
+				body: tokens,
+			}),
+		}),
+		postRefreshToken: builder.mutation<ITokens, {refresh: string}>({
+			query: (tokens) => ({
+				url: `/refresh/`,
+				method: "POST",
+				body: tokens,
 			}),
 		}),
 		postAddUser: builder.mutation<ISignUpData, ISignUpData>({
@@ -38,48 +56,11 @@ export const authenticationApi = createApi({
 				body: data,
 			}),
 		}),
-		patchChangePassword: builder.mutation<IChangePassword, IChangePassword>(
-			{
-				query: (password) => ({
-					url: `/change-password/`,
-					method: "PATCH",
-					body: password,
-				}),
-			}
-		),
-		getConfirmEmail: builder.query<void, string>({
+		postVerifyToken: builder.mutation<{refresh: string}, {refresh: string}>({
 			query: (token) => ({
-				url: `/confirm-email/?token=${token}`,
-				method: `GET`,
-			})
-		}),
-		patchCompletePasswordReset: builder.mutation<
-			ISetPassword,
-			ISetPassword
-		>({
-			query: (password) => ({
-				url: `/password-reset-complete/`,
-				method: "PATCH",
-				body: password,
-			}),
-		}),
-		getVerifyPasswordReset: builder.query<
-			ISetPassword,
-			{ token: string; uidb64: string }
-		>({
-			query: ({ token, uidb64 }) => ({
-				url: `/password-reset/${uidb64}/${token}/`,
-				method: "GET",
-			}),
-		}),
-		postRequestPasswordReset: builder.mutation<
-			IResetPasswordEmailRequest,
-			IResetPasswordEmailRequest
-		>({
-			query: (email) => ({
-				url: `/request-pass-reset/`,
+				url: `/verify/`,
 				method: "POST",
-				body: email,
+				body: token,
 			}),
 		}),
 	}),
@@ -87,9 +68,8 @@ export const authenticationApi = createApi({
 
 export const {
 	usePostSignInMutation,
-	useGetVerifyPasswordResetQuery,
-	usePatchChangePasswordMutation,
-	usePatchCompletePasswordResetMutation,
-	usePostRequestPasswordResetMutation,
 	usePostAddUserMutation,
+	usePostLogoutMutation,
+	usePostRefreshTokenMutation,
+	usePostVerifyTokenMutation
 } = authenticationApi

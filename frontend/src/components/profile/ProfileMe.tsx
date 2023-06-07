@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
 import { IProfile } from "../../store/types/profile"
 import { FaUser } from "react-icons/fa"
-import { useGetClubBySlugQuery, useGetGroupBySlugQuery } from "../../store/apis"
+import { useGetClubBySlugQuery, useGetGroupBySlugQuery, useGetMyProfileQuery } from "../../store/apis"
 import { monthes } from "../../store/types/events"
 import { NavLink } from "react-router-dom"
 
@@ -10,9 +10,12 @@ interface ProfileProps {
 	profile: IProfile
 }
 
-function ProfileMe({ profile }: ProfileProps) {
-	const { data: club } = useGetClubBySlugQuery(profile?.club)
-	const { data: group } = useGetGroupBySlugQuery(profile?.group)
+function ProfileMe() {
+	const {data: profile, error} = useGetMyProfileQuery()
+	const { data: club } = useGetClubBySlugQuery(profile?.club ? profile?.club : "")
+	const { data: group } = useGetGroupBySlugQuery(profile?.group ? profile?.group : "")
+
+	console.log(error);
 
 	function getCorrectDate(date: string) {
 		const arr = date.split("-")
@@ -43,15 +46,15 @@ function ProfileMe({ profile }: ProfileProps) {
 					<FaUser className="h-16 w-16 rounded-full border-4 bg-white border-slate-400 p-1 text-slate-400 m-1" />
 					<div className="flex-1" />
 					<div className="m-1 font-semibold text-lg">
-						<p>{profile.last_name}</p>
-						<p>{profile.first_name}</p>
-						<p>{profile.mid_name}</p>
+						<p>{profile?.last_name}</p>
+						<p>{profile?.first_name}</p>
+						<p>{profile?.mid_name}</p>
 					</div>
 				</div>
 				<hr className="bg-white mx-1 my-1" />
 				<div className="m-1">
 					<span className="font-medium">Дата рождения:</span>{" "}
-					{profile.birth_date ? (
+					{profile?.birth_date ? (
 						getCorrectDate(profile.birth_date)
 					) : (
 						<span className="text-red-700">еще не установлена</span>

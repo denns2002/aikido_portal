@@ -10,6 +10,16 @@ export const authenticationSlice = createSlice({
 	name: "authentication",
 	initialState: initialState,
 	reducers: {
+		refreshToken(state) {
+			state.isLoading = true
+			
+		},
+		refreshTokenSuccess(state) {
+			state.isLoading = false
+		},
+		refreshTokenFail(state) {
+			state.isLoading = false
+		},
 		signIn(state) {
 			state.isLoading = true
 		},

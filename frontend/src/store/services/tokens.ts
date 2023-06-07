@@ -1,9 +1,9 @@
-import { ITokens } from "../types/authentication"
+import { ITokens } from "../types/tokens"
 
 class TokensService {
 	setTokens(tokens: ITokens) {
-		localStorage.setItem("access", tokens.access)
-		localStorage.setItem("refresh", tokens.refresh)
+		localStorage.setItem("access", tokens?.access ? tokens.access : "")
+		localStorage.setItem("refresh", tokens?.refresh ? tokens.refresh : "")
 	}
 
 	removeTokens() {
