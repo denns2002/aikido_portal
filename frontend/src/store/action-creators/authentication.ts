@@ -70,3 +70,21 @@ export function logOut() {
 		}
 	}
 }
+
+export function refreshToken() {
+	return async function (dispatch: AppDispatch) {
+		try {
+			dispatch(authenticationActions.refreshToken())
+
+			const body = JSON.stringify({refresh: `${tokenService.getLocalRefreshToken()}`})
+
+			const response = await api.post("/auth/refresh/", body)
+
+			tokenService.updateLocalAccessToken(response.data.refresh)
+
+			dispatch(authenticationActions.refreshTokenSuccess())
+		} catch(e) {
+			dispatch(authenticationActions.refreshTokenFail())
+		}
+	}
+}
