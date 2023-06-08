@@ -1,10 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import {
 	IChangePassword,
 	IResetPasswordEmailRequest,
 	ISetPassword,
 } from "../types/passwords"
-import { tokenService } from "../services/tokens"
 import { customFetchBase } from "./customFetchBase";
 
 export const passwordsdsApi = createApi({
@@ -15,7 +14,7 @@ export const passwordsdsApi = createApi({
 		patchChangePassword: builder.mutation<IChangePassword, IChangePassword>(
 			{
 				query: (password) => ({
-					url: `/change-password/`,
+					url: `/auth/change-password/`,
 					method: "PATCH",
 					body: password,
 				}),
@@ -26,7 +25,7 @@ export const passwordsdsApi = createApi({
 			ISetPassword
 		>({
 			query: (password) => ({
-				url: `/password-reset-complete/`,
+				url: `/auth/password-reset-complete/`,
 				method: "PATCH",
 				body: password,
 			}),
@@ -36,7 +35,7 @@ export const passwordsdsApi = createApi({
 			{ token: string; uidb64: string }
 		>({
 			query: ({ token, uidb64 }) => ({
-				url: `/password-reset/${uidb64}/${token}/`,
+				url: `/auth/password-reset/${uidb64}/${token}/`,
 				method: "GET",
 			}),
 		}),
@@ -45,7 +44,7 @@ export const passwordsdsApi = createApi({
 			IResetPasswordEmailRequest
 		>({
 			query: (email) => ({
-				url: `/request-pass-reset/`,
+				url: `/auth/request-pass-reset/`,
 				method: "POST",
 				body: email,
 			}),

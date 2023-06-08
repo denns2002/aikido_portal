@@ -8,7 +8,7 @@ export const citiesApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getCities: builder.query<ICitiesList, number>({
-			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/cities/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -21,11 +21,11 @@ export const citiesApi = createApi({
 					: [{ type: "Cities", id: "LIST" }],
 		}),
 		postCity: builder.mutation<ICity, ICity>({
-			query: (city) => ({ url: `/`, method: "POST", body: city }),
+			query: (city) => ({ url: `/cities/`, method: "POST", body: city }),
 			invalidatesTags: [{ type: "Cities", id: "LIST" }],
 		}),
 		getCity: builder.query<ICity, number>({
-			query: (id) => ({ url: `/${id}/`, method: "GET" }),
+			query: (id) => ({ url: `/cities/${id}/`, method: "GET" }),
 			providesTags: [{ type: "Cities", id: "LIST" }],
 		}),
 	}),

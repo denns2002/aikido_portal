@@ -8,6 +8,12 @@ interface LayoutProps {
 }
 
 function Layout(props: LayoutProps) {
+	const {verifyToken, loadUserProfile} = useActions()
+
+	useEffect(() => {
+		verifyToken()
+		loadUserProfile()
+	})
 
 	return (
 		<div className="h-full w-full flex relative">

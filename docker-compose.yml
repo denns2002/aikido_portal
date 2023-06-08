@@ -3,7 +3,7 @@ version: '3.8'
 services:
   django:
     #говорим что build будет из dockerfile который располагается ./django/django_project/
-    image: aniwoov/aikido_portal-django:latest
+    build: ./backend/
     # имя контейнера
     container_name: backend
     # перезапускать контейнер при завершении выполнения работы или при аварийном завершении
@@ -21,7 +21,7 @@ services:
 
   node:
     # Аналогично, build из ./reactapp/dockerfile
-    image: aniwoov/aikido_portal-node:latest
+    build: ./frontend/
     # имя контейнера
     container_name: frontend
     # рестарт

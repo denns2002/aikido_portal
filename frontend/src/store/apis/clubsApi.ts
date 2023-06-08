@@ -1,6 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import { IClub, IClubList } from "../types/clubs"
-import { tokenService } from "../services/tokens"
 import { customFetchBase } from "./customFetchBase";
 
 export const clubsApi = createApi({
@@ -59,7 +58,7 @@ export const clubsApi = createApi({
 			{ userSlug: string; groupSlug: number }
 		>({
 			query: ({ userSlug, groupSlug }) => ({
-				url: `/group-member-change/${userSlug}/`,
+				url: `/clubs/group-member-change/${userSlug}/`,
 				method: "PATCH",
 				body: { group: groupSlug },
 			}),
