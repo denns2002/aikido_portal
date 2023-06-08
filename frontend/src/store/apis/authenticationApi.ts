@@ -3,7 +3,6 @@ import {
 	ISignInData,
 	ISignUpData,
 } from "../types/authentication"
-import { tokenService } from "../services/tokens"
 import { ITokens } from "../types"
 import { customFetchBase } from "./customFetchBase"
 
@@ -14,41 +13,41 @@ export const authenticationApi = createApi({
 	endpoints: (builder) => ({
 		getConfirmEmail: builder.query<void, string>({
 			query: (token) => ({
-				url: `/confirm-email/?token=${token}`,
+				url: `/auth/confirm-email/?token=${token}`,
 				method: `GET`,
 			})
 		}),
 		postSignIn: builder.mutation<ISignInData, ISignInData>({
 			query: (data) => ({
-				url: `/login/`,
+				url: `/auth/login/`,
 				method: "POST",
 				body: data,
 			}),
 		}),
 		postLogout: builder.mutation<ITokens, ITokens>({
 			query: (tokens) => ({
-				url: `/logout/`,
+				url: `/auth/logout/`,
 				method: "POST",
 				body: tokens,
 			}),
 		}),
 		postRefreshToken: builder.mutation<ITokens, {refresh: string}>({
 			query: (tokens) => ({
-				url: `/refresh/`,
+				url: `/auth/refresh/`,
 				method: "POST",
 				body: tokens,
 			}),
 		}),
 		postAddUser: builder.mutation<ISignUpData, ISignUpData>({
 			query: (data) => ({
-				url: `/register/`,
+				url: `/auth/register/`,
 				method: "POST",
 				body: data,
 			}),
 		}),
 		postVerifyToken: builder.mutation<{refresh: string}, {refresh: string}>({
 			query: (token) => ({
-				url: `/verify/`,
+				url: `/auth/verify/`,
 				method: "POST",
 				body: token,
 			}),

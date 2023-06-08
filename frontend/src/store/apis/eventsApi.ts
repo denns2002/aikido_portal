@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi } from "@reduxjs/toolkit/query/react"
 import { IEvent, IEventList } from "../types/events"
 import { customFetchBase } from "./customFetchBase";
 
@@ -8,7 +8,7 @@ export const eventsApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getEvents: builder.query<IEventList, number>({
-			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/events/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -25,14 +25,14 @@ export const eventsApi = createApi({
 			IEvent
 		>({
 			query: (event) => ({
-				url: `/`,
+				url: `/events/`,
 				method: "POST",
 				body: event,
 			}),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
 		}),
 		getEventBySlug: builder.query<IEvent, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/events/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Events", id: "LIST" }]
 		}),
 		patchEventBySlug: builder.mutation<
@@ -40,14 +40,14 @@ export const eventsApi = createApi({
 			{ slug: string; event: IEvent }
 		>({
 			query: ({ slug, event }) => ({
-				url: `/${slug}/`,
+				url: `/events/${slug}/`,
 				method: "PATCH",
 				body: event,
 			}),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
 		}),
 		deleteEventBySlug: builder.mutation<IEvent, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/events/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Events", id: "LIST" }],
 		}),
 		patchCoOrganizersToEvent: builder.mutation<
@@ -55,7 +55,7 @@ export const eventsApi = createApi({
 			{ slug: string; coOrgs: number[] }
 		>({
 			query: ({ slug, coOrgs }) => ({
-				url: `/${slug}/add-co-org/`,
+				url: `/events/${slug}/add-co-org/`,
 				method: "PATCH",
 				body: {co_organizers: coOrgs},
 			}),
@@ -66,7 +66,7 @@ export const eventsApi = createApi({
 			{ slug: string; orgs: number[] }
 		>({
 			query: ({ slug, orgs }) => ({
-				url: `/${slug}/add-org/`,
+				url: `/events/${slug}/add-org/`,
 				method: "PATCH",
 				body: {organizers: orgs},
 			}),

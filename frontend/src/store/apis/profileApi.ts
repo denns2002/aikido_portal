@@ -1,6 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import { IProfile, IUpdatedProfile } from "../types/profile"
-import { tokenService } from "../services/tokens"
 import { customFetchBase } from "./customFetchBase";
 
 export const profileApi = createApi({
@@ -13,7 +12,7 @@ export const profileApi = createApi({
 			providesTags: [{ type: "Profiles", id: "LIST" }],
 		}),
 		getProfileBySlug: builder.query<IProfile, string>({
-			query: (slug) => ({ url: `/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/profiles/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Profiles", id: "LIST" }],
 		}),
 		patchProfileBySlug: builder.mutation<
@@ -21,7 +20,7 @@ export const profileApi = createApi({
 			{ slug: string; profile: IUpdatedProfile }
 		>({
 			query: ({ slug, profile }) => ({
-				url: `/${slug}/update-profile/`,
+				url: `/profiles/${slug}/update-profile/`,
 				method: "PATCH",
 				body: profile,
 			}),

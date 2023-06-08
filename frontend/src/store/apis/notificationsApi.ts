@@ -1,10 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import {
 	INotification,
 	INotificationList,
 	INotificationWrapper,
 } from "../types/notificaitons"
-import { tokenService } from "../services/tokens"
 import { customFetchBase } from "./customFetchBase"
 
 export const notificationsApi = createApi({
@@ -13,7 +12,7 @@ export const notificationsApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getNotifications: builder.query<INotificationList, number>({
-			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/notifications/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -27,7 +26,7 @@ export const notificationsApi = createApi({
 		}),
 		postAddNotification: builder.mutation<INotification, INotification>({
 			query: (notification) => ({
-				url: `/add/`,
+				url: `/notifications/add/`,
 				method: "POST",
 				body: notification,
 			}),
@@ -38,7 +37,7 @@ export const notificationsApi = createApi({
 			INotificationWrapper
 		>({
 			query: (wrapper) => ({
-				url: `/connect/`,
+				url: `/notifications/connect/`,
 				method: "POST",
 				body: wrapper,
 			}),

@@ -1,5 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
-import { tokenService } from "../services/tokens"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import { IStatement } from "../types/statements"
 import { customFetchBase } from "./customFetchBase"
 
@@ -9,11 +8,11 @@ export const statementsApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getSatementBySlug: builder.query<IStatement, number>({
-			query: (id) => ({ url: `/${id}/`, method: "GET" }),
+			query: (id) => ({ url: `/statements/${id}/`, method: "GET" }),
 		}),
 		postSatement: builder.mutation<IStatement, IStatement>({
 			query: (statement) => ({
-				url: `/`,
+				url: `/statements/`,
 				method: "POST",
 				body: statement,
 			}),
