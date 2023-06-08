@@ -1,22 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
 import { tokenService } from "../services/tokens"
 import { IStatement } from "../types/statements"
+import { customFetchBase } from "./customFetchBase"
 
 export const statementsApi = createApi({
 	reducerPath: "statementsApi",
 	tagTypes: ["Statements"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/statements",
-		prepareHeaders: (headers) => {
-			const access = tokenService.getLocalAccessToken()
-
-			if (access) {
-				headers.set("Authorization", `JWT ${access}`)
-			}
-
-			return headers
-		},
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getSatementBySlug: builder.query<IStatement, number>({
 			query: (id) => ({ url: `/${id}/`, method: "GET" }),

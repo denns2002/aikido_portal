@@ -5,22 +5,12 @@ import {
 	ISetPassword,
 } from "../types/passwords"
 import { tokenService } from "../services/tokens"
+import { customFetchBase } from "./customFetchBase";
 
 export const passwordsdsApi = createApi({
 	reducerPath: "passwordsdsApi",
 	tagTypes: ["Passwords"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/auth",
-		prepareHeaders: (headers) => {
-			const access = tokenService.getLocalAccessToken()
-
-			if (access) {
-				headers.set("Authorization", `JWT ${access}`)
-			}
-
-			return headers
-		},
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		patchChangePassword: builder.mutation<IChangePassword, IChangePassword>(
 			{

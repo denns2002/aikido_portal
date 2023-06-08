@@ -1,26 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import {
 	ISignInData,
 	ISignUpData,
 } from "../types/authentication"
 import { tokenService } from "../services/tokens"
 import { ITokens } from "../types"
+import { customFetchBase } from "./customFetchBase"
 
 export const authenticationApi = createApi({
 	reducerPath: "authenticationApi",
 	tagTypes: ["Authentication"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/auth",
-		prepareHeaders: (headers) => {
-			const access = tokenService.getLocalAccessToken()
-
-			if (access) {
-				headers.set("Authorization", `JWT ${access}`)
-			}
-
-			return headers
-		},
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getConfirmEmail: builder.query<void, string>({
 			query: (token) => ({
