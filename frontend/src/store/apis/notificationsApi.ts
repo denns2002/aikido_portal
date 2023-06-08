@@ -5,22 +5,12 @@ import {
 	INotificationWrapper,
 } from "../types/notificaitons"
 import { tokenService } from "../services/tokens"
+import { customFetchBase } from "./customFetchBase"
 
 export const notificationsApi = createApi({
 	reducerPath: "notificationsApi",
 	tagTypes: ["Notifications"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/notifications",
-		prepareHeaders: (headers) => {
-			const access = tokenService.getLocalAccessToken()
-
-			if (access) {
-				headers.set("Authorization", `JWT ${access}`)
-			}
-
-			return headers
-		},
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getNotifications: builder.query<INotificationList, number>({
 			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),

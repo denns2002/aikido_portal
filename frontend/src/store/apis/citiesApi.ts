@@ -1,12 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import { ICitiesList, ICity } from "../types/cities"
+import { customFetchBase } from "./customFetchBase"
 
 export const citiesApi = createApi({
 	reducerPath: "citiesApi",
 	tagTypes: ["Cities"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/cities",
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getCities: builder.query<ICitiesList, number>({
 			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),

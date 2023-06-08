@@ -1,22 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react"
+import { createApi } from "@reduxjs/toolkit/dist/query/react"
 import { IClub, IClubList } from "../types/clubs"
 import { tokenService } from "../services/tokens"
+import { customFetchBase } from "./customFetchBase";
 
 export const clubsApi = createApi({
 	reducerPath: "clubsApi",
 	tagTypes: ["Clubs"],
-	baseQuery: fetchBaseQuery({
-		baseUrl: "http://127.0.0.1:8000/api/clubs",
-		prepareHeaders: (headers) => {
-			const access = tokenService.getLocalAccessToken()
-
-			if (access) {
-				headers.set("Authorization", `JWT ${access}`)
-			}
-
-			return headers
-		},
-	}),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getClubs: builder.query<IClubList, number>({
 			query: (page) => ({ url: `/clubs/?page=${page}`, method: "GET" }),

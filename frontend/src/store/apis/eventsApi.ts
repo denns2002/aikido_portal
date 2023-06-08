@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { IEvent, IEventList } from "../types/events"
+import { customFetchBase } from "./customFetchBase";
 
 export const eventsApi = createApi({
 	reducerPath: "eventsApi",
 	tagTypes: ["Events"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/events" }),
+	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getEvents: builder.query<IEventList, number>({
 			query: (page) => ({ url: `/?page=${page}`, method: "GET" }),
