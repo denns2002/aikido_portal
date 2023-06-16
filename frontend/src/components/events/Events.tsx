@@ -37,7 +37,7 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 	}
 
 	return isLoading ? (
-		<div>Идет загрузка</div>
+		<div className="font-semibold text-lg">Идет загрузка</div>
 	) : (
 		<div className="h-full w-full">
 			<div className="flex flex-row gap-3 p-4 flex-wrap justify-center">

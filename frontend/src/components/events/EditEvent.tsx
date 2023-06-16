@@ -14,6 +14,7 @@ import { IInputAttributes } from "../../store/types/components"
 import { ITrainerGroupMembers } from "../../store/types/groups"
 import { RxCross2 } from "react-icons/rx"
 import { TbPlus } from "react-icons/tb"
+import { RanksKey, ranks } from "../../store/types"
 
 function EditEvent() {
 	const { slug } = useParams()
@@ -503,7 +504,7 @@ function EditEvent() {
 							(member, index) => (
 								<span
 									key={index}
-									className="border-b-2 border-white pb-0.5 flex flex-row-reverse"
+									className="border-b-2 border-white pb-0.5 flex flex-row-reverse items-center"
 								>
 									<div className="flex justify-center items-center">
 										{inputsValues?.members?.includes(
@@ -542,6 +543,21 @@ function EditEvent() {
 											/>
 										)}
 									</div>
+									<div className="flex-1" />
+									<span
+										className={`font-medium ${
+											ranks[member.rank as RanksKey]
+												.textColor
+										} rounded-md bg-${
+											ranks[member.rank as RanksKey]
+												.bgColor
+										} ${
+											ranks[member.rank as RanksKey]
+												.bgColor
+										} w-20 p-0.5 flex justify-center items-center`}
+									>
+										{ranks[member.rank as RanksKey].text}
+									</span>
 									<span className="flex-1">
 										{member.last_name}{" "}
 										{member.first_name[0]}.{" "}
