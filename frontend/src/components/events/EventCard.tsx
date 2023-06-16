@@ -30,7 +30,7 @@ function EventCard({ event }: EventCardProps) {
 				<p className="m-1 font-medium text-size text-lg">
 					{event.name}
 				</p>
-				<hr className="bg-white mx-1 my-1" />
+				<hr className="bg-sky-700 -mx-1 my-1 h-0.5" />
 				<div className="m-1">
 					<span className="font-medium">Мероприятие проходит:</span>{" "}
 					{getCorrectDate(event.date_start)}
@@ -45,6 +45,7 @@ function EventCard({ event }: EventCardProps) {
 						? " - " + getCorrectDate(event.reg_end)
 						: null}
 				</div>
+				<hr className="bg-white mx-1 my-1"/>
 				<div className="m-1">
 					<span className="font-medium">Семинар: {" "}</span>
 					{event.is_seminar && event.seminar_date ? (

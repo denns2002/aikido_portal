@@ -6,7 +6,7 @@ import { IInputAttributes } from "../../store/types/components"
 import { Popover } from "@headlessui/react"
 import {FaExclamationCircle} from "react-icons/fa"
 
-function SignUp() {
+function AddUser() {
 	const [inputsValues, setInputValues] = useState({
 		secondName: "",
 		firstName: "",
@@ -330,4 +330,4 @@ function SignUp() {
 	)
 }
 
-export default SignUp
+export default AddUser

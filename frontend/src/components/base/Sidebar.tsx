@@ -43,16 +43,16 @@ function Sidebar(props: SidebarProps) {
 
 	const navLinks: INavLink[] = [
 		{
-			to: "/groups",
-			label: "Группа",
-			accessRoles: ["Тренер", "Студент"],
-			icon: <BsFillPeopleFill className="h-5 w-5" />,
-		},
-		{
 			to: "/trainer",
 			label: "Тренерская",
 			accessRoles: ["Тренер"],
 			icon: <TbClipboardList className="h-5 w-5" />,
+		},
+		{
+			to: "/group",
+			label: "Группа",
+			accessRoles: ["Тренер", "Студент"],
+			icon: <BsFillPeopleFill className="h-5 w-5" />,
 		},
 		{
 			to: "/clubs",

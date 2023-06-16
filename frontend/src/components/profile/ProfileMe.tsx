@@ -11,9 +11,9 @@ interface ProfileProps {
 }
 
 function ProfileMe() {
-	const {data: profile, error} = useGetMyProfileQuery()
-	const { data: club } = useGetClubBySlugQuery(profile?.club ? profile?.club : "")
-	const { data: group } = useGetGroupBySlugQuery(profile?.group ? profile?.group : "")
+	const {data: profile, error, isLoading: profileIsLoading} = useGetMyProfileQuery()
+	const { data: club, isLoading: clubIsLoading } = useGetClubBySlugQuery(profile?.club ? profile?.club : "")
+	const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(profile?.group ? profile?.group : "")
 
 	console.log(error);
 
@@ -41,51 +41,67 @@ function ProfileMe() {
 
 	return (
 		<div className="">
-			<div className="m-4 p-1 rounded-md w-[30rem] border-2 border-sky-700">
-				<div className="flex flex-row-reverse items-center">
-					<FaUser className="h-16 w-16 rounded-full border-4 bg-white border-slate-400 p-1 text-slate-400 m-1" />
-					<div className="flex-1" />
+			{!profileIsLoading ? 
+			(<div className="m-4 rounded-lg w-[34rem] border-2 border-sky-700 flex flex-row">
+				<div className="flex flex-col w-[12rem] p-2 border-r-2 border-r-sky-700">
+					<div className="flex items-center justify-center">
+						<FaUser className="h-24 w-24 rounded-full border-[3px] bg-white border-slate-500 p-1 text-slate-500 m-1" />
+					</div>
 					<div className="m-1 font-semibold text-lg">
-						<p>{profile?.last_name}</p>
-						<p>{profile?.first_name}</p>
-						<p>{profile?.mid_name}</p>
+							<p>{profile?.last_name}</p>
+							<p>{profile?.first_name}</p>
+							<p>{profile?.mid_name}</p>
+					</div>
+					<div className="flex items-center justify-center">
+						<div className="m-1 font-semibold text-lg text-white rounded-lg bg-black h-8 w-32 flex justify-center items-center">
+							{profile?.rank?.name}
+						</div>
 					</div>
 				</div>
-				<hr className="bg-white mx-1 my-1" />
-				<div className="m-1">
-					<span className="font-medium">Дата рождения:</span>{" "}
-					{profile?.birth_date ? (
-						getCorrectDate(profile.birth_date)
-					) : (
-						<span className="text-red-700">еще не установлена</span>
-					)}
+				<div className="flex flex-col w-[22rem] p-2">
+					<div className="m-1">
+						<span className="font-medium">Почта:</span>{" "}
+						{profile?.user?.email ? profile?.user?.email : (
+							<span className="text-red-700">еще не установлена</span>
+						)}
+					</div>
+					<hr className="mx-1 my-1" />
+					<div className="m-1">
+						<span className="font-medium">Дата рождения:</span>{" "}
+						{profile?.birth_date ? (
+							getCorrectDate(profile.birth_date)
+						) : (
+							<span className="text-red-700">еще не установлена</span>
+						)}
+					</div>
+					<hr className="mx-1 my-1" />
+					<div className="m-1">
+						<span className="font-medium">Клуб:</span>{" "}
+						{club ? (
+							club.name
+						) : (
+							<span className="text-red-700">нигде не состоите</span>
+						)}
+					</div>
+					<div className="m-1">
+						<span className="font-medium">Группа:</span>{" "}
+						{group ? (
+							group.name
+						) : (
+							<span className="text-red-700">нигде не состоите</span>
+						)}
+					</div>
+					<div className="flex-1" />
+					<div className="flex justify-center m-1">
+						<NavLink
+							to="/profile/me/edit"
+							className="transition-all duration-200 font-semibold rounded-md p-1 h-8 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
+						>
+							Редактировать профиль
+						</NavLink>
+					</div>
 				</div>
-				<hr className="bg-white mx-1 my-1" />
-				<div className="m-1">
-					<span className="font-medium">Клуб:</span>{" "}
-					{club ? (
-						club.name
-					) : (
-						<span className="text-red-700">не состоит</span>
-					)}
-				</div>
-				<div className="m-1">
-					<span className="font-medium">Группа:</span>{" "}
-					{group ? (
-						group.name
-					) : (
-						<span className="text-red-700">не состоит</span>
-					)}
-				</div>
-				<div className="flex justify-center m-1">
-					<NavLink
-						to="/profile/me/edit"
-						className="transition-all duration-200 font-semibold rounded-md p-1 h-9 mt-2 hover:bg-sky-300 bg-sky-500 text-white"
-					>
-						Редактировать профиль
-					</NavLink>
-				</div>
-			</div>
+			</div>) : <div className="font-semibold text-lg">Идет загрузка</div>}
 		</div>
 	)
 }

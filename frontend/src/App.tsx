@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./components/base/Home"
 import PrivateRoute from "./components/base/PrivateRoute"
 import SignIn from "./components/base/SignIn"
-import SignUp from "./components/base/SignUp"
+import AddUser from "./components/trainer/AddUser"
 import Layout from "./hocs/Layout"
 import Events from "./components/events/Events"
 import Event from "./components/events/Event"
@@ -13,7 +13,7 @@ import Trainer from "./components/trainer/Trainer"
 import EditEvent from "./components/events/EditEvent"
 import ProfileMe from "./components/profile/ProfileMe"
 import EditProfileMe from "./components/profile/EditProfileMe"
-import Groups from "./components/groups/Groups"
+import Group from "./components/group/Group"
 
 function App() {
 	return (
@@ -32,10 +32,10 @@ function App() {
 					}
 				/>
 				<Route
-					path="/groups"
+					path="/group"
 					element={
 						<PrivateRoute accessRoles={["Студент", "Тренер", "Руководитель"]}>
-							<Groups />
+							<Group />
 						</PrivateRoute>
 					}
 				/>
@@ -64,6 +64,14 @@ function App() {
 					element={
 						<PrivateRoute accessRoles={["Тренер"]}>
 							<Trainer />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/trainer/add-user"
+					element={
+						<PrivateRoute accessRoles={["Тренер"]}>
+							<AddUser />
 						</PrivateRoute>
 					}
 				/>

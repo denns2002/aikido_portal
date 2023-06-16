@@ -123,7 +123,7 @@ function EditProfileMe({profile}: EditProfileMeProps) {
 					Редактировать профиль
 				</label>
 				<form
-					className="flex flex-col gap-2 mt-6 w-[30rem]"
+					className="flex flex-col gap-2 mt-6 w-[20rem]"
 					onSubmit={handleSubmit}
 				>
 					<Input
