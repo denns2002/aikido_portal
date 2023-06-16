@@ -15,7 +15,7 @@ function EventCard({ event }: EventCardProps) {
 		type ObjectKey = keyof typeof monthes
 
 		return [
-			time ? arr[2][0] === "0" ? arr[2][1] : arr[2].slice(0,1) : arr[2][0] === "0" ? arr[2][1] : arr[2],
+			time ? arr[2][0] === "0" ? arr[2][1] : arr[2].slice(0,2) : arr[2][0] === "0" ? arr[2][1] : arr[2],
 			monthes[arr[1] as ObjectKey],
 			arr[0],
 		].join(" ") + (time ? `, ${time.slice(0, 5)}` : "")
