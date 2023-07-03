@@ -3,7 +3,7 @@ from .packeges import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "212.113.117.193"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "85.92.111.247"]
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
