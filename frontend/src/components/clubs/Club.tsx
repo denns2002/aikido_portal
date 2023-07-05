@@ -7,7 +7,8 @@ function Club() {
     const {data} = useGetClubBySlugQuery(slug ? slug : "")
     
     return ( <div>
-        {data?.name}
+        {/* {data?.name} */}
+        SSS
     </div> );
 }
 

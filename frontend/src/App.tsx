@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Routes } from "react-router-dom"
+import { NavLink, Route, Routes } from "react-router-dom"
 import Home from "./components/base/Home"
 import PrivateRoute from "./components/base/PrivateRoute"
 import SignIn from "./components/base/SignIn"
@@ -14,6 +14,7 @@ import EditEvent from "./components/events/EditEvent"
 import ProfileMe from "./components/profile/ProfileMe"
 import EditProfileMe from "./components/profile/EditProfileMe"
 import Group from "./components/group/Group"
+import User from "./components/user/UserCr"
 
 function App() {
 	return (
@@ -98,6 +99,10 @@ function App() {
 							<EditProfileMe />
 						</PrivateRoute>
 					}
+				/>
+				<Route
+					path="/uc"
+					element={<User />}
 				/>
 			</Routes>
 		</Layout>
