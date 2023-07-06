@@ -23,7 +23,7 @@ class RegisterAPIView(generics.GenericAPIView):
         serializer.save()
         user_data = serializer.data
 
-        if user.email and not user.is_verified:
+        if user['email'] and not user_data['is_verified']:
             send_verify_email(user_data, request)
 
         return Response(user_data, status=status.HTTP_201_CREATED)
