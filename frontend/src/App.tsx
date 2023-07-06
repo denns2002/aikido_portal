@@ -15,6 +15,8 @@ import ProfileMe from "./components/profile/ProfileMe"
 import EditProfileMe from "./components/profile/EditProfileMe"
 import Group from "./components/group/Group"
 import User from "./components/user/UserCr"
+import Club from "./components/clubs/Club"
+import EditClub from "./components/clubs/EditClub"
 
 function App() {
 	return (
@@ -29,6 +31,22 @@ function App() {
 					element={
 						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
 							<Clubs />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/clubs/:slug"
+					element= {
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<Club />
+						</PrivateRoute>
+					}	
+				/>
+				<Route
+					path="/clubs/:slug/edit"
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<EditClub />
 						</PrivateRoute>
 					}
 				/>
