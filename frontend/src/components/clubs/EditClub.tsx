@@ -1,15 +1,17 @@
-import { useParams } from "react-router-dom";
-import { useGetClubBySlugQuery } from "../../store/apis";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetClubBySlugQuery, usePatchClubBySlugMutation } from "../../store/apis";
 import { IClub, IInputAttributes } from "../../store/types";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Input from "../forms/Input";
 import TextArea from "../forms/TextArea";
 
 function EditClub() {
     const {slug} = useParams()
-
+    const [addClub] = usePatchClubBySlugMutation()
     const {data: club, isLoading} = useGetClubBySlugQuery(slug? slug : "")
     console.log(club)
+
+    const navigate = useNavigate()
 
     const [inputsValues, setInputValues] = useState<IClub>(
         club ? club : {
@@ -23,6 +25,16 @@ function EditClub() {
             photos: []
         }
     )
+    const [errors, setErrors] = useState({
+            id: 0,
+            name: "",
+            info: "",
+            slug:"",
+            is_active: false,
+            addresses: [],
+            groups: [],
+            photos: []
+    })
     const [touched, setTouched] = useState({
 		id: false,
         name: false,
@@ -70,9 +82,46 @@ function EditClub() {
         }
     )
 
-    function handleChange() {
+    function handleChange(event: 
+        React.ChangeEvent<HTMLInputElement> | 
+        React.ChangeEvent<HTMLTextAreaElement>) {
+            setInputValues({
+                ...inputsValues,
+                [event.target.name]: event.target.value
+            })
+            if (!event.target.value) {
+                setErrors({
+                    ...errors,
+                    [event.target.name]: "Это поле необходимо заполнить!"
+                })
 
-    }
+                return
+            } else {
+                setErrors({
+                    ...errors,
+                    [event.target.name]: ""
+                })
+            }
+        }
+
+        function handleBlur(event: 
+            React.ChangeEvent<HTMLInputElement> | 
+            React.ChangeEvent<HTMLTextAreaElement>
+            ) {
+                setTouched({...touched, [event.target.name]: true})    
+        }
+
+        async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+            event.preventDefault()
+
+            await addClub({slug: slug ? slug : "", club: ({
+                ...inputsValues,
+                name: inputsValues.name, 
+                info: inputsValues.info, 
+                is_active: settings.is_active})}).unwrap()
+
+            navigate(`/clubs/${slug}`)
+        }
     
     return ( 
         <div className="relative flex h-full w-full">
@@ -82,15 +131,19 @@ function EditClub() {
 				</label>
                 <form
 					className="flex flex-col gap-2 mt-6 w-[30rem]"
-					// onSubmit={handleSubmit}
+					onSubmit={handleSubmit}
 				>
                     <Input 
                         {...formInputs[0]}
                         onChange={handleChange}
+                        onBlur={handleBlur}
+                        errors={[errors.name]}
                     />
                     <TextArea 
                         {...formInputs[1]}
                         onChange={handleChange}
+                        onBlur={handleBlur}
+                        errors={[errors.info]}
                     />
                     <button
                         className={`${
@@ -99,10 +152,42 @@ function EditClub() {
                                 : "bg-slate-500 hover:bg-slate-300"
                         } flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
                         type="button"
-                        onClick={() => {}}
+                        onClick={() => {
+                            setSettings((prev) => ({
+                                ...prev,
+                                is_active: !prev.is_active
+                            }))
+                        }}
                     >
-                        Клуб активен
+                        {settings.is_active ? "Клуб активен" : "Клуб не активен"}
                     </button>
+                    <div className="">
+                        {(errors.name && touched.name) || (errors.info && touched.info) ?
+                        (<span className="text-red-700">
+                            Заполните все необходимые поля!
+                        </span>) : null}
+                    </div>
+                    <div className="peer-pla flex justify-center flex-row gap-4">
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
+							type="submit"
+							disabled={
+								!(
+									!errors.name &&
+                                    !errors.info
+								)
+							}
+						>
+							Сохранить
+						</button>
+						<button
+							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
+							type="button"
+							onClick={() => navigate(`/clubs/${slug}`)}
+						>
+							Отменить
+						</button>
+					</div>
                 </form>
             </div>
         </div>
