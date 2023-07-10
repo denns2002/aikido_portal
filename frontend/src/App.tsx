@@ -17,6 +17,7 @@ import Group from "./components/group/Group"
 import User from "./components/user/UserCr"
 import Club from "./components/clubs/Club"
 import EditClub from "./components/clubs/EditClub"
+import AddClub from "./components/clubs/AddClub"
 
 function App() {
 	return (
@@ -47,6 +48,14 @@ function App() {
 					element={
 						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
 							<EditClub />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/clubs/add"
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<AddClub />
 						</PrivateRoute>
 					}
 				/>
