@@ -1,9 +1,11 @@
 from datetime import timedelta
-
 from django.conf import settings
-# https://django-phonenumber-field.readthedocs.io/en/latest/
 from django.urls import reverse_lazy
 
+
+LOGIN_URL = reverse_lazy("login")
+
+# https://django-phonenumber-field.readthedocs.io/en/latest/
 PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
 
 # https://www.django-rest-framework.org/
@@ -20,6 +22,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 # https://drf-yasg.readthedocs.io/en/stable/readme.html
@@ -32,8 +37,6 @@ SWAGGER_SETTINGS = {
         }
     }
 }
-
-LOGIN_URL = reverse_lazy("login")
 
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
 SIMPLE_JWT = {
