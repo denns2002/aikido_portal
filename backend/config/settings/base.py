@@ -1,16 +1,15 @@
 import os
 
 from pathlib import Path
-
 from dotenv import load_dotenv
 
-load_dotenv()
 
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
-AUTH_USER_MODEL = "authentication.User"
+AUTH_USER_MODEL = "users.User"
 
 INSTALLED_APPS = [
     "super_inlines",
@@ -29,15 +28,16 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "ckeditor",
-    "authentication.apps.AuthenticationConfig",
-    "profile.apps.ProfileConfig",
-    "cities.apps.CitiesConfig",
-    "clubs.apps.ClubsConfig",
-    "events.apps.EventsConfig",
+    "users.apps.UsersConfig",
+    "profiles.apps.ProfilesConfig",
+    "mailings.apps.MailingsConfig",
+    # "cities.apps.CitiesConfig",
+    # "clubs.apps.ClubsConfig",
+    # "events.apps.EventsConfig",
     "phones.apps.PhonesConfig",
     "photos.apps.PhotosConfig",
-    "notifications.apps.NotificationsConfig",
-    "statements.apps.StatementsConfig",
+    # "notifications.apps.NotificationsConfig",
+    # "statements.apps.StatementsConfig",
     "corsheaders",
 ]
 
@@ -115,9 +115,26 @@ TEMPLATES = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_ROOT = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
 # Media files like audio, video, img
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+# Email files
+# https://docs.djangoproject.com/en/dev/topics/email/#file-backend
+EMAIL_FILE_PATH = "/mailings/"  # change this to a proper location
+
+# Database
+# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ["NAME"],
+#         "USER": os.environ["USER"],
+#         "PASSWORD": os.environ["PASSWORD"],
+#         "HOST": os.environ["HOST"],
+#         "PORT": os.environ["PORT"],
+#     }
+# }
