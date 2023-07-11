@@ -6,7 +6,7 @@ import axios from "axios";
 
 const mutex = new Mutex()
 
-const baseUrl = "http://85.92.111.247:8000/api"
+const baseUrl = "http://localhost:8000/api"
 
 const baseQuery = fetchBaseQuery({ baseUrl: baseUrl, prepareHeaders: (headers) => {
 		const access = tokenService.getLocalAccessToken()
