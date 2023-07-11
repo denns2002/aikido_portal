@@ -18,6 +18,7 @@ import User from "./components/user/UserCr"
 import Club from "./components/clubs/Club"
 import EditClub from "./components/clubs/EditClub"
 import AddClub from "./components/clubs/AddClub"
+import NotFound from "./components/base/NotFound"
 
 function App() {
 	return (
@@ -130,6 +131,10 @@ function App() {
 				<Route
 					path="/uc"
 					element={<User />}
+				/>
+				<Route
+					path="*"
+					element={<NotFound />}
 				/>
 			</Routes>
 		</Layout>
