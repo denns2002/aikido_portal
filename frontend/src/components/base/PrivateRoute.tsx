@@ -6,12 +6,13 @@ import { IProfile } from "../../store/types/profile"
 
 interface PrivateRouteProps {
 	isAuthenticated: boolean
+	profileIsLoading: boolean
 	accessRoles: string[]
 	profile: IProfile
 	children: React.ReactElement
 }
 
-function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: PrivateRouteProps) {
+function PrivateRoute({ isAuthenticated, children, accessRoles, profile, profileIsLoading }: PrivateRouteProps) {
 	const location = useLocation()
 
 	function haveAccessRole(accessRoles: string[]) {
@@ -24,13 +25,19 @@ function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: Priva
 		return false
 	}
 
+	console.log("private", isAuthenticated, accessRoles, haveAccessRole(accessRoles), profile);
+
+	if (profileIsLoading) {
+		return <div className="font-semibold">Идет загрузка...</div>
+	}
+
 	return isAuthenticated && haveAccessRole(accessRoles) ? (
 		children
 	) : (
 		<Navigate
 			to="/signin"
 			replace
-			state={{ from: location }}
+			state={{from: location.pathname}}
 		/>
 	)
 }
@@ -38,7 +45,8 @@ function PrivateRoute({ isAuthenticated, children, accessRoles, profile }: Priva
 function mapStateToProps(state: IRootState) {
 	return {
 		isAuthenticated: state.authentication.isAuthenticated,
-		profile: state.profile.profile
+		profile: state.profile.profile,
+		profileIsLoading: state.profile.isLoading
 	}
 }
 

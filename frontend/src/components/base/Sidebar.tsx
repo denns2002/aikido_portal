@@ -37,6 +37,7 @@ function Sidebar(props: SidebarProps) {
 
 	useEffect(() => {
 		window.addEventListener("resize", handleResize)
+		console.log("cringe");
 	})
 
 	const { logOut } = useActions()
@@ -47,12 +48,6 @@ function Sidebar(props: SidebarProps) {
 			label: "Тренерская",
 			accessRoles: ["Тренер"],
 			icon: <TbClipboardList className="h-5 w-5" />,
-		},
-		{
-			to: "/group",
-			label: "Группа",
-			accessRoles: ["Тренер", "Студент"],
-			icon: <BsFillPeopleFill className="h-5 w-5" />,
 		},
 		{
 			to: "/clubs",

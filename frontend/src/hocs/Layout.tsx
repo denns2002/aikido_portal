@@ -13,7 +13,7 @@ function Layout(props: LayoutProps) {
 	useEffect(() => {
 		verifyToken()
 		loadUserProfile()
-	})
+	}, [])
 
 	return (
 		<div className="h-full w-full flex relative">

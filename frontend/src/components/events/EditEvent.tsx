@@ -500,7 +500,7 @@ function EditEvent() {
 						}
 					/>
 					<div className="transition-all duration-200 scrollbar-hide border-2 border-white h-[25rem] w-full rounded-md mt-4 p-2 flex flex-col gap-2">
-						{group?.results[0]?.groupmember_set?.map(
+					{group?.results[0]?.groupmember_set?.map(
 							(member, index) => (
 								<span
 									key={index}
