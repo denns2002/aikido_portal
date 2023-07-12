@@ -8,7 +8,7 @@ export function loadUserProfile() {
 		try {
 			dispatch(profileActions.userProfileLoading())
 
-			const response = await api.get("/me/")
+			const response = await api.get("/profiles/my-profile/")
 
 			dispatch(profileActions.userProfileLoadingSuccess(response.data))
 		} catch (e) {

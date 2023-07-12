@@ -40,6 +40,13 @@ export interface IUserRegister {
 	password?: string
 }
 
+export interface IProfileList {
+	count: number
+	next?: string
+	previous?: string
+	results: IProfile[]
+}
+
 // export interface IUpdatedProfile {
 // 	first_name: string
 // 	last_name: string

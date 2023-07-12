@@ -1,7 +1,11 @@
 import { useState } from "react"
 import {
+	useGetMyProfileQuery,
+	useGetProfileBySlugQuery,
+	useGetProfileListQuery,
 	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
+	usePatchProfileBySlugMutation,
 	usePostRegisterUserMutation,
 } from "../../store/apis"
 import { IRootState } from "../../store/store"
@@ -15,40 +19,9 @@ interface ITrainerProps {
 }
 
 function User({ profile }: ITrainerProps) {
-	const [addRegisterUser, {data}] = usePostRegisterUserMutation()
-	console.log(data)
-	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
-
-	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
-
-	const { data: group, isLoading: groupIsLoading, error } = useGetTrainerGroupQuery({
-		slug: activeGroup ? activeGroup : "",
-		page: 1,
-	})
-
-	function getCorrectDate(date: string) {
-		const arr = date.split("-")
-
-		const time = arr[2].split("T").length > 1 ? arr[2].split("T")[1] : ""
-
-		type ObjectKey = keyof typeof monthes
-
-		return (
-			[
-				time
-					? arr[2][0] === "0"
-						? arr[2][1]
-						: arr[2].slice(0, 1)
-					: arr[2][0] === "0"
-					? arr[2][1]
-					: arr[2],
-				monthes[arr[1] as ObjectKey],
-				arr[0],
-			].join(" ") + (time ? `, ${time.slice(0, 5)}` : "")
-		)
-	}
-
-	console.log(error);
+	const [fuckMyBalls, {data : profileData, error: fuckMyError}] = usePatchProfileBySlugMutation()
+	console.log(profileData, fuckMyError)
+	
 
 	return (
 		<div className="">
@@ -60,7 +33,27 @@ function User({ profile }: ITrainerProps) {
 						<p>{profile.mid_name}</p>
 					</div>
 					<button
-						onClick={() => addRegisterUser({first_name: "Саня", last_name: "Саныч"}).unwrap()}
+						onClick={() => fuckMyBalls({slug: "sansanyanoLc8qX4zyOO", profile: {
+							first_name: "Долбоеб",
+							last_name: "Дубил",
+							user: {
+								id: 0,
+								password: "",
+								last_login: "",
+								is_superuser: false,
+								username: "fuckMyUesername",
+								email: "",
+								is_staff: false,
+								is_active: false,
+								is_verified: false,
+								created_at: "",
+								updated_at: "",
+								groups: [],
+								user_permisions: []
+							},
+							phones: [],
+							photos: []
+						}}).unwrap()}
 					>
 						Добавить
 					</button>

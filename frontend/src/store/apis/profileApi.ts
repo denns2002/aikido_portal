@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { IProfile, IUserRegister } from "../types/profile";
+import { IProfile, IProfileList, IUserRegister } from "../types/profile";
 import { customFetchBase } from "./customFetchBase";
 
 export const profileApi = createApi({
@@ -20,7 +20,7 @@ export const profileApi = createApi({
       { slug: string; profile: IProfile }
     >({
       query: ({ slug, profile }) => ({
-        url: `/profiles/${slug}`,
+        url: `/profiles/${slug}/`,
         method: "PATCH",
         body: profile,
       }),
@@ -28,22 +28,28 @@ export const profileApi = createApi({
     }),
     postRegisterUser: builder.mutation<IUserRegister, IUserRegister>({
       query: (userData) => ({
-        url: `/profiles/register`,
+        url: `/profiles/register/`,
         method: "POST",
-		body: userData
+        body: userData,
       }),
     }),
-	putProfileBySlug: builder.mutation<
+    putProfileBySlug: builder.mutation<
       IProfile,
       { slug: string; profile: IProfile }
     >({
       query: ({ slug, profile }) => ({
-        url: `/profiles/${slug}`,
+        url: `/profiles/${slug}/`,
         method: "PUT",
         body: profile,
       }),
       invalidatesTags: [{ type: "Profiles", id: "LIST" }],
     }),
+    getProfileList: builder.query<IProfileList, number>({
+      query: (page) => ({
+        url: `/profiles/?page=${page}`,
+        method:"GET"
+      })
+    })
   }),
 });
 
@@ -52,5 +58,6 @@ export const {
   useGetProfileBySlugQuery,
   usePatchProfileBySlugMutation,
   usePostRegisterUserMutation,
-  usePutProfileBySlugMutation
+  usePutProfileBySlugMutation,
+  useGetProfileListQuery
 } = profileApi;
