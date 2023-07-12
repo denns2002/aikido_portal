@@ -1,5 +1,4 @@
 import React from "react"
-import { ICity } from "./cities"
 
 export interface IUser {
 	id: number | undefined

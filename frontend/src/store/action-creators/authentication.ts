@@ -1,6 +1,6 @@
 import { authenticationActions } from "../reducers/authentication"
 import { AppDispatch } from "../store"
-import { ISignInData } from "../types/authentication"
+import { ISignInData } from "../types/users"
 import { api } from "./api"
 import { tokenService } from "../services/tokens"
 import { loadUserProfile } from "./profile"
@@ -15,7 +15,7 @@ export function signIn(data: ISignInData) {
 
 			const body = JSON.stringify({ ...data })
 
-			const response = await api.post("/auth/login/", body)
+			const response = await api.post("/users/login/", body)
 
 			if (response.data?.tokens?.access) {
 				tokenService.setTokens(response.data.tokens)
