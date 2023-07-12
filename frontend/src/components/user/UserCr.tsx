@@ -2,6 +2,7 @@ import { useState } from "react"
 import {
 	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
+	usePostRegisterUserMutation,
 } from "../../store/apis"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
@@ -14,6 +15,8 @@ interface ITrainerProps {
 }
 
 function User({ profile }: ITrainerProps) {
+	const [addRegisterUser, {data}] = usePostRegisterUserMutation()
+	console.log(data)
 	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
 
 	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
@@ -56,14 +59,19 @@ function User({ profile }: ITrainerProps) {
 						<p>{profile.first_name}</p>
 						<p>{profile.mid_name}</p>
 					</div>
+					<button
+						onClick={() => addRegisterUser({first_name: "Саня", last_name: "Саныч"}).unwrap()}
+					>
+						Добавить
+					</button>
 					<div className="flex-1" />
 					<div className="flex flex-col justify-center">
 						<div className="m-1 font-semibold text-xl text-white rounded-lg bg-black px-1 h-8 flex justify-center">
-							{profile.rank.name}
+							{profile.rank?.name? profile.rank.name : ""}
 						</div>
-						<div className="text-sm">
+						{/* <div className="text-sm">
 							{getCorrectDate(profile?.birth_date ? profile?.birth_date : "")}
-						</div>
+						</div> */}
 					</div>
 					<div className="flex-1" />
 					<FaUser className="h-16 w-16 rounded-full border-4 bg-white border-slate-400 p-1 text-slate-400 m-1" />

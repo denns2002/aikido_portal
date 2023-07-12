@@ -22,12 +22,12 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 		error,
 		isLoading: profileIsLoading,
 	} = useGetMyProfileQuery()
-	const { data: club, isLoading: clubIsLoading } = useGetClubBySlugQuery(
-		profile?.club ? profile?.club : ""
-	)
-	const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(
-		profile?.group ? profile?.group : ""
-	)
+	// const { data: club, isLoading: clubIsLoading } = useGetClubBySlugQuery(
+	// 	profile?.club ? profile?.club : ""
+	// )
+	// const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(
+	// 	profile?.group ? profile?.group : ""
+	// )
 
 	console.log(error)
 
@@ -106,7 +106,7 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 							)}
 						</div>
 						<hr className="mx-1 my-1" />
-						<div className="m-1">
+						{/* <div className="m-1">
 							<span className="font-medium">Клуб:</span>{" "}
 							{club ? (
 								club.name
@@ -115,8 +115,8 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 									нигде не состоите
 								</span>
 							)}
-						</div>
-						<div className="m-1">
+						</div> */}
+						{/* <div className="m-1">
 							<span className="font-medium">Группа:</span>{" "}
 							{group ? (
 								group.name
@@ -125,7 +125,7 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 									нигде не состоите
 								</span>
 							)}
-						</div>
+						</div> */}
 						<div className="flex-1" />
 						<div className="flex justify-center m-1">
 							<NavLink

@@ -1,6 +1,6 @@
 import { profileActions } from "../reducers/profile"
 import { AppDispatch } from "../store"
-import { IUpdatedProfile } from "../types/profile"
+import { IProfile } from "../types/profile"
 import { api } from "./api"
 
 export function loadUserProfile() {
@@ -21,7 +21,7 @@ export function loadUserProfile() {
 	}
 }
 
-export function updateUserProfile(data: IUpdatedProfile, slug: string) {
+export function updateUserProfile(data: IProfile, slug: string) {
 	return async function (dispatch: AppDispatch) {
 		try {
 			dispatch(profileActions.userProfileUpdate())

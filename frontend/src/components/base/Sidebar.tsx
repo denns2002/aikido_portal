@@ -58,13 +58,13 @@ function Sidebar(props: SidebarProps) {
 	]
 
 	function haveAccessRole(accessRoles: string[]) {
-		for (let index = 0; index < props.profile.roles.length; index++) {
-			if (accessRoles.includes(props.profile.roles[index].name)) {
-				return true
-			}
-		}
+		// for (let index = 0; index < props.profile.roles.length; index++) {
+		// 	if (accessRoles.includes(props.profile.roles[index].name)) {
+		// 		return true
+		// 	}
+		// }
 
-		return false
+		return true
 	}
 
 	return (
