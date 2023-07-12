@@ -82,7 +82,7 @@ class PlannedEvents(models.Model):
 
 
 class EventsDate(models.Model):
-    event = models.OneToOneField(Event, on_delete=models.CASCADE, verbose_name=multilang_verb("Event", "Мероприятие"))
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=multilang_verb("Event", "Мероприятие"))
     date = models.DateField(verbose_name=multilang_verb("Date of event", "Дата проведения"))
     comment = models.TextField(verbose_name=multilang_verb("Info", "Информация"))
 
