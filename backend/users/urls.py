@@ -14,7 +14,7 @@ urlpatterns = [
     # Default Auth URLs
     path("login/", LoginAPIView.as_view(), name="login"),
     path("logout/", LogoutAPIView.as_view(), name="logout"),
-    path("register/", RegisterAPIView.as_view(), name="register"),
+    # path("register/", RegisterAPIView.as_view(), name="register"),
     path("email-verify/",  # Registration verification from email
          EmailVerifyAPIView.as_view(),
          name="email-verify"),
@@ -41,9 +41,6 @@ urlpatterns = [
     path("change-password/",  # Change password for auth users
          ChangePasswordAPIView.as_view(),
          name="change-password"),
-    path("change-/",
-         ChangePasswordAPIView.as_view(),
-         name="change-"),
 
     # Tokens
     path("verify/", TokenVerifyView.as_view(), name="token-verify"),

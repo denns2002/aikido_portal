@@ -44,7 +44,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "phones",
             "photos"
         )
-        read_only_fields = ('slug', 'rank')
+        read_only_fields = ('slug', 'next_rank')
 
     def validate_username(self, value):
         user = self.context["request"].profile.user

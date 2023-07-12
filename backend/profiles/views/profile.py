@@ -1,6 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, CreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -30,7 +29,7 @@ class UserProfileAPIView(APIView):
         return Response(serializer.data)
 
 
-class ProfileListCreateAPIView(ListCreateAPIView):
+class ProfileListAPIView(ListAPIView):
     """
     All profiles by filters.
     """
@@ -64,16 +63,3 @@ class TrainerRegisterAPIView(CreateAPIView):
         user_data = serializer.data
 
         return Response(user_data, status=status.HTTP_201_CREATED)
-
-
-# class UpdateProfileView(UpdateAPIView):
-#     """
-#     Update profile for owner or trainer and etc.
-#     """
-#
-#     queryset = get_user_model().objects.all()
-#     serializer_class = UpdateUserSerializer
-#     lookup_field = "slug"
-#
-#     def get_object(self):
-#         return Profile.objects.get(slug=self.kwargs["slug"])

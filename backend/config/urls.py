@@ -12,7 +12,6 @@ urlpatterns = [
     path(api + "admin/", include("admincustom.urls")),  # Admin
     path(api + "users/", include("users.urls")),  # Users, reg, login etc.
     path(api + "profiles/", include("profiles.urls")),  # Users profiles
-    path(api + "phones/", include("phones.urls")),  # Phones
 ]
 
 if settings.DEBUG:
