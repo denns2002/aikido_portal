@@ -5,9 +5,6 @@ const initialState: ProfileState = {
 	profile: {
 		user: {
 			id: undefined,
-			password: "",
-			last_login: "",
-			is_superuser: false,
 			username: "",
 			email: "",
 			is_staff: false,
@@ -15,8 +12,6 @@ const initialState: ProfileState = {
 			is_verified: false,
 			created_at: "",
 			updated_at: "",
-			groups: [],
-			user_permisions: [],
 		},
 		first_name: "",
 		last_name: "",
@@ -27,13 +22,6 @@ const initialState: ProfileState = {
 		birth_date: "",
 		updated_at: "",
 		slug: "",
-		city: {
-			id: 0,
-			name: "",
-			region: {
-				name: ""
-			},
-		},
 		rank: {
 			id: undefined,
 			name: "",

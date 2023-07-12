@@ -32,14 +32,6 @@ function SignIn({ isAuthenticated, profileIsLoading }: SignInProps) {
 
 	const {state: locationState} = useLocation()
 
-	if (isAuthenticated) {
-		const {from} = locationState as ILocationState
-
-		console.log(isAuthenticated, from)
-		
-		return <Navigate to={from} replace />
-	}
-
 	const formInputs: IInputAttributes[] = [
 		{
 			label: "Имя пользователя",
@@ -93,7 +85,7 @@ function SignIn({ isAuthenticated, profileIsLoading }: SignInProps) {
 		return <div className="font-semibold">Идет загрузка...</div>
 	}
 
-	if (isAuthenticated) {
+	if (locationState && isAuthenticated) {
 		const {from} = locationState as ILocationState
 		
 		return <Navigate to={from} replace />

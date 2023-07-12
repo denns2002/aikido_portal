@@ -3,14 +3,13 @@ import { authenticationReducer } from "./authentication"
 import { profileReducer } from "./profile"
 import { pushNotificationsReducer } from "./pushNotifications"
 import {
-	authenticationApi,
-	citiesApi,
 	clubsApi,
 	eventsApi,
 	groupsApi,
 	notificationsApi,
 	profileApi,
 	statementsApi,
+	usersApi
 } from "../apis"
 
 export const rootReducer = combineReducers({
@@ -22,7 +21,6 @@ export const rootReducer = combineReducers({
 	[notificationsApi.reducerPath]: notificationsApi.reducer,
 	[profileApi.reducerPath]: profileApi.reducer,
 	[clubsApi.reducerPath]: clubsApi.reducer,
-	[citiesApi.reducerPath]: citiesApi.reducer,
-	[authenticationApi.reducerPath]: authenticationApi.reducer,
 	[statementsApi.reducerPath]: statementsApi.reducer,
+	[usersApi.reducerPath]: usersApi.reducer,
 })

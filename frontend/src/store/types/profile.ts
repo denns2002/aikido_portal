@@ -1,5 +1,4 @@
-import React from "react"
-import { ICity } from "./cities"
+import { IUser } from "./users"
 
 export interface IRank {
 	id: number | undefined
@@ -12,22 +11,6 @@ export interface IRole {
 	name: string
 }
 
-export interface IUser {
-	id: number | undefined
-	password: string
-	last_login: string
-	is_superuser: boolean
-	username: string
-	email: string
-	is_staff: boolean
-	is_active: boolean
-	is_verified: boolean
-	created_at: string
-	updated_at: string
-	groups: number[]
-	user_permisions: number[]
-}
-
 export interface IProfile {
 	user: IUser
 	first_name: string
@@ -37,7 +20,6 @@ export interface IProfile {
 	birth_date?: string
 	updated_at: string
 	slug: string
-	city: ICity
 	rank: IRank
 	roles: IRole[]
 	club: string
