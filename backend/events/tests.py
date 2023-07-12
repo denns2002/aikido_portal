@@ -67,7 +67,6 @@ class EventTests(APITestCase):
     def test_get_list_event(self):
         client = APIClient()
         response = client.get(reverse_lazy('event-list'))
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.data['count'] == 2)
 
@@ -80,7 +79,6 @@ class EventTests(APITestCase):
                                 'about': EventTests.event_correct['about'],
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 201)
         self.assertTrue(Event.objects.filter(slug=response.data['slug']).first() is not None)
 
@@ -94,7 +92,6 @@ class EventTests(APITestCase):
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
         self.assertEqual(response.status_code, 400)
-        # print(response.data, response.status_code)
 
     def test_create_event_reg_data_reverse(self):
         client = APIClient()
@@ -106,7 +103,6 @@ class EventTests(APITestCase):
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
         self.assertEqual(response.status_code, 400)
-        # print(response.data, response.status_code)
 
     def test_create_event_time_reverse(self):
         client = APIClient()
@@ -118,7 +114,6 @@ class EventTests(APITestCase):
                                 'events_dates': EventTests.events_date_time_reverse},
                                format='json')
         self.assertEqual(response.status_code, 400)
-        # print(response.data, response.status_code)
 
     def test_create_event_bad_date(self):
         client = APIClient()
@@ -130,7 +125,6 @@ class EventTests(APITestCase):
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
         self.assertEqual(response.status_code, 400)
-        # print(response.data, response.status_code)
 
     def test_create_event_bad_data(self):
         client = APIClient()
@@ -142,7 +136,6 @@ class EventTests(APITestCase):
                                 'events_dates': EventTests.events_date_bad_data},
                                format='json')
         self.assertEqual(response.status_code, 400)
-        # print(response.data, response.status_code)
 
     def test_create_event_date_after_reg_end(self):
         client = APIClient()
@@ -153,7 +146,6 @@ class EventTests(APITestCase):
                                 'about': EventTests.event_correct['about'],
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 400)
 
     # endregion
@@ -163,7 +155,6 @@ class EventTests(APITestCase):
         event = Event.objects.all()[0]
         client = APIClient()
         response = client.get(reverse_lazy('event-detail', kwargs={'slug': event.slug}))
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['slug'], event.slug)
 
@@ -172,7 +163,6 @@ class EventTests(APITestCase):
         client = APIClient()
         response = client.patch(reverse_lazy('event-detail', kwargs={'slug': event.slug}), EventTests.event_new,
                                 format='json')
-        # print(EventTests.event_new['events_dates'][0]['eventstime_set'][0]['id'])
         print(response.data, response.status_code)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['name'], EventTests.event_new['name'])
@@ -199,11 +189,8 @@ class EventTests(APITestCase):
 
     def test_event_detail_delete(self):
         event = Event.objects.all()[0]
-        # print(event.slug)
         client = APIClient()
         response = client.delete(reverse_lazy('event-detail', kwargs={'slug': event.slug}))
-        # print(response.data, response.status_code)
-        # print(event.slug)
         self.assertEqual(response.status_code, 204)
         self.assertTrue(Event.objects.filter(slug=event.slug).first() is None)
 
@@ -211,7 +198,6 @@ class EventTests(APITestCase):
         event = Event.objects.all()[0]
         client = APIClient()
         response = client.delete(reverse_lazy('event-detail', kwargs={'slug': event.slug[-2]}))
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 404)
         self.assertTrue(Event.objects.filter(slug=event.slug).first() is not None)
 
@@ -227,7 +213,6 @@ class EventTests(APITestCase):
         client = APIClient()
         response = client.patch(reverse_lazy('event-add-org', kwargs={'slug': event.slug}),
                                 {'organizers': [profile1.slug, profile2.slug]}, format='json')
-        # print(response.data, response.status_code)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(profile1.slug in event.organizers and profile2.slug in event.organizers)
 
