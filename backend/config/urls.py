@@ -5,7 +5,17 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from profile.views.profile import MyProfileAPIView
+
+api = "api/"
+
+urlpatterns = [
+    path(api + "admin/", include("admincustom.urls")),  # Admin
+    path(api + "users/", include("users.urls")),  # Users, reg, login etc.
+    path(api + "profiles/", include("profiles.urls")),  # Users profiles
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -14,16 +24,12 @@ schema_view = get_schema_view(
         description="be sport",
         terms_of_service="nope",
         contact=openapi.Contact(email="denis.israfilov2002@mail.ru"),
-        # license=openapi.License(name="Test License"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
 )
 
-api = "api/"
-
-urlpatterns = [
-    # SWAGGER
+urlpatterns += [  # SWAGGER
     path(
         api + "",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -35,18 +41,3 @@ urlpatterns = [
         name="schema-redoc",
     ),
 ]
-
-urlpatterns += [
-    path(api + "admin/", include("admincustom.urls")),  # Admin
-    path(api + "auth/", include("authentication.urls")),  # Authentication urls
-    path(api + "events/", include("events.urls")),  # Events
-    path(api + "clubs/", include("clubs.urls")),  # Clubs
-    path(api + "cities/", include("cities.urls")),  # Cities
-    path(api + "notifications/", include("notifications.urls")),  # Notifications
-    path(api + "statements/", include("statements.urls")),  # Statements
-    path(api + "profiles/", include("profile.urls")),  # Profile
-    path(api + "me/", MyProfileAPIView.as_view(), name="me"),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

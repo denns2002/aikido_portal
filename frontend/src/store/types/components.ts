@@ -15,3 +15,7 @@ export interface INavLink {
 	accessRoles: string[]
 	icon: JSX.Element
 }
+
+export interface ILocationState {
+	from: string
+}

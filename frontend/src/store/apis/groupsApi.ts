@@ -67,12 +67,14 @@ export const groupsApi = createApi({
 				url: `/clubs/group-trainer/${slug}/?page=${page}`,
 				method: "GET",
 			}),
+			providesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		getTrainerGroups: builder.query<ITrainerGroupList, number>({
 			query: (page) => ({
 				url: `/clubs/trainer-groups/?page=${page}`,
 				method: "GET",
 			}),
+			providesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		getTrainerGroup: builder.query<
 			ITrainerGroupMembersList,
@@ -82,6 +84,11 @@ export const groupsApi = createApi({
 				url: `/clubs/trainer-groups/${slug}?page=${page}`,
 				method: "GET",
 			}),
+			providesTags: [{ type: "Groups", id: "LIST" }],
+		}),
+		deleteGroupMember: builder.mutation<void, string>({
+			query: (slug) => ({ url: `/clubs/group-member-delete/${slug}/`, method: "DELETE" }),
+			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 	}),
 })
@@ -96,4 +103,5 @@ export const {
 	useGetGroupTrainerQuery,
 	useGetTrainerGroupsQuery,
 	useGetTrainerGroupQuery,
+	useDeleteGroupMemberMutation
 } = groupsApi
