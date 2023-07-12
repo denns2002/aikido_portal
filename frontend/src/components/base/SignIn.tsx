@@ -1,17 +1,18 @@
 import React from "react"
 import { useState } from "react"
 import Input from "../forms/Input"
-import { IInputAttributes } from "../../store/types/components"
+import { IInputAttributes, ILocationState } from "../../store/types/components"
 import { useActions } from "../../hooks/useActions"
-import { NavLink, Navigate } from "react-router-dom"
+import { NavLink, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
 
 interface SignInProps {
 	isAuthenticated: boolean
+	profileIsLoading: boolean
 }
 
-function SignIn({ isAuthenticated }: SignInProps) {
+function SignIn({ isAuthenticated, profileIsLoading }: SignInProps) {
 	const [inputsValues, setInputValues] = useState({
 		username: "",
 		password: "",
@@ -28,6 +29,16 @@ function SignIn({ isAuthenticated }: SignInProps) {
 	})
 
 	const { signIn } = useActions()
+
+	const {state: locationState} = useLocation()
+
+	if (isAuthenticated) {
+		const {from} = locationState as ILocationState
+
+		console.log(isAuthenticated, from)
+		
+		return <Navigate to={from} replace />
+	}
 
 	const formInputs: IInputAttributes[] = [
 		{
@@ -78,60 +89,71 @@ function SignIn({ isAuthenticated }: SignInProps) {
 		setTouched({ ...touched, [event.target.name]: true })
 	}
 
-	return isAuthenticated ? (
-		<Navigate to="/events" />
-	) : (
-		<div className="flex h-full w-full">
-			<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
-				<label className="font-bold text-2xl">Авторизация</label>
-				<form
-					className="flex flex-col gap-2 mt-6 w-80"
-					onSubmit={handleSubmit}
-				>
-					<Input
-						{...formInputs[0]}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						errors={[errors.username]}
-					/>
-					<Input
-						{...formInputs[1]}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						errors={[errors.password]}
-					/>
-					<NavLink
-						to="#"
-						className="underline text-sky-500 hover:text-sky-300 text-sm -mt-1"
+	if (profileIsLoading) {
+		return <div className="font-semibold">Идет загрузка...</div>
+	}
+
+	if (isAuthenticated) {
+		const {from} = locationState as ILocationState
+		
+		return <Navigate to={from} replace />
+	} else {
+		return (
+			<div className="flex h-full w-full">
+				<div className="border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
+					<label className="font-bold text-2xl">Авторизация</label>
+					<form
+						className="flex flex-col gap-2 mt-6 w-80"
+						onSubmit={handleSubmit}
 					>
-						Забыли пароль?
-					</NavLink>
-					<div className="flex flex-col">
-						{(errors.password && touched.password) ||
-						(errors.username && touched.username) ? (
-							<span className="text-red-700">
-								Все поля должны быть заполнены!
-							</span>
-						) : null}
-					</div>
-					<div className="peer-pla flex justify-center">
-						<button
-							className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100"
-							type="submit"
-							disabled={!(!errors.password && !errors.username)}
+						<Input
+							{...formInputs[0]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.username]}
+						/>
+						<Input
+							{...formInputs[1]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.password]}
+						/>
+						<NavLink
+							to="#"
+							className="underline text-sky-500 hover:text-sky-300 text-sm -mt-1"
 						>
-							Войти
-						</button>
-					</div>
-				</form>
+							Забыли пароль?
+						</NavLink>
+						<div className="flex flex-col">
+							{(errors.password && touched.password) ||
+							(errors.username && touched.username) ? (
+								<span className="text-red-700">
+									Все поля должны быть заполнены!
+								</span>
+							) : null}
+						</div>
+						<div className="peer-pla flex justify-center">
+							<button
+								className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100"
+								type="submit"
+								disabled={!(!errors.password && !errors.username)}
+							>
+								Войти
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
-	)
+		)
+	
+	}
+
 }
 
 function mapStateToProps(state: IRootState) {
 	return {
 		isAuthenticated: state.authentication.isAuthenticated,
+		profileIsLoading: state.profile.isLoading
 	}
 }
 
