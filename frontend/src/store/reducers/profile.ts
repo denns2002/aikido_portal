@@ -1,10 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { IProfile, IUpdatedProfile, ProfileState } from "../types/profile"
+import { IProfile, ProfileState } from "../types/profile"
 
 const initialState: ProfileState = {
 	profile: {
+		first_name: "",
+		last_name: "",
 		user: {
-			id: undefined,
+			id: 0,
+			password: "",
+			last_login: "",
+			is_superuser: false,
 			username: "",
 			email: "",
 			is_staff: false,
@@ -12,22 +17,11 @@ const initialState: ProfileState = {
 			is_verified: false,
 			created_at: "",
 			updated_at: "",
+			groups: [],
+			user_permisions: []
 		},
-		first_name: "",
-		last_name: "",
-		mid_name: "",
-		club: "",
-		group: "",
-		avatar: "",
-		birth_date: "",
-		updated_at: "",
-		slug: "",
-		rank: {
-			id: undefined,
-			name: "",
-			price: undefined,
-		},
-		roles: [],
+		phones: [],
+		photos: [],
 	},
 	isLoading: false,
 	error: "",
@@ -52,7 +46,7 @@ export const profileSlice = createSlice({
 		userProfileUpdate(state) {
 			state.isLoading = true
 		},
-		userProfileUpdateSuccess(state, action: PayloadAction<IUpdatedProfile>) {
+		userProfileUpdateSuccess(state, action: PayloadAction<IProfile>) {
 			state.isLoading = false
 			state.error = ""
 			state.profile.first_name = action.payload.first_name

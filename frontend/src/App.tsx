@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Routes } from "react-router-dom"
+import { NavLink, Route, Routes } from "react-router-dom"
 import Home from "./components/base/Home"
 import PrivateRoute from "./components/base/PrivateRoute"
 import SignIn from "./components/base/SignIn"
@@ -14,6 +14,11 @@ import EditEvent from "./components/events/EditEvent"
 import ProfileMe from "./components/profile/ProfileMe"
 import EditProfileMe from "./components/profile/EditProfileMe"
 import Group from "./components/group/Group"
+import User from "./components/user/UserCr"
+import Club from "./components/clubs/Club"
+import EditClub from "./components/clubs/EditClub"
+import AddClub from "./components/clubs/AddClub"
+import NotFound from "./components/base/NotFound"
 
 function App() {
 	return (
@@ -28,6 +33,30 @@ function App() {
 					element={
 						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
 							<Clubs />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/clubs/:slug"
+					element= {
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<Club />
+						</PrivateRoute>
+					}	
+				/>
+				<Route
+					path="/clubs/:slug/edit"
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<EditClub />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/clubs/add"
+					element={
+						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+							<AddClub />
 						</PrivateRoute>
 					}
 				/>
@@ -98,6 +127,14 @@ function App() {
 							<EditProfileMe />
 						</PrivateRoute>
 					}
+				/>
+				<Route
+					path="/uc"
+					element={<User />}
+				/>
+				<Route
+					path="*"
+					element={<NotFound />}
 				/>
 			</Routes>
 		</Layout>

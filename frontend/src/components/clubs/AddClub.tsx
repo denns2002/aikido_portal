@@ -1,20 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetClubBySlugQuery, usePatchClubBySlugMutation } from "../../store/apis";
+import { useGetClubBySlugQuery, usePatchClubBySlugMutation, usePostClubMutation } from "../../store/apis";
 import { IClub, IInputAttributes } from "../../store/types";
 import { FormEvent, useState } from "react";
 import Input from "../forms/Input";
 import TextArea from "../forms/TextArea";
 
-function EditClub() {
-    const {slug} = useParams()
-    const [addClub] = usePatchClubBySlugMutation()
-    const {data: club, isLoading} = useGetClubBySlugQuery(slug? slug : "")
-    console.log(club)
+function AddClub() {
 
+    const [addClub] = usePostClubMutation()
     const navigate = useNavigate()
 
     const [inputsValues, setInputValues] = useState<IClub>(
-        club ? club : {
+        {
             id: 0,
             name: "",
             info: "",
@@ -27,8 +24,8 @@ function EditClub() {
     )
     const [errors, setErrors] = useState({
             id: 0,
-            name: "",
-            info: "",
+            name: "Это поле необходимо заполнить!",
+            info: "Это поле необходимо заполнить!",
             slug:"",
             is_active: false,
             addresses: [],
@@ -68,13 +65,7 @@ function EditClub() {
     ]
 
     const [settings, setSettings] = useState(
-        club ? {
-            is_active: club.is_active,
-            addresses: club.addresses,
-            groups: club.groups,
-            photos: club.photos
-        }
-        : {
+        {
             is_active: false,
             addresses: [],
             groups: [],
@@ -114,20 +105,21 @@ function EditClub() {
         async function handleSubmit(event: FormEvent<HTMLFormElement>) {
             event.preventDefault()
 
-            await addClub({slug: slug ? slug : "", club: ({
+            await addClub({
                 ...inputsValues,
                 name: inputsValues.name, 
                 info: inputsValues.info, 
-                is_active: settings.is_active})}).unwrap()
+                is_active: settings.is_active}).unwrap()
 
-            navigate(`/clubs/${slug}`)
+            navigate(`/clubs`)
+
         }
     
     return ( 
         <div className="relative flex h-full w-full">
             <div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 mx-auto flex flex-col items-center rounded-xl px-8 py-7">
                 <label className="font-bold text-2xl">
-					Редактировать клуб
+					Создать клуб
 				</label>
                 <form
 					className="flex flex-col gap-2 mt-6 w-[30rem]"
@@ -178,12 +170,12 @@ function EditClub() {
 								)
 							}
 						>
-							Сохранить
+							Создать
 						</button>
 						<button
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
 							type="button"
-							onClick={() => navigate(`/clubs/${slug}`)}
+							onClick={() => navigate(`/clubs`)}
 						>
 							Отменить
 						</button>
@@ -194,4 +186,4 @@ function EditClub() {
     );
 }
 
-export default EditClub;
+export default AddClub;

@@ -8,7 +8,7 @@ export const clubsApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getClubs: builder.query<IClubList, number>({
-			query: (page) => ({ url: `/clubs/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/clubs/clubs/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -21,17 +21,17 @@ export const clubsApi = createApi({
 					: [{ type: "Clubs", id: "LIST" }],
 		}),
 		postClub: builder.mutation<IClub, IClub>({
-			query: (club) => ({ url: `/clubs/`, method: "POST", body: club }),
+			query: (club) => ({ url: `/clubs/clubs/`, method: "POST", body: club }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		getClubBySlug: builder.query<IClub, string>({
-			query: (slug) => ({ url: `/clubs/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/clubs/clubs/${slug}/`, method: "GET" }),
 			providesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchClubBySlug: builder.mutation<IClub, { slug: string; club: IClub }>(
 			{
 				query: ({ slug, club }) => ({
-					url: `/clubs/${slug}/`,
+					url: `/clubs/clubs/${slug}/`,
 					method: "PATCH",
 					body: club,
 				}),
@@ -39,7 +39,7 @@ export const clubsApi = createApi({
 			}
 		),
 		deleteClubBySlug: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/clubs/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/clubs/clubs/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Clubs", id: "LIST" }],
 		}),
 		patchArchiveClub: builder.mutation<
@@ -47,7 +47,7 @@ export const clubsApi = createApi({
 			{ slug: string; is_active: boolean }
 		>({
 			query: ({ slug, is_active }) => ({
-				url: `/clubs/${slug}/archive/`,
+				url: `/clubs/clubs/${slug}/archive/`,
 				method: "PATCH",
 				body: { is_active: is_active },
 			}),
@@ -58,7 +58,7 @@ export const clubsApi = createApi({
 			{ userSlug: string; groupSlug: number }
 		>({
 			query: ({ userSlug, groupSlug }) => ({
-				url: `/clubs/group-member-change/${userSlug}/`,
+				url: `/clubs/clubs/group-member-change/${userSlug}/`,
 				method: "PATCH",
 				body: { group: groupSlug },
 			}),

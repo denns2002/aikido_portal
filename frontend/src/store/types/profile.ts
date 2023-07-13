@@ -1,39 +1,85 @@
-import { IUser } from "./users"
+import React from "react"
 
-export interface IRank {
+export interface IUser {
 	id: number | undefined
-	name: string
-	price: number | undefined
-}
-
-export interface IRole {
-	id: number | undefined
-	name: string
+	password: string
+	last_login: string
+	is_superuser: boolean
+	username: string
+	email: string
+	is_staff: boolean
+	is_active: boolean
+	is_verified: boolean
+	created_at: string
+	updated_at: string
+	groups: number[]
+	user_permisions: number[]
 }
 
 export interface IProfile {
-	user: IUser
 	first_name: string
 	last_name: string
 	mid_name?: string
-	avatar: string
+	avatar?: string
 	birth_date?: string
-	updated_at: string
-	slug: string
-	rank: IRank
-	roles: IRole[]
-	club: string
-	group: string
+	updated_at?: string
+	slug?: string
+	rank?: IRank
+	next_rank?: number
+	user: IUser
+	phones: IPhone[]
+	photos: number[]
 }
 
-export interface IUpdatedProfile {
+export interface IUserRegister {
 	first_name: string
 	last_name: string
 	mid_name?: string
 	birth_date?: string
-	city?: number
-	rank?: number
-	roles?: number[] 
+	username?: string
+	password?: string
+}
+
+export interface IProfileList {
+	count: number
+	next?: string
+	previous?: string
+	results: IProfile[]
+}
+
+// export interface IUpdatedProfile {
+// 	first_name: string
+// 	last_name: string
+// 	mid_name?: string
+// 	avatar?: string
+// 	birth_date?: string
+// 	updated_at?: string
+// 	slug?: string
+// 	rank?: IUpdatedRank
+// 	next_rank?: number
+// 	user: IUpdatedUser
+// 	phones: IPhone[]
+// 	photos: number[]
+// }
+
+export interface IRank {
+	id?: number
+	name: string
+}
+
+export interface IUpdatedUser {
+	id?: number
+	username: string
+	email?: string
+	is_staff?: boolean
+	is_active?: boolean
+	is_verified?: boolean
+	created_at?: string
+	updated_at?: string
+}
+
+export interface IPhone {
+	number: string
 }
 
 export interface ProfileState {
