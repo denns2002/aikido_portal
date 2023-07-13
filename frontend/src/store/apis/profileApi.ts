@@ -8,7 +8,7 @@ export const profileApi = createApi({
   baseQuery: customFetchBase,
   endpoints: (builder) => ({
     getMyProfile: builder.query<IProfile, void>({
-      query: () => ({ url: `/my-profile/`, method: "GET" }),
+      query: () => ({ url: `/profiles/my-profile/`, method: "GET" }),
       providesTags: [{ type: "Profiles", id: "LIST" }],
     }),
     getProfileBySlug: builder.query<IProfile, string>({

@@ -116,7 +116,7 @@ function AddClub() {
         }
     
     return ( 
-        <div className="relative flex h-full w-full">
+        <div className="relative my-auto">
             <div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 mx-auto flex flex-col items-center rounded-xl px-8 py-7">
                 <label className="font-bold text-2xl">
 					Создать клуб
