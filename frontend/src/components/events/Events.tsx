@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom"
 import { CiCirclePlus } from "react-icons/ci"
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
-import { IProfile } from "../../store/types/profile"
+import { IProfile } from "../../store/types/profiles"
 
 interface EventsProps {
 	profile: IProfile

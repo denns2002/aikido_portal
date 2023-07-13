@@ -1,6 +1,6 @@
 import { profileActions } from "../reducers/profile"
 import { AppDispatch } from "../store"
-import { IProfile } from "../types/profile"
+import { IProfile } from "../types/profiles"
 import { api } from "./api"
 
 export function loadUserProfile() {

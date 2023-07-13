@@ -10,7 +10,7 @@ import { monthes } from "../../store/types/events"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
-import { IProfile, RanksKey, ranks } from "../../store/types/profile"
+import { IProfile, RanksKey, ranks } from "../../store/types/profiles"
 import { RxCross2 } from "react-icons/rx"
 
 interface EventProps {

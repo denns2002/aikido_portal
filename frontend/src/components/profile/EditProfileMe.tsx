@@ -7,7 +7,7 @@ import TextArea from "../forms/TextArea"
 import { IInputAttributes } from "../../store/types/components"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile } from "../../store/types/profile"
+import { IProfile } from "../../store/types/profiles"
 
 interface EditProfileMeProps {
     profile: IProfile

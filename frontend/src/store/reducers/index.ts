@@ -7,7 +7,7 @@ import {
 	eventsApi,
 	groupsApi,
 	notificationsApi,
-	profileApi,
+	profilesApi,
 	statementsApi,
 	usersApi
 } from "../apis"
@@ -19,7 +19,7 @@ export const rootReducer = combineReducers({
 	[groupsApi.reducerPath]: groupsApi.reducer,
 	[eventsApi.reducerPath]: eventsApi.reducer,
 	[notificationsApi.reducerPath]: notificationsApi.reducer,
-	[profileApi.reducerPath]: profileApi.reducer,
+	[profilesApi.reducerPath]: profilesApi.reducer,
 	[clubsApi.reducerPath]: clubsApi.reducer,
 	[statementsApi.reducerPath]: statementsApi.reducer,
 	[usersApi.reducerPath]: usersApi.reducer,

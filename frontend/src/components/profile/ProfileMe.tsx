@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
-import { IProfile, ranks, RanksKey } from "../../store/types/profile"
+import { IProfile, ranks, RanksKey } from "../../store/types/profiles"
 import { FaUser } from "react-icons/fa"
 import {
 	useGetClubBySlugQuery,

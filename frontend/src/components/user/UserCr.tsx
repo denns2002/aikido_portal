@@ -38,9 +38,6 @@ function User({ profile }: ITrainerProps) {
 							last_name: "Дубил",
 							user: {
 								id: 0,
-								password: "",
-								last_login: "",
-								is_superuser: false,
 								username: "fuckMyUesername",
 								email: "",
 								is_staff: false,
@@ -48,8 +45,6 @@ function User({ profile }: ITrainerProps) {
 								is_verified: false,
 								created_at: "",
 								updated_at: "",
-								groups: [],
-								user_permisions: []
 							},
 							phones: [],
 							photos: []

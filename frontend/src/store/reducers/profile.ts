@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { IProfile, ProfileState } from "../types/profile"
+import { IProfile, ProfileState } from "../types/profiles"
 
 const initialState: ProfileState = {
 	profile: {
@@ -7,9 +7,6 @@ const initialState: ProfileState = {
 		last_name: "",
 		user: {
 			id: 0,
-			password: "",
-			last_login: "",
-			is_superuser: false,
 			username: "",
 			email: "",
 			is_staff: false,
@@ -17,8 +14,6 @@ const initialState: ProfileState = {
 			is_verified: false,
 			created_at: "",
 			updated_at: "",
-			groups: [],
-			user_permisions: []
 		},
 		phones: [],
 		photos: [],

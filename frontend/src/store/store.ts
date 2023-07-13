@@ -5,7 +5,7 @@ import {
 	eventsApi,
 	groupsApi,
 	notificationsApi,
-	profileApi,
+	profilesApi,
 	statementsApi,
 	usersApi
 } from "./apis"
@@ -17,7 +17,7 @@ export const store = configureStore({
 			groupsApi.middleware,
 			eventsApi.middleware,
 			notificationsApi.middleware,
-			profileApi.middleware,
+			profilesApi.middleware,
 			clubsApi.middleware,
 			statementsApi.middleware,
 			usersApi.middleware

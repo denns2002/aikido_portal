@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux/es/exports"
 import { Navigate, useLocation } from "react-router-dom"
 import { IRootState } from "../../store/store"
-import { IProfile } from "../../store/types/profile"
+import { IProfile } from "../../store/types/profiles"
 
 interface PrivateRouteProps {
 	isAuthenticated: boolean
