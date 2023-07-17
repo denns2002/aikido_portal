@@ -99,9 +99,7 @@ function App() {
 				<Route
 					path="/trainer/add-user"
 					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
-							<AddUser />
-						</PrivateRoute>
+						<AddUser />
 					}
 				/>
 				<Route
