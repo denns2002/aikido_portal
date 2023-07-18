@@ -3,9 +3,10 @@
 /backend/db.sqlite3
 /backend/media/*
 /backend/.idea
-/backend/.env
+/backend/*.env
 /backend/general.log
 /backend/error.log
+/backend_old
 
 #virtual environment
 .venv

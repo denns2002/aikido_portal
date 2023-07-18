@@ -1,20 +1,12 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.generics import UpdateAPIView, GenericAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from users.serializers.reset_password_serializer import ChangePasswordSerializer
-from users.serializers.user_serializer import ActivatingSerializer
-
-
-class ActivatingAPIView(UpdateAPIView):
-    """
-    Activating, deactivating an account
-    """
-    queryset = get_user_model().objects.all()
-    serializer_class = ActivatingSerializer
-    lookup_field = "pk"
+# from mailings.utils.change_email import change_email
+from users.serializers.user_serializer import (ChangePasswordSerializer,
+                                               ChangeEmailSerializer)
 
 
 class ChangePasswordAPIView(GenericAPIView):
@@ -37,27 +29,28 @@ class ChangePasswordAPIView(GenericAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#
+
 # class ChangeEmailAPIView(GenericAPIView):
 #     """
 #     Changing email for auth users in update profile page.
 #     """
 #
+#     serializer_class = ChangeEmailSerializer
+#
 #     def post(self, request):
-#         """
-#         Register and send email verify if the user is not verified.
-#         """
+#         user = request.user
+#         new_email = request.data.email
 #
-#         user = request.data
-#         serializer = RegisterSerializer(data=user)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         user_data = serializer.data
+#         if user['email']:
+#             change_email(user['email'], new_email, request)
 #
-#         if user['email'] and not user['is_verified']:
-#             send_verify_email(user_data, request)
-#
-#         return Response(user_data, status=status.HTTP_201_CREATED)
+#         return Response({"OK": "Check new email to confirm email change"},
+#                         status=status.HTTP_200_OK)
 #
 #
 # class ChangeEmailVerifyAPIView(GenericAPIView):
+#     """
+#     Verify new email address from email
+#     """
+#
+#     pass

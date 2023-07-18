@@ -8,7 +8,7 @@ from users.views.register_view import RegisterAPIView
 from users.views.reset_password_view import (PasswordTokenCheckAPI,
                                              RequestPasswordResetAPIView,
                                              SetNewPasswordAPIView)
-from users.views.user_view import ActivatingAPIView, ChangePasswordAPIView
+from users.views.user_view import ChangePasswordAPIView
 
 urlpatterns = [
     # Default Auth URLs
@@ -30,8 +30,6 @@ urlpatterns = [
          SetNewPasswordAPIView.as_view(),
          name="password-reset-complete",),
 
-    # Activating, deactivating an account
-    path("activating/<int:pk>", ActivatingAPIView.as_view(), name="activating"),
     # path("change-email/",  # Change email
     #      ChangeEmailAPIView.as_view(),
     #      name="change-email"),
