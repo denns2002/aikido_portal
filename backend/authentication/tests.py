@@ -56,9 +56,9 @@ class UserTests(APITestCase):
         response = UserTests.login(client, UserTests.not_verified_user['username'], 'secret')
         self.assertEqual(response.status_code, 401)
 
-        # endregion
+    # endregion
 
-        # region logout
+    # region logout
 
     def test_logout_correct(self):
         client = APIClient()
@@ -148,8 +148,8 @@ class UserTests(APITestCase):
 
     # endregion
 
-    # def test_confirm_email(self):
-    #     self.assertTrue(False, 'Сначала тест надо написать')
+    def test_confirm_email(self):
+        self.assertTrue(False, 'Сначала тест надо написать')
 
     # region request_password_reset
     def test_request_password_reset_correct(self):
@@ -172,11 +172,11 @@ class UserTests(APITestCase):
 
     # endregion
 
-    # def test_password_reset_confirm(self):
-    #     self.assertTrue(False, 'Сначала тест надо написать')
+    def test_password_reset_confirm(self):
+        self.assertTrue(False, 'Сначала тест надо написать')
 
-    # def test_password_reset_complete(self):
-    #     self.assertTrue(False, 'Сначала тест надо написать')
+    def test_password_reset_complete(self):
+        self.assertTrue(False, 'Сначала тест надо написать')
 
     # region change_password
     def test_change_password_correct(self):

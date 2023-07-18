@@ -23,6 +23,11 @@ class EventsTimeSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "time_start", "time_end"]
         read_only_fields = ["id"]
 
+    def validate(self, data):
+        if data['time_start'] > data['time_end']:
+            raise serializers.ValidationError('time_start must be less than time_end')
+        return data
+
 
 class EventsDatesSerializer(serializers.ModelSerializer):
     eventstime_set = EventsTimeSerializer(many=True, read_only=False)
@@ -73,6 +78,18 @@ class EventSerializer(serializers.ModelSerializer):
         set_attribute(instance, validated_data)
         instance.save()
         return instance
+
+    def validate(self, data):
+        if data['reg_start'] > data['reg_end']:
+            raise serializers.ValidationError('date of start registration must be less than date of end registration')
+        # date = data['eventsdate_set']['date']
+        for data_date in data['eventsdate_set']:
+            if data_date['date'] < data['reg_end']:
+                raise serializers.ValidationError('date of event must be after registration date')
+            for data_time in data_date['eventstime_set']:
+                EventsTimeSerializer().validate(data_time)
+
+        return data
 
 
 class EventOrganizersSerializer(serializers.ModelSerializer):

@@ -24,17 +24,29 @@ class EventTests(APITestCase):
                                             'time_end': '12:00'}]}
                                       ]}
 
-    event_new = {'name': 'new name',
-                 'reg_start': '2022-06-12',
-                 'reg_end': '2022-06-13',
-                 'about': 'new info',
-                 'events_dates': [{'date': '2022-07-10', 'comment': 'new info',
-                                   'eventstime_set': [
-                                       {'id': 2, 'name': 'new somename1', 'time_start': '13:00:00',
-                                        'time_end': '04:00:00'},
-                                       {'id': 3, 'name': 'new somename2', 'time_start': '11:00:00',
-                                        'time_end': '16:00:00'}
-                                   ]}]}
+    event_new_correct = {'name': 'new event correct',
+                         'reg_start': '2022-06-12',
+                         'reg_end': '2022-06-13',
+                         'about': 'new info',
+                         'events_dates': [{'date': '2022-07-10', 'comment': 'new info',
+                                           'eventstime_set': [
+                                               {'id': 2, 'name': 'new somename1', 'time_start': '04:00:00',
+                                                'time_end': '13:00:00'},
+                                               {'id': 3, 'name': 'new somename2', 'time_start': '11:00:00',
+                                                'time_end': '16:00:00'}
+                                           ]}]}
+
+    event_new_confusing_date = {'name': 'event confusing date and time',
+                                'reg_start': '2022-06-12',
+                                'reg_end': '2022-06-11',
+                                'about': 'new info',
+                                'events_dates': [{'date': '2022-05-10', 'comment': 'date before reg_end',
+                                                  'eventstime_set': [
+                                                      {'id': 2, 'name': 'confusing time', 'time_start': '13:00:00',
+                                                       'time_end': '04:00:00'},
+                                                      {'id': 3, 'name': 'new somename2', 'time_start': '11:00:00',
+                                                       'time_end': '16:00:00'}
+                                                  ]}]}
 
     event_incorrect = {'name': 'testevent2',
                        'reg_start': '2023-04-35',
@@ -137,12 +149,12 @@ class EventTests(APITestCase):
                                format='json')
         self.assertEqual(response.status_code, 400)
 
-    def test_create_event_date_after_reg_end(self):
+    def test_create_event_date_before_reg_end(self):
         client = APIClient()
         response = client.post(reverse_lazy('event-list'),
                                {'name': EventTests.event_correct['name'],
-                                'reg_start': '1917-03-08',
-                                'reg_end': '1917-06-16',
+                                'reg_start': '2917-03-08',
+                                'reg_end': '2917-06-16',
                                 'about': EventTests.event_correct['about'],
                                 'events_dates': EventTests.event_correct['events_dates']},
                                format='json')
@@ -161,31 +173,40 @@ class EventTests(APITestCase):
     def test_event_detail_update_correct(self):
         event = Event.objects.filter(name='event2').first()
         client = APIClient()
-        response = client.patch(reverse_lazy('event-detail', kwargs={'slug': event.slug}), EventTests.event_new,
+        response = client.patch(reverse_lazy('event-detail', kwargs={'slug': event.slug}), EventTests.event_new_correct,
                                 format='json')
-        print(response.data, response.status_code)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['name'], EventTests.event_new['name'])
-        self.assertEqual(response.data['reg_start'], EventTests.event_new['reg_start'])
-        self.assertEqual(response.data['reg_end'], EventTests.event_new['reg_end'])
-        self.assertEqual(response.data['about'], EventTests.event_new['about'])
-        self.assertEqual(response.data['events_dates'][0]['date'], EventTests.event_new['events_dates'][0]['date'])
+        self.assertEqual(response.data['name'], EventTests.event_new_correct['name'])
+        self.assertEqual(response.data['reg_start'], EventTests.event_new_correct['reg_start'])
+        self.assertEqual(response.data['reg_end'], EventTests.event_new_correct['reg_end'])
+        self.assertEqual(response.data['about'], EventTests.event_new_correct['about'])
+        self.assertEqual(response.data['events_dates'][0]['date'],
+                         EventTests.event_new_correct['events_dates'][0]['date'])
         self.assertEqual(response.data['events_dates'][0]['comment'],
-                         EventTests.event_new['events_dates'][0]['comment'])
+                         EventTests.event_new_correct['events_dates'][0]['comment'])
 
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][0]['name'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][0]['name'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][0]['name'])
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][0]['time_end'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][0]['time_end'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][0]['time_end'])
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][0]['time_start'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][0]['time_start'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][0]['time_start'])
 
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][1]['name'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][1]['name'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][1]['name'])
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][1]['time_end'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][1]['time_end'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][1]['time_end'])
         self.assertEqual(response.data['events_dates'][0]['eventstime_set'][1]['time_start'],
-                         EventTests.event_new['events_dates'][0]['eventstime_set'][1]['time_start'])
+                         EventTests.event_new_correct['events_dates'][0]['eventstime_set'][1]['time_start'])
+
+    def test_event_detail_update_confusing_date_and_time(self):
+        event = Event.objects.filter(name='event2').first()
+        client = APIClient()
+        response = client.patch(reverse_lazy('event-detail', kwargs={'slug': event.slug}),
+                                EventTests.event_new_confusing_date,
+                                format='json')
+        self.assertEqual(response.status_code, 400)
+
 
     def test_event_detail_delete(self):
         event = Event.objects.all()[0]
