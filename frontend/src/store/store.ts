@@ -1,14 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { rootReducer } from "./reducers"
 import {
-	authenticationApi,
-	citiesApi,
 	clubsApi,
 	eventsApi,
 	groupsApi,
 	notificationsApi,
 	profileApi,
 	statementsApi,
+	usersApi
 } from "./apis"
 
 export const store = configureStore({
@@ -20,9 +19,8 @@ export const store = configureStore({
 			notificationsApi.middleware,
 			profileApi.middleware,
 			clubsApi.middleware,
-			citiesApi.middleware,
-			authenticationApi.middleware,
-			statementsApi.middleware
+			statementsApi.middleware,
+			usersApi.middleware
 		)
 	},
 })

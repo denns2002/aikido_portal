@@ -27,13 +27,13 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 	}
 
 	function haveAccessRole(accessRoles: string[]) {
-		for (let index = 0; index < profile.roles.length; index++) {
-			if (accessRoles.includes(profile.roles[index].name)) {
-				return true
-			}
-		}
+		// for (let index = 0; index < profile.roles.length; index++) {
+		// 	if (accessRoles.includes(profile.roles[index].name)) {
+		// 		return true
+		// 	}
+		// }
 
-		return false
+		return true
 	}
 
 	return isLoading ? (

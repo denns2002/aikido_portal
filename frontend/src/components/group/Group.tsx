@@ -76,9 +76,9 @@ function Group({ profile }: IGroupProps) {
 								<TbShieldFilled className="h-16 w-16 rounded-full bg-white p-1 text-slate-500 m-1" />
 							</div>
 							<div className="flex-1" />
-							<div className="flex items-center justify-center font-medium">
+							{/* <div className="flex items-center justify-center font-medium">
 								{profile.club ? profile.club : "Не состоите"}
-							</div>
+							</div> */}
 						</div>
 					</div>
 					<label className="bg-white text-sm absolute left-2 -top-3 px-1">
