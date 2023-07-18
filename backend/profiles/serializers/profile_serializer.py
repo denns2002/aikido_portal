@@ -129,6 +129,7 @@ class TrainerRegisterSerializer(serializers.ModelSerializer):
             "first_name": profile.first_name,
             "last_name": profile.last_name,
             "mid_name": profile.mid_name,
+            "birth_date": profile.birth_date,
             "username": username,
             "password": password,
         }
