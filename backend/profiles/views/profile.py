@@ -1,11 +1,11 @@
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from profiles.models.profile import Profile
 from profiles.serializers.profile_serializer import ProfileSerializer, \
-    TrainerRegisterSerializer
+    TrainerRegisterSerializer, TrainerListRegisterSerializer
 
 
 class UserProfileAPIView(APIView):
@@ -51,15 +51,15 @@ class ProfileDetailAPIView(RetrieveUpdateAPIView):
     lookup_field = "slug"
 
 
-class TrainerRegisterAPIView(CreateAPIView):
-    serializer_class = TrainerRegisterSerializer
+class TrainerRegisterAPIView(ListCreateAPIView):
+    serializer_class = TrainerListRegisterSerializer
     queryset = Profile.objects.all()
 
     def post(self, request, *args, **kwargs):
-        profile = request.data
-        serializer = self.serializer_class(data=profile)
+        profiles = request.data
+        serializer = self.serializer_class(data=profiles)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        user_data = serializer.data
+        users_data = serializer.data
 
-        return Response(user_data, status=status.HTTP_201_CREATED)
+        return Response(users_data, status=status.HTTP_201_CREATED)

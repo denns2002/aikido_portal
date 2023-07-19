@@ -20,6 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     rank = RankSerializer()
     phones = PhoneSerinalizer(many=True)
+
     # address = CitySerializer()
     #
     # group = serializers.SlugField(source="groupmember_set.first.group.slug",
@@ -144,3 +145,7 @@ class TrainerRegisterSerializer(serializers.ModelSerializer):
             "username",
             "password"
         )
+
+
+class TrainerListRegisterSerializer(serializers.ListSerializer):
+    child = TrainerRegisterSerializer()
