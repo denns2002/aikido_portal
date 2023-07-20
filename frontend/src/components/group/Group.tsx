@@ -8,7 +8,7 @@ import {
 import { TbPlus, TbShieldFilled } from "react-icons/tb"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile, RanksKey, monthes, ranks } from "../../store/types"
+import { IProfile, RanksKey, ranks } from "../../store/types"
 import { FaUser } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 import { RxCross2 } from "react-icons/rx"

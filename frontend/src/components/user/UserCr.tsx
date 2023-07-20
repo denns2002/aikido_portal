@@ -10,7 +10,7 @@ import {
 } from "../../store/apis"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile, monthes } from "../../store/types"
+import { IProfile } from "../../store/types"
 import { FaUser } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 

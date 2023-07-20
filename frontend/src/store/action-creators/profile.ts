@@ -12,6 +12,8 @@ export function loadUserProfile() {
 
 			dispatch(profileActions.userProfileLoadingSuccess(response.data))
 		} catch (e) {
+			console.log(e);
+
 			dispatch(
 				profileActions.userProfileLoadingFail(
 					"Произошла ошибка при загрузку вашего профиля"

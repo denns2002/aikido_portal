@@ -42,7 +42,7 @@ export function verifyToken() {
 
 			const body = JSON.stringify({token: `${tokenService.getLocalRefreshToken()}`})
 
-			await api.post("/auth/verify/", body)
+			await api.post("/users/verify/", body)
 
 			dispatch(authenticationActions.verifyTokenSuccess())
 		} catch (e) {
@@ -60,7 +60,7 @@ export function logOut() {
 
 			const body = JSON.stringify({refresh: `${tokenService.getLocalRefreshToken()}`})
 
-			await api.post("/auth/logout/", body)
+			await api.post("/users/logout/", body)
 
 			dispatch(authenticationActions.logOutSuccess())
 
@@ -78,7 +78,7 @@ export function refreshToken() {
 
 			const body = JSON.stringify({refresh: `${tokenService.getLocalRefreshToken()}`})
 
-			const response = await api.post("/auth/refresh/", body)
+			const response = await api.post("/users/refresh/", body)
 
 			tokenService.updateLocalAccessToken(response.data.refresh)
 

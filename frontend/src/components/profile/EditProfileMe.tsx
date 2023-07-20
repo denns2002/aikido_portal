@@ -82,7 +82,7 @@ function EditProfileMe({profile}: EditProfileMeProps) {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
-		await editProfile({ slug: profile.slug ? profile.slug : "", profile: inputsValues }).unwrap()
+		await editProfile({ slug: profile.slug ? profile.slug : "", profile: {...profile, ...inputsValues} }).unwrap()
 
 		navigate("/profile/me")
 	}

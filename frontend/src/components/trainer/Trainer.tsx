@@ -8,7 +8,7 @@ import {
 import { TbPlus, TbShieldFilled } from "react-icons/tb"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile, RanksKey, monthes, ranks } from "../../store/types"
+import { IProfile, RanksKey, ranks } from "../../store/types"
 import { FaUser } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 import { RxCross2 } from "react-icons/rx"
@@ -49,7 +49,7 @@ function Trainer({ profile }: ITrainerProps) {
 								<FaUser className="h-16 w-16 rounded-full border-[3px] bg-white border-slate-500 p-1 text-slate-500 m-1" />
 							</div>
 							<div className="flex-1" />
-							<div className="flex items-center justify-center">
+							{profile?.rank ? <div className="flex items-center justify-center">
 								<div
 									className={`font-medium ${
 										ranks[profile?.rank?.name as RanksKey]
@@ -67,7 +67,7 @@ function Trainer({ profile }: ITrainerProps) {
 											.text
 									}
 								</div>
-							</div>
+							</div> : <div>Ранг отсутствует</div>}
 						</div>
 						<div className="m-1 font-semibold text-lg">
 							<p>{profile.last_name}</p>

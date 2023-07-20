@@ -32,7 +32,7 @@ export const customFetchBase: BaseQueryFn<string | FetchArgs, unknown, FetchBase
             const release = await mutex.acquire()
             try {
 
-                const response = await axios.post<ITokens>(`${baseUrl}/auth/refresh/`, {refresh: refreshToken})
+                const response = await axios.post<ITokens>(`${baseUrl}/users/refresh/`, {refresh: refreshToken})
 
                 if (response.data) {
                     tokenService.updateLocalAccessToken(response.data.access)

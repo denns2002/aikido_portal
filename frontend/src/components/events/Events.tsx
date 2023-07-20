@@ -13,18 +13,7 @@ interface EventsProps {
 }
 
 function Events({ profile, isAuthenticated }: EventsProps) {
-	const [page, setPage] = useState(1)
-	const { data, isLoading } = useGetEventsQuery(page)
-
-	function getPages(count: number): number[] {
-		let pages = []
-
-		for (let i = 1; i <= count; i++) {
-			pages.push(i)
-		}
-
-		return pages
-	}
+	const { data, isLoading } = useGetEventsQuery(1)
 
 	function haveAccessRole(accessRoles: string[]) {
 		// for (let index = 0; index < profile.roles.length; index++) {
@@ -39,46 +28,86 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 	return isLoading ? (
 		<div className="font-semibold text-lg">Идет загрузка</div>
 	) : (
-		<div className="h-full w-full">
-			<div className="flex flex-row gap-3 p-4 flex-wrap justify-center">
-				{data?.results.map((event, index) => {
-					return (
-						<EventCard
-							key={index}
-							event={event}
-						/>
-					)
-				})}
-				{isAuthenticated && haveAccessRole(["Тренер", "Руководитель"]) ? (
-					<NavLink
-						to="/events/add"
-						className="rounded-lg w-[30rem] h-[10.3rem] border-2 font-thin border-sky-700 text-sky-700 hover:border-sky-500 hover:text-sky-500 transition-all duration-200"
-					>
-						<div className="p-1 h-full w-full flex justify-center items-center">
-							<CiCirclePlus className="h-24 w-24" />
-						</div>
-					</NavLink>
-				) : null}
-				{/* <div className="flex-1" />
-				{data?.count ? (
-					Math.floor(data?.count / 10) > 0 ? (
-						<div className="flex flex-row gap-0.5">
-							{getPages(Math.floor(data?.count / 10)).map(
-								(number, index) => {
-									return (
-										<div
-											key={index}
-											className={`rounded-lg border-solid border-x-2  border-y-2 border-sky-700 ${page === number ? "bg-sky-700 text-white" : "bg-white"} px-1 cursor-pointer`}
-											onClick={() => setPage(number)}
-										>
-											{number}
-										</div>
-									)
-								}
-							)}
-						</div>
-					) : null
-				) : null} */}
+		<div className="h-full w-full flex flex-col items-center">
+			<div className="flex flex-col">
+				<span className="border-l-4 border-sky-700 px-1 text-lg font-semibold">
+					Ближайшие мероприятия
+				</span>
+				<div className="flex flex-row flex-wrap gap-6 mt-6">
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+				</div>
+			</div>
+			<div className="flex flex-col mt-8">
+				<span className="border-l-4 border-sky-700 px-1 text-lg font-semibold">
+					Прошедшие мероприятия
+				</span>
+				<div className="flex flex-row flex-wrap gap-6 mt-6">
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+					<EventCard
+						event={{
+							slug: "/",
+							about: "Абоба",
+							name: "XI Центральный семинар по прикладному айкидо",
+							date_start: "2023-01-01",
+							date_end: "2023-01-01",
+							reg_start: "2023-01-01",
+							reg_end: "2023-01-01",
+						}}
+					/>
+				</div>
 			</div>
 		</div>
 	)
@@ -87,7 +116,7 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 function mapStateProps(state: IRootState) {
 	return {
 		profile: state.profile.profile,
-		isAuthenticated: state.authentication.isAuthenticated
+		isAuthenticated: state.authentication.isAuthenticated,
 	}
 }
 

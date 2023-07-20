@@ -7,8 +7,8 @@ import {
 	useGetGroupBySlugQuery,
 	useGetMyProfileQuery,
 } from "../../store/apis"
-import { monthes } from "../../store/types/events"
 import { NavLink, useLocation } from "react-router-dom"
+import { getCorrectDate } from "../../functions"
 
 interface ProfileProps {
 	isAuthenticated: boolean
@@ -31,28 +31,6 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 
 	console.log(error)
 
-	function getCorrectDate(date: string) {
-		const arr = date.split("-")
-
-		const time = arr[2].split("T").length > 1 ? arr[2].split("T")[1] : ""
-
-		type ObjectKey = keyof typeof monthes
-
-		return (
-			[
-				time
-					? arr[2][0] === "0"
-						? arr[2][1]
-						: arr[2].slice(0, 1)
-					: arr[2][0] === "0"
-					? arr[2][1]
-					: arr[2],
-				monthes[arr[1] as ObjectKey],
-				arr[0],
-			].join(" ") + (time ? `, ${time.slice(0, 5)}` : "")
-		)
-	}
-
 	return (
 		<div className="">
 			{!profileIsLoading ? (
@@ -66,22 +44,25 @@ function ProfileMe({isAuthenticated} : ProfileProps) {
 							<p>{profile?.first_name}</p>
 							<p>{profile?.mid_name}</p>
 						</div>
-						<div className="flex items-center justify-center">
-							<div
-								className={`font-medium ${
-									ranks[profile?.rank?.name as RanksKey]
-										.textColor
-								} rounded-md bg-${
-									ranks[profile?.rank?.name as RanksKey]
-										.bgColor
-								} ${
-									ranks[profile?.rank?.name as RanksKey]
-										.bgColor
-								} w-20 p-0.5 flex justify-center items-center`}
-							>
-								{ranks[profile?.rank?.name as RanksKey].text}
-							</div>
-						</div>
+						{profile?.rank ? <div className="flex items-center justify-center">
+								<div
+									className={`font-medium ${
+										ranks[profile?.rank?.name as RanksKey]
+											.textColor
+									} rounded-md bg-${
+										ranks[profile?.rank?.name as RanksKey]
+											.bgColor
+									} ${
+										ranks[profile?.rank?.name as RanksKey]
+											.bgColor
+									} w-20 p-0.5 flex justify-center items-center`}
+								>
+									{
+										ranks[profile?.rank?.name as RanksKey]
+											.text
+									}
+								</div>
+							</div> : <div>Ранг отсутствует</div>}
 					</div>
 					<div className="flex flex-col w-[22rem] p-2">
 						<div className="m-1">
