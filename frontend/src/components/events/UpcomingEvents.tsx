@@ -128,7 +128,7 @@ function UpcomingEvents({ profile, isAuthenticated }: EventsProps) {
 					Добавить мероприятие:
 				</span>
 				<div className="flex-1" />
-				<HiPlus className="bg-sky-900 group-hover:bg-sky-800 font-extrabold text-white h-7 w-7 rounded-md" />
+				<HiPlus className="bg-sky-500 group-hover:bg-sky-400 font-extrabold text-white h-7 w-7 rounded-md" />
 			</NavLink>
 		</div>
 	)

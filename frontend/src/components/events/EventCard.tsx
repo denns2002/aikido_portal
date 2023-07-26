@@ -17,7 +17,7 @@ function EventCard({ name, slug, image }: EventCardProps) {
 			</div>
 			<div className="text-xl font-semibold my-1">{name}</div>
 			<div className="flex justify-center mt-5 mb-2">
-				<NavLink to={`/events/${slug}`} className="text-base bg-slate-600 py-1 px-7 rounded-full text-white font-medium hover:bg-slate-500">
+				<NavLink to={`/events/${slug}`} className="text-base bg-slate-500 py-1 px-7 rounded-full text-white font-medium hover:bg-slate-400">
 					подробнее
 				</NavLink>
 			</div>

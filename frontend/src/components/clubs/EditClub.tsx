@@ -20,7 +20,7 @@ function EditClub() {
             info: "",
             slug:"",
             is_active: false,
-            addresses: [],
+            address: "",
             groups: [],
             photos: []
         }
@@ -70,13 +70,13 @@ function EditClub() {
     const [settings, setSettings] = useState(
         club ? {
             is_active: club.is_active,
-            addresses: club.addresses,
+            address: club.address,
             groups: club.groups,
             photos: club.photos
         }
         : {
             is_active: false,
-            addresses: [],
+            address: "",
             groups: [],
             photos: []
         }

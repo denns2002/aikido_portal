@@ -2,11 +2,12 @@ export interface IClub {
     id?: number
     name: string
     info: string
+    address?: string
     slug: string
-    addresses: number[]
+    is_active: boolean
     groups: number[]
     photos: number[]
-    is_active: boolean
+    managers?: number[]
 }
 
 export interface IClubList {

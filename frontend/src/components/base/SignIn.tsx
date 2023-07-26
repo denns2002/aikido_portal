@@ -96,52 +96,52 @@ function SignIn({ isAuthenticated, profileIsLoading }: SignInProps) {
 	} else {
 		return (
 			<div className="h-full w-full flex flex-col items-center">
-				<div className="h-full flex flex-col">
-					<div className="h-full w-full flex flex-col items-center py-4 px-10 border-[1px] rounded-md border-sky-700">
-						<h1 className="font-bold text-2xl">Авторизация</h1>
-						<form
-							className="flex flex-col gap-2 mt-6 w-80"
-							onSubmit={handleSubmit}
+				<div className="h-full w-[60rem] flex flex-col">
+					<h1 className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
+						Авторизация
+					</h1>
+					<form
+						className="w-full flex flex-col gap-2 mt-6"
+						onSubmit={handleSubmit}
+					>
+						<Input
+							{...formInputs[0]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.username]}
+						/>
+						<Input
+							{...formInputs[1]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.password]}
+						/>
+						<NavLink
+							to="#"
+							className="underline text-sky-500 hover:text-sky-300 text-sm -mt-1"
 						>
-							<Input
-								{...formInputs[0]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.username]}
-							/>
-							<Input
-								{...formInputs[1]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.password]}
-							/>
-							<NavLink
-								to="#"
-								className="underline text-sky-500 hover:text-sky-300 text-sm -mt-1"
+							Забыли пароль?
+						</NavLink>
+						<div className="flex flex-col">
+							{(errors.password && touched.password) ||
+							(errors.username && touched.username) ? (
+								<span className="text-red-700">
+									Все поля должны быть заполнены!
+								</span>
+							) : null}
+						</div>
+						<div className="peer-pla flex justify-center">
+							<button
+								className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-400 enabled:text-white enabled:bg-sky-500 disabled:bg-sky-200 text-white"
+								type="submit"
+								disabled={
+									!(!errors.password && !errors.username)
+								}
 							>
-								Забыли пароль?
-							</NavLink>
-							<div className="flex flex-col">
-								{(errors.password && touched.password) ||
-								(errors.username && touched.username) ? (
-									<span className="text-red-700">
-										Все поля должны быть заполнены!
-									</span>
-								) : null}
-							</div>
-							<div className="peer-pla flex justify-center">
-								<button
-									className="font-semibold rounded-md p-1 w-52 h-9 mt-2 enabled:hover:bg-sky-300 enabled:text-white enabled:bg-sky-500 disabled:bg-sky-100"
-									type="submit"
-									disabled={
-										!(!errors.password && !errors.username)
-									}
-								>
-									Войти
-								</button>
-							</div>
-						</form>
-					</div>
+								Войти
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		)

@@ -2,7 +2,6 @@ import { IProfile } from './profiles';
 export interface IGroup {
     id: number
     name: string
-    number: string
     slug: string
     trainers: number[]
 }

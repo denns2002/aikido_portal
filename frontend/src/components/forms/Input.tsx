@@ -25,14 +25,14 @@ function Input({ label, errors, touched, disabled, ...inputProps }: InputProps) 
 				{...inputProps}
 				id={inputProps.name}
 				disabled={disabled}
-				className={`p-1 h-12 mt-2 peer transition-all placeholder-transparent w-full border-solid border-b-2 focus:outline-none ${
+				className={`shadow-md p-1 h-12 mt-2 peer transition-all placeholder-transparent w-full border-solid border-b-2 focus:outline-none ${
 					filterdErrors
 						? (!touched && filterdErrors.length > 0) ||
 						  (!touched && filterdErrors.length === 0) ||
 						  (touched && filterdErrors.length === 0)
-							? "border-sky-700 hover:border-sky-500 focus:border-sky-300"
-							: "border-red-700 hover:border-red-500 focus:border-red-300"
-						: "border-sky-700 hover:border-sky-500 focus:border-sky-300"
+							? "border-sky-500 hover:border-sky-400 focus:border-sky-500"
+							: "border-red-500 hover:border-red-400 focus:border-red-500"
+						: "border-sky-500 hover:border-sky-400 focus:border-sky-500"
 				} disabled:border-slate-300 disabled:text-slate-300`}
 			/>
 			<label

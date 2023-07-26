@@ -22,6 +22,7 @@ function AddEvent() {
 		reg_end: "",
 		date_end: "",
 		date_start: "",
+		address: "",
 	})
 
 	const [touched, setTouched] = useState({
@@ -31,6 +32,7 @@ function AddEvent() {
 		reg_end: false,
 		date_end: false,
 		date_start: false,
+		address: false,
 	})
 
 	const [errors, setErrors] = useState({
@@ -40,6 +42,7 @@ function AddEvent() {
 		reg_end: "Это поле необходимо заполнить!",
 		date_end: "Это поле необходимо заполнить!",
 		date_start: "Это поле необходимо заполнить!",
+		address: "Это поле необходимо заполнить!",
 	})
 
 	const formInputs: IInputAttributes[] = [
@@ -97,6 +100,14 @@ function AddEvent() {
 			rows: 5,
 			required: true,
 			touched: touched.about,
+		},
+		{
+			label: "Место проведения",
+			type: "text",
+			placeholder: "address",
+			name: "address",
+			value: inputsValues.address,
+			required: true,
 		},
 		{
 			label: "Семинар",
@@ -158,192 +169,199 @@ function AddEvent() {
 
 	return (
 		<div className="h-full w-full flex flex-col items-center">
-			<div className="relative flex h-full w-[50rem]">
-				<div className="w-full bg-white relative flex flex-col items-center shadow-md px-8 py-7">
-					<label className="font-bold text-2xl">
-						Создать мероприятие
-					</label>
-					<form
-						className="w-full flex flex-col gap-2 mt-6"
-						onSubmit={handleSubmit}
-					>
-						<Input
-							{...formInputs[0]}
-							onChange={handleChange}
-							onBlur={handleBlur}
-							errors={[errors.name]}
-						/>
-						<div className="border-b-2 border-sky-700 w-24">
-							Регистрация:
-						</div>
-						<div className="flex flex-row gap-4">
-							<Input
-								{...formInputs[1]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.reg_start]}
-							/>
-							<Input
-								{...formInputs[2]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.reg_end]}
-							/>
-						</div>
-						<div className="border-b-2 border-sky-700 w-36">
-							Время проведения:
-						</div>
-						<div className="flex flex-row gap-4">
-							<Input
-								{...formInputs[3]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.date_start]}
-							/>
-							<Input
-								{...formInputs[4]}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								errors={[errors.date_end]}
-							/>
-						</div>
-						<TextArea
-							{...formInputs[5]}
-							onChange={handleChange}
-							onBlur={handleBlur}
-							errors={[errors.about]}
-						/>
-						<div className="flex flex-row gap-4">
-							<button
-								className={`${
-									settings.seminar
-										? "bg-green-500 hover:bg-green-300"
-										: "bg-slate-500 hover:bg-slate-300"
-								} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
-								type="button"
-								onClick={() => {
-									setSettings((prev) => ({
-										...prev,
-										seminar: !prev.seminar,
-									}))
-	
-									if (!settings.seminar) {
-										setInputValues((prev) => ({
-											...prev,
-											is_seminar: true,
-											seminar_date: "",
-										}))
-									} else {
-										setInputValues((prev) => ({
-											...prev,
-											is_seminar: false,
-											seminar_date: "",
-										}))
-									}
-								}}
-							>
-								Семинар
-							</button>
-							<button
-								className={`${
-									settings.attestation
-										? "bg-green-500 hover:bg-green-300"
-										: "bg-slate-500 hover:bg-slate-300"
-								} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
-								type="button"
-								onClick={() => {
-									setSettings((prev) => ({
-										...prev,
-										attestation: !prev.attestation,
-									}))
-	
-									if (!settings.attestation) {
-										setInputValues((prev) => ({
-											...prev,
-											is_attestation: true,
-											attestation_date: "",
-										}))
-									} else {
-										setInputValues((prev) => ({
-											...prev,
-											is_attestation: false,
-											attestation_date: "",
-										}))
-									}
-								}}
-							>
-								Аттестация
-							</button>
-						</div>
-						<div
-							className={`border-b-2 w-[4.4rem] ${
-								settings.seminar
-									? "border-sky-700"
-									: "border-slate-300 text-slate-300"
-							}`}
-						>
-							Семинар:
+			<div className="h-full w-[60rem] relative flex flex-col">
+				<h1 className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
+					Добавить мероприятие
+				</h1>
+				<form
+					className="w-full flex flex-col gap-2 mt-6"
+					onSubmit={handleSubmit}
+				>
+					<Input
+						{...formInputs[0]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errors={[errors.name]}
+					/>
+					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Регистрация:</span>
 						</div>
 						<Input
+							{...formInputs[1]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.reg_start]}
+						/>
+						<Input
+							{...formInputs[2]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.reg_end]}
+						/>
+					</div>
+					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Время проведения:</span>
+						</div>
+						<Input
+							{...formInputs[3]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.date_start]}
+						/>
+						<Input
+							{...formInputs[4]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							errors={[errors.date_end]}
+						/>
+					</div>
+					<Input
 							{...formInputs[6]}
 							onChange={handleChange}
 							onBlur={handleBlur}
-							disabled={!settings.seminar}
+							errors={[errors.address]}
 						/>
-						<div
-							className={`border-b-2 w-[5.4rem] ${
+					<TextArea
+						{...formInputs[5]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errors={[errors.about]}
+					/>
+					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Программа:</span>
+						</div>
+						<button
+							className={`${
+								settings.seminar
+									? "bg-green-500 hover:bg-green-400"
+									: "bg-slate-500 hover:bg-green-300"
+							} w-full font-semibold rounded-md p-1 text-white transition-all duration-200 text-lg`}
+							type="button"
+							onClick={() => {
+								setSettings((prev) => ({
+									...prev,
+									seminar: !prev.seminar,
+								}))
+
+								if (!settings.seminar) {
+									setInputValues((prev) => ({
+										...prev,
+										is_seminar: true,
+										seminar_date: "",
+									}))
+								} else {
+									setInputValues((prev) => ({
+										...prev,
+										is_seminar: false,
+										seminar_date: "",
+									}))
+								}
+							}}
+						>
+							Семинар
+						</button>
+						<button
+							className={`${
 								settings.attestation
-									? "border-sky-700"
-									: "border-slate-300 text-slate-300"
+									? "bg-green-500 hover:bg-green-400"
+									: "bg-slate-500 hover:bg-green-300"
+							} w-full font-semibold rounded-md p-1 text-white transition-all duration-200 text-lg`}
+							type="button"
+							onClick={() => {
+								setSettings((prev) => ({
+									...prev,
+									attestation: !prev.attestation,
+								}))
+
+								if (!settings.attestation) {
+									setInputValues((prev) => ({
+										...prev,
+										is_attestation: true,
+										attestation_date: "",
+									}))
+								} else {
+									setInputValues((prev) => ({
+										...prev,
+										is_attestation: false,
+										attestation_date: "",
+									}))
+								}
+							}}
+						>
+							Аттестация
+						</button>
+					</div>
+					<div className="flex flex-row gap-4">
+						<div
+							className={`w-[24rem] text-xl font-medium flex items-center ${
+								settings.seminar ? null : "text-slate-300"
 							}`}
 						>
-							Аттестация:
+							<span className="">Семинар:</span>
 						</div>
 						<Input
 							{...formInputs[7]}
 							onChange={handleChange}
 							onBlur={handleBlur}
+							disabled={!settings.seminar}
+						/>
+					</div>
+					<div className="flex flex-row gap-4">
+						<div
+							className={`w-[24rem] text-xl font-medium flex items-center ${
+								settings.attestation ? null : "text-slate-300"
+							}`}
+						>
+							<span className="">Аттестация:</span>
+						</div>
+						<Input
+							{...formInputs[8]}
+							onChange={handleChange}
+							onBlur={handleBlur}
 							disabled={!settings.attestation}
 						/>
-						<div className="flex flex-col">
-							{(errors.name && touched.name) ||
-							(errors.about && touched.about) ||
-							(errors.date_start && touched.date_start) ||
-							(errors.date_end && touched.date_end) ||
-							(errors.reg_end && touched.reg_end) ||
-							(errors.reg_start && touched.reg_start) ? (
-								<span className="text-red-700">
-									Заполните все необходимые поля!
-								</span>
-							) : null}
-						</div>
-						<div className="peer-pla flex justify-center flex-row gap-4">
-							<button
-								className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
-								type="submit"
-								disabled={
-									!(
-										!errors.name &&
-										!errors.about &&
-										!errors.date_end &&
-										!errors.date_start &&
-										!errors.reg_start &&
-										!errors.reg_end
-									)
-								}
-							>
-								Создать
-							</button>
-							<button
-								className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
-								type="button"
-								onClick={() => navigate(`/events`)}
-							>
-								Отменить
-							</button>
-						</div>
-					</form>
-				</div>
+					</div>
+					<div className="flex flex-col">
+						{(errors.name && touched.name) ||
+						(errors.about && touched.about) ||
+						(errors.date_start && touched.date_start) ||
+						(errors.date_end && touched.date_end) ||
+						(errors.reg_end && touched.reg_end) ||
+						(errors.reg_start && touched.reg_start) ? (
+							<span className="text-red-700">
+								Заполните все необходимые поля!
+							</span>
+						) : null}
+					</div>
+					<div className="flex flex-row gap-4">
+						<button
+							className="w-full transition-all duration-200 font-semibold rounded-md p-1 enabled:hover:bg-sky-400 enabled:bg-sky-500 disabled:bg-sky-200 text-lg text-white"
+							type="submit"
+							disabled={
+								!(
+									!errors.name &&
+									!errors.about &&
+									!errors.date_end &&
+									!errors.date_start &&
+									!errors.reg_start &&
+									!errors.reg_end
+								)
+							}
+						>
+							Создать
+						</button>
+						<button
+							className="w-full transition-all duration-200 font-semibold rounded-md p-1 hover:bg-slate-300 bg-slate-500 text-white text-lg"
+							type="button"
+							onClick={() => navigate(`/events/upcoming`)}
+						>
+							Отменить
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	)

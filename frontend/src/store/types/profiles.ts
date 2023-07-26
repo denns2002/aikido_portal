@@ -10,6 +10,8 @@ export interface IProfile {
 	slug?: string
 	rank?: IRank
 	next_rank?: number
+	club?: string
+	group?: string
 	user: IUser
 	phones: IPhone[]
 	photos: number[]

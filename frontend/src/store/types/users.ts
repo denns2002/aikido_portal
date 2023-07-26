@@ -1,14 +1,14 @@
 import { ITokens } from "./tokens"
 
 export interface IUser {
-	id: number | undefined
+	id?: number
 	username: string
-	email: string
-	is_staff: boolean
-	is_active: boolean
-	is_verified: boolean
-	created_at: string
-	updated_at: string
+	email?: string
+	is_staff?: boolean
+	is_active?: boolean
+	is_verified?: boolean
+	created_at?: string
+	updated_at?: string
 }
 
 export interface ISignInData {

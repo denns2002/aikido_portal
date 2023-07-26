@@ -5,13 +5,13 @@ export interface IEvent {
     reg_end: string
     date_start: string
     date_end: string
+    address?: string
     about: string
     is_attestation?: boolean
     attestation_date?: string
     is_seminar?: boolean
     seminar_date?: string
     slug?: string
-    addresses?: number | null
     members?: number[]
     organizers?: number[]
     co_organizers?: number[]

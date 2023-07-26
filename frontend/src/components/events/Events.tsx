@@ -20,9 +20,9 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 	) : (
 		<div className="h-full w-full flex flex-col items-center">
 			<div className="flex flex-col">
-				<span className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
+				<h1 className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
 					Ближайшие мероприятия
-				</span>
+				</h1>
 				<div className="w-[60rem] flex flex-row flex-wrap gap-[3rem] mt-6">
 					<EventCard
                         slug="upcoming-test"
@@ -42,9 +42,9 @@ function Events({ profile, isAuthenticated }: EventsProps) {
 				</div>
 			</div>
 			<div className="flex flex-col mt-8">
-				<span className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
+				<h1 className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
 					Последние мероприятия
-				</span>
+				</h1>
 				<div className="w-[60rem] flex flex-row flex-wrap gap-[3rem] mt-6">
 					<EventCard
                         slug="past-test"

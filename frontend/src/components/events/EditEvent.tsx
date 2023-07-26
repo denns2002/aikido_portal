@@ -19,18 +19,13 @@ function EditEvent() {
 	const { slug } = useParams()
 
 	const { data: event, isLoading } = useGetEventBySlugQuery(slug ? slug : "")
+
 	const [addEvent, { error, isSuccess, status }] =
 		usePatchEventBySlugMutation()
-	const { data: groupsInfo } = useGetTrainerGroupsQuery(1)
-	const [activeGroup, setActiveGroup] = useState(groupsInfo?.results[0]?.slug)
-	const { data: group, isLoading: groupIsLoading } = useGetTrainerGroupQuery({
-		slug: activeGroup ? activeGroup : "",
-		page: 1,
-	})
 
-	const [delEvent, {}] = useDeleteEventBySlugMutation()
+	const [deleteEvent, {}] = useDeleteEventBySlugMutation()
 
-	const [deleteEvent, setDeleteEvent] = useState(false)
+	const [deleteEventConfirm, setDeleteEventConfirm] = useState(false)
 
 	const navigate = useNavigate()
 
@@ -39,12 +34,10 @@ function EditEvent() {
 			? {
 					seminar: event.is_seminar,
 					attestation: event.is_attestation,
-					members: false,
 			  }
 			: {
 					seminar: false,
 					attestation: false,
-					members: false,
 			  }
 	)
 
@@ -67,8 +60,11 @@ function EditEvent() {
 					reg_end: "",
 					date_end: "",
 					date_start: "",
+					address: "",
 			  }
 	)
+
+	console.log(inputsValues, event)
 
 	const [touched, setTouched] = useState({
 		name: false,
@@ -77,6 +73,7 @@ function EditEvent() {
 		reg_end: false,
 		date_end: false,
 		date_start: false,
+		address: false,
 	})
 
 	const [errors, setErrors] = useState({
@@ -86,6 +83,7 @@ function EditEvent() {
 		reg_end: "",
 		date_end: "",
 		date_start: "",
+		address: ",",
 	})
 
 	const formInputs: IInputAttributes[] = [
@@ -143,6 +141,14 @@ function EditEvent() {
 			rows: 5,
 			required: true,
 			touched: touched.about,
+		},
+		{
+			label: "Место проведения",
+			type: "text",
+			placeholder: "address",
+			name: "address",
+			value: inputsValues.address,
+			required: true,
 		},
 		{
 			label: "Семинар",
@@ -216,13 +222,13 @@ function EditEvent() {
 	}
 
 	return (
-		<div className="relative flex h-full w-full">
-			<div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 m-auto flex flex-col items-center rounded-xl px-8 py-7">
-				<label className="font-bold text-2xl">
+		<div className="h-full w-full flex flex-col items-center">
+			<div className="h-full w-[60rem] relative flex flex-col">
+				<h1 className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
 					Редактировать мероприятие
-				</label>
+				</h1>
 				<form
-					className="flex flex-col gap-2 mt-6 w-[30rem]"
+					className="w-full flex flex-col gap-2 mt-6"
 					onSubmit={handleSubmit}
 				>
 					<Input
@@ -231,10 +237,10 @@ function EditEvent() {
 						onBlur={handleBlur}
 						errors={[errors.name]}
 					/>
-					<div className="border-b-2 border-sky-700 w-24">
-						Регистрация:
-					</div>
 					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Регистрация:</span>
+						</div>
 						<Input
 							{...formInputs[1]}
 							onChange={handleChange}
@@ -248,10 +254,10 @@ function EditEvent() {
 							errors={[errors.reg_end]}
 						/>
 					</div>
-					<div className="border-b-2 border-sky-700 w-36">
-						Время проведения:
-					</div>
 					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Время проведения:</span>
+						</div>
 						<Input
 							{...formInputs[3]}
 							onChange={handleChange}
@@ -265,6 +271,12 @@ function EditEvent() {
 							errors={[errors.date_end]}
 						/>
 					</div>
+					<Input
+						{...formInputs[6]}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errors={[errors.address]}
+					/>
 					<TextArea
 						{...formInputs[5]}
 						onChange={handleChange}
@@ -272,12 +284,15 @@ function EditEvent() {
 						errors={[errors.about]}
 					/>
 					<div className="flex flex-row gap-4">
+						<div className="w-[50rem] text-xl font-medium flex items-center">
+							<span className="">Программа:</span>
+						</div>
 						<button
 							className={`${
 								settings.seminar
-									? "bg-green-500 hover:bg-green-300"
-									: "bg-slate-500 hover:bg-slate-300"
-							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
+									? "bg-green-500 hover:bg-green-400"
+									: "bg-slate-500 hover:bg-green-300"
+							} w-full font-semibold rounded-md p-1 text-white transition-all duration-200 text-lg`}
 							type="button"
 							onClick={() => {
 								setSettings((prev) => ({
@@ -307,9 +322,9 @@ function EditEvent() {
 						<button
 							className={`${
 								settings.attestation
-									? "bg-green-500 hover:bg-green-300"
-									: "bg-slate-500 hover:bg-slate-300"
-							} flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
+									? "bg-green-500 hover:bg-green-400"
+									: "bg-slate-500 hover:bg-green-300"
+							} w-full font-semibold rounded-md p-1 text-white transition-all duration-200 text-lg`}
 							type="button"
 							onClick={() => {
 								setSettings((prev) => ({
@@ -340,49 +355,37 @@ function EditEvent() {
 						>
 							Аттестация
 						</button>
-						<button
-							className="bg-sky-700 hover:bg-sky-500 flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200"
-							type="button"
-							onClick={() => {
-								setSettings((prev) => ({
-									...prev,
-									members: !prev.members,
-								}))
-							}}
+					</div>
+					<div className="flex flex-row gap-4">
+						<div
+							className={`w-[24rem] text-xl font-medium flex items-center ${
+								settings.seminar ? null : "text-slate-300"
+							}`}
 						>
-							Участники
-						</button>
+							<span className="">Семинар:</span>
+						</div>
+						<Input
+							{...formInputs[7]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							disabled={!settings.seminar}
+						/>
 					</div>
-					<div
-						className={`border-b-2 w-[4.4rem] ${
-							settings.seminar
-								? "border-sky-700"
-								: "border-slate-300 text-slate-300"
-						}`}
-					>
-						Семинар:
+					<div className="flex flex-row gap-4">
+						<div
+							className={`w-[24rem] text-xl font-medium flex items-center ${
+								settings.attestation ? null : "text-slate-300"
+							}`}
+						>
+							<span className="">Аттестация:</span>
+						</div>
+						<Input
+							{...formInputs[8]}
+							onChange={handleChange}
+							onBlur={handleBlur}
+							disabled={!settings.attestation}
+						/>
 					</div>
-					<Input
-						{...formInputs[6]}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						disabled={!settings.seminar}
-					/>
-					<div
-						className={`border-b-2 w-[5.4rem] ${
-							settings.attestation
-								? "border-sky-700"
-								: "border-slate-300 text-slate-300"
-						}`}
-					>
-						Аттестация:
-					</div>
-					<Input
-						{...formInputs[7]}
-						onChange={handleChange}
-						onBlur={handleBlur}
-						disabled={!settings.attestation}
-					/>
 					<div className="flex flex-col">
 						{(errors.name && touched.name) ||
 						(errors.about && touched.about) ||
@@ -395,9 +398,9 @@ function EditEvent() {
 							</span>
 						) : null}
 					</div>
-					<div className="peer-pla flex justify-center flex-row gap-4">
+					<div className="w-full flex flex-row gap-4 mt-8">
 						<button
-							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
+							className="w-full transition-all duration-200 font-semibold rounded-md p-1 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-200 text-lg text-white"
 							type="submit"
 							disabled={
 								!(
@@ -413,18 +416,16 @@ function EditEvent() {
 							Сохранить
 						</button>
 						<button
-							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-slate-300 bg-slate-500 text-white"
+							className="w-full transition-all duration-200 font-semibold rounded-md p-1 hover:bg-slate-300 bg-slate-500 text-white text-lg"
 							type="button"
 							onClick={() => navigate(`/events/${slug}`)}
 						>
 							Отменить
 						</button>
-					</div>
-					<div className="peer-pla flex justify-center flex-row gap-4">
 						<button
-							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 hover:bg-red-300 bg-red-500 text-white"
+							className="w-full transition-all duration-200 font-semibold rounded-md p-1 hover:bg-red-300 bg-red-500 text-white text-lg"
 							type="button"
-							onClick={() => setDeleteEvent(true)}
+							onClick={() => setDeleteEventConfirm(true)}
 						>
 							Удалить
 						</button>
@@ -433,12 +434,12 @@ function EditEvent() {
 			</div>
 			<div
 				className={`${
-					deleteEvent ? "bg-opacity-30" : "hidden bg-opacity-0"
+					deleteEventConfirm ? "bg-opacity-30" : "hidden bg-opacity-0"
 				} transition-all duration-200 z-8 absolute top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-sky-700 text-white`}
 			>
 				<div
 					className={`z-9 bg-slate-500 relative flex flex-col items-center rounded-xl px-8 py-7 transition-all duration-200 ${
-						deleteEvent ? "opacity-100" : "opacity-0"
+						deleteEventConfirm ? "opacity-100" : "opacity-0"
 					} w-[20rem]`}
 				>
 					<span className="font-medium text-lg">
@@ -449,7 +450,7 @@ function EditEvent() {
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 bg-red-500 hover:bg-red-300 text-white"
 							type="submit"
 							onClick={async () => {
-								await delEvent(slug ? slug : "").unwrap()
+								await deleteEvent(slug ? slug : "").unwrap()
 
 								navigate("/events")
 							}}
@@ -459,112 +460,10 @@ function EditEvent() {
 						<button
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 bg-white hover:bg-slate-300 text-black"
 							type="button"
-							onClick={() => setDeleteEvent(false)}
+							onClick={() => setDeleteEventConfirm(false)}
 						>
 							Нет
 						</button>
-					</div>
-				</div>
-			</div>
-			<div
-				className={`${
-					settings.members ? "bg-opacity-30" : "hidden bg-opacity-0"
-				} transition-all duration-200 z-8 absolute top-0 left-0 bottom-0 right-0 w-full h-full flex items-center justify-center bg-sky-700 text-white`}
-			>
-				<div
-					className={`z-9 bg-sky-700 relative flex flex-col items-center rounded-xl px-8 py-7 transition-all duration-200 ${
-						settings.members ? "opacity-100" : "opacity-0"
-					} w-[30rem]`}
-				>
-					<label className="font-bold text-2xl">Участники</label>
-					<div className="border-y-2 border-sky-300 mt-2 p-1 border-opacity-30 flex felx-row gap-2 w-full">
-						{groupsInfo?.results.map((group, index) => (
-							<span
-								key={index}
-								className={`font-medium rounded p-0.5 transition-all duration-200 ${
-									group.slug === activeGroup
-										? "bg-white text-sky-700"
-										: "hover:bg-sky-500"
-								} cursor-pointer`}
-								onClick={() => setActiveGroup(group.slug)}
-							>
-								{group.name}
-							</span>
-						))}
-					</div>
-					<RxCross2
-						className="h-6 w-6 absolute right-2 top-2 cursor-pointer"
-						onClick={() =>
-							setSettings((prev) => ({ ...prev, members: false }))
-						}
-					/>
-					<div className="transition-all duration-200 scrollbar-hide border-2 border-white h-[25rem] w-full rounded-md mt-4 p-2 flex flex-col gap-2">
-					{group?.results[0]?.groupmember_set?.map(
-							(member, index) => (
-								<span
-									key={index}
-									className="border-b-2 border-white pb-0.5 flex flex-row-reverse items-center"
-								>
-									<div className="flex justify-center items-center">
-										{inputsValues?.members?.includes(
-											member.id
-										) ? (
-											<RxCross2
-												className="h-5 w-5 rounded-full text-white bg-red-700 cursor-pointer"
-												onClick={() =>
-													setInputValues((prev) => {
-														const newMembers =
-															prev.members?.filter(
-																(id) =>
-																	id !==
-																	member.id
-															)
-
-														return {
-															...prev,
-															members: newMembers,
-														}
-													})
-												}
-											/>
-										) : (
-											<TbPlus
-												className="h-5 w-5 rounded-full bg-white text-sky-700 cursor-pointer"
-												onClick={() =>
-													setInputValues((prev) => {
-														prev.members?.push(
-															member.id
-														)
-
-														return { ...prev }
-													})
-												}
-											/>
-										)}
-									</div>
-									<div className="flex-1" />
-									{/* <span
-										className={`font-medium ${
-											ranks[member.rank as RanksKey]
-												.textColor
-										} rounded-md bg-${
-											ranks[member.rank as RanksKey]
-												.bgColor
-										} ${
-											ranks[member.rank as RanksKey]
-												.bgColor
-										} w-20 p-0.5 flex justify-center items-center`}
-									>
-										{ranks[member.rank as RanksKey].text}
-									</span> */}
-									<span className="flex-1">
-										{member.last_name}{" "}
-										{member.first_name[0]}.{" "}
-										{member.mid_name[0]}.
-									</span>
-								</span>
-							)
-						)}
 					</div>
 				</div>
 			</div>

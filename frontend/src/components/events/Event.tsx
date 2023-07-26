@@ -76,9 +76,9 @@ function Event({ profile, isAuthenicated }: EventProps) {
 						Изменить заявку
 					</NavLink>
 				</div>
-				<button className="mt-4 p-1 px-4 bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 rounded-md text-lg font-medium flex-1">
+				<NavLink to={`/events/${slug}/edit`} className=" text-center mt-4 p-1 px-4 bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 rounded-md text-lg font-medium flex-1">
 					Редактировать мероприятие
-				</button>
+				</NavLink>
 			</div>
 		</div>
 	) : (

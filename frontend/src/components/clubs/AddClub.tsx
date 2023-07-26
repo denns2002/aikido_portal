@@ -17,7 +17,7 @@ function AddClub() {
             info: "",
             slug:"",
             is_active: false,
-            addresses: [],
+            address: "",
             groups: [],
             photos: []
         }
