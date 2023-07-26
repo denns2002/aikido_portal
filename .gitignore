@@ -1,5 +1,5 @@
 # Back-end
-/backend/__pycache__/
+/backend/*__pycache__/
 /backend/db.sqlite3
 /backend/media/*
 /backend/.idea
