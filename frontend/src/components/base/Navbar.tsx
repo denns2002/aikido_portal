@@ -1,54 +1,82 @@
 import { TbLogin } from "react-icons/tb"
 import logo from "../../static/logo.svg"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import { FaUser, FaBell } from "react-icons/fa"
 import { IProfile } from "../../store/types"
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
+import { onFocus } from "@reduxjs/toolkit/dist/query/core/setupListeners"
 
 interface NavbarProps {
 	isAuthenticated: boolean
 	profile: IProfile
 }
 
-function Navbar({isAuthenticated, profile} : NavbarProps) {
+function Navbar({ isAuthenticated, profile }: NavbarProps) {
+	const location = useLocation()	
+	
 	return (
-		<div className="sticky top-0 z-50 bg-sky-700 h-20 w-full flex flex-row justify-center items-center text-white">
+		<div className="bg-sky-700 h-20 w-full flex flex-row justify-center items-center text-white">
 			<img src={logo} alt="" className="h-16 w-16" />
-			<div className="mx-8 w-[20rem] h-full flex flex-row">
-				<NavLink to="/events" className={({isActive}) => `h-full flex items-center p-2 border-y-4 border-sky-700 font-medium transform transition-all duration-200 ${isActive ? "bg-white border-white border-b-sky-300 text-sky-700" : "hover:bg-sky-800 hover:border-t-sky-800 hover:border-b-sky-500"}`}>
-					Мероприятия
-				</NavLink>  
+			<div className="mx-8 w-[50rem] h-full flex flex-row">
+				<div className="dropdown z-10">
+					<div className="dropdown-content flex-col text-base bg-sky-600 font-medium gap-1 rounded-b-md border-x-2 border-b-2 border-sky-700 p-1">
+						<NavLink to="/events" className="hover:text-lg transform transition-all duration-200">
+							Главная
+						</NavLink>
+						<NavLink to="/events/upcoming" className="hover:text-lg transform transition-all duration-200">
+							Предстоящие
+						</NavLink>
+						<NavLink to="/events/past" className="hover:text-lg transform transition-all duration-200">
+							Прошедшие
+						</NavLink>
+					</div>
+					<div
+						className={
+							`dropdown-element h-full hover:text-xl flex text-lg items-center p-2 border-y-4 cursor-pointer border-sky-700 font-medium transform transition-all duration-200 ${
+								location.pathname.split("/")[1] === "events" ? "underline" : null
+							}`
+						}
+					>
+						Мероприятия
+					</div>
+				</div>
+				<div className="flex-1" />
+				{isAuthenticated ? (
+					<div className="flex flex-row justify-center items-center">
+						<NavLink
+							to="/profile/me"
+							className={({ isActive }) =>
+								`h-full flex flex-row transform transition-all duration-200 justify-center items-center font-medium text-lg hover:text-xl ${
+									isActive ? "underline" : null
+								}`
+							}
+						>
+							<span className="mr-2">
+								{profile.last_name} {profile.first_name}
+							</span>
+							<FaUser className="h-10 w-10 rounded-full border-4 bg-white border-white text-sky-700 mr-2" />
+							<FaBell className="h-5 w-5" />
+						</NavLink>
+					</div>
+				) : (
+					<div className="flex flex-row justify-center items-center">
+						<NavLink
+							to="/signin"
+							className={({ isActive }) =>
+								`h-full flex flex-row transform transition-all duration-200 justify-center items-center font-medium text-lg hover:text-xl ${
+									isActive ? "underline" : null
+								}`
+							}
+						>
+							<span className="mr-2">
+								Авторизоваться
+							</span>
+							<FaUser className="h-10 w-10 rounded-full border-4 bg-white border-white text-sky-700 mr-2" />
+						</NavLink>
+					</div>
+				)}
 			</div>
-            {isAuthenticated ? (
-							<div className="flex flex-row justify-center items-center">
-                                <FaBell className="h-5 w-5" />
-							    <NavLink
-    								to="/profile/me"
-    								className="flex flex-row justify-center items-center ml-2 hover:underline"
-    							>
-                                    <div className="flex flex-col text-sm mr-2">
-    									<span>{profile.last_name}</span>
-    									<span>{profile.first_name}</span>
-    								</div>
-                                    <FaUser className="h-9 w-9 rounded-full border-4 bg-white border-white text-sky-700" />
-    							</NavLink>
-							</div>
-					) : (
-						<div className="bg-sky-900 rounded-md mx-3 my-3 p-1.5 flex flex-row items-center">
-							<FaUser className="h-9 w-9 rounded-full border-4 bg-white border-white text-sky-700" />
-							<div className="flex flex-col text-sm ms-2">
-								<span>Вы не прошли</span>
-								<span>авторизацию</span>
-							</div>
-							<div className="flex-1" />
-							<NavLink
-								to="/signin"
-							>
-								<TbLogin className="h-9 w-9" />
-							</NavLink>
-						</div>
-					)}
 		</div>
 	)
 }

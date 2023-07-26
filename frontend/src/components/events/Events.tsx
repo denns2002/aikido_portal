@@ -15,97 +15,51 @@ interface EventsProps {
 function Events({ profile, isAuthenticated }: EventsProps) {
 	const { data, isLoading } = useGetEventsQuery(1)
 
-	function haveAccessRole(accessRoles: string[]) {
-		// for (let index = 0; index < profile.roles.length; index++) {
-		// 	if (accessRoles.includes(profile.roles[index].name)) {
-		// 		return true
-		// 	}
-		// }
-
-		return true
-	}
-
 	return isLoading ? (
 		<div className="font-semibold text-lg">Идет загрузка</div>
 	) : (
 		<div className="h-full w-full flex flex-col items-center">
 			<div className="flex flex-col">
-				<span className="border-l-4 border-sky-700 px-1 text-lg font-semibold">
+				<span className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
 					Ближайшие мероприятия
 				</span>
-				<div className="flex flex-row flex-wrap gap-6 mt-6">
+				<div className="w-[60rem] flex flex-row flex-wrap gap-[3rem] mt-6">
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="upcoming-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="upcoming-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="upcoming-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 				</div>
 			</div>
 			<div className="flex flex-col mt-8">
-				<span className="border-l-4 border-sky-700 px-1 text-lg font-semibold">
-					Прошедшие мероприятия
+				<span className="border-l-4 border-sky-700 px-1 text-3xl font-bold">
+					Последние мероприятия
 				</span>
-				<div className="flex flex-row flex-wrap gap-6 mt-6">
+				<div className="w-[60rem] flex flex-row flex-wrap gap-[3rem] mt-6">
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="past-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="past-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 					<EventCard
-						event={{
-							slug: "/",
-							about: "Абоба",
-							name: "XI Центральный семинар по прикладному айкидо",
-							date_start: "2023-01-01",
-							date_end: "2023-01-01",
-							reg_start: "2023-01-01",
-							reg_end: "2023-01-01",
-						}}
+                        slug="past-test"
+                        name="XI Центральный семинар по прикладному айкидо"
+                        image=""
 					/>
 				</div>
 			</div>

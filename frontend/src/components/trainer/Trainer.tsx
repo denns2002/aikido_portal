@@ -8,7 +8,7 @@ import {
 import { TbPlus, TbShieldFilled } from "react-icons/tb"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile, RanksKey, ranks } from "../../store/types"
+import { IProfile } from "../../store/types"
 import { FaUser } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 import { RxCross2 } from "react-icons/rx"
@@ -50,7 +50,7 @@ function Trainer({ profile }: ITrainerProps) {
 							</div>
 							<div className="flex-1" />
 							{profile?.rank ? <div className="flex items-center justify-center">
-								<div
+								{/* <div
 									className={`font-medium ${
 										ranks[profile?.rank?.name as RanksKey]
 											.textColor
@@ -66,7 +66,7 @@ function Trainer({ profile }: ITrainerProps) {
 										ranks[profile?.rank?.name as RanksKey]
 											.text
 									}
-								</div>
+								</div> */}
 							</div> : <div>Ранг отсутствует</div>}
 						</div>
 						<div className="m-1 font-semibold text-lg">
@@ -123,7 +123,7 @@ function Trainer({ profile }: ITrainerProps) {
 									key={index}
 									className="border-b-2 border-white pb-0.5 flex flex-row-reverse items-center"
 								>
-									<span
+									{/* <span
 										className={`font-medium ${
 											ranks[member.rank as RanksKey]
 												.textColor
@@ -136,7 +136,7 @@ function Trainer({ profile }: ITrainerProps) {
 										} w-20 p-0.5 flex justify-center items-center`}
 									>
 										{ranks[member.rank as RanksKey].text}
-									</span>
+									</span> */}
 									<span className="flex-1">
 										{member.last_name}{" "}
 										{member.first_name[0]}.{" "}
@@ -225,7 +225,7 @@ function Trainer({ profile }: ITrainerProps) {
 										/>
 									</div>
 									<div className="flex-1" />
-									<span
+									{/* <span
 										className={`font-medium ${
 											ranks[member.rank as RanksKey]
 												.textColor
@@ -238,7 +238,7 @@ function Trainer({ profile }: ITrainerProps) {
 										} w-20 p-0.5 flex justify-center items-center`}
 									>
 										{ranks[member.rank as RanksKey].text}
-									</span>
+									</span> */}
 									<span className="flex-1">
 										{member.last_name}{" "}
 										{member.first_name[0]}.{" "}

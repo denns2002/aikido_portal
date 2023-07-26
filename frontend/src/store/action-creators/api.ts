@@ -43,7 +43,7 @@ export function setupInterceptors(dispatch: AppDispatch) {
 					originalConfig._retry = true
 
 					try {
-						const response = await api.post("/auth/refresh/", {
+						const response = await api.post("/users/refresh/", {
 							refresh: refreshToken,
 						})
 

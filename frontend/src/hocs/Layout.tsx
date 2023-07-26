@@ -21,7 +21,7 @@ function Layout(props: LayoutProps) {
 		<div className="h-full w-full overflow-x-hidden scrollbar">
 			<Navbar />
 			<div className="w-full">
-				<main className="min-h-[calc(100vh-10rem)] flex justify-center py-[2rem]">
+				<main className="min-h-[calc(100vh-15rem)] flex justify-center py-[2rem]">
 					{props.children}
 				</main>
 				<Footer />

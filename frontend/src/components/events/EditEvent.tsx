@@ -14,7 +14,6 @@ import { IInputAttributes } from "../../store/types/components"
 import { ITrainerGroupMembers } from "../../store/types/groups"
 import { RxCross2 } from "react-icons/rx"
 import { TbPlus } from "react-icons/tb"
-import { RanksKey, ranks } from "../../store/types"
 
 function EditEvent() {
 	const { slug } = useParams()
@@ -544,7 +543,7 @@ function EditEvent() {
 										)}
 									</div>
 									<div className="flex-1" />
-									<span
+									{/* <span
 										className={`font-medium ${
 											ranks[member.rank as RanksKey]
 												.textColor
@@ -557,7 +556,7 @@ function EditEvent() {
 										} w-20 p-0.5 flex justify-center items-center`}
 									>
 										{ranks[member.rank as RanksKey].text}
-									</span>
+									</span> */}
 									<span className="flex-1">
 										{member.last_name}{" "}
 										{member.first_name[0]}.{" "}
