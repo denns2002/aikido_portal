@@ -5,7 +5,6 @@ from rest_framework.utils import model_meta
 
 from phones.models import Phone
 from phones.serializers.phone_serializer import PhoneSerinalizer
-from photos.models import Photo
 from users.serializers.user_serializer import UserSerializer
 from profiles.models.profile import Profile, Rank
 
@@ -20,13 +19,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     rank = RankSerializer()
     phones = PhoneSerinalizer(many=True)
-    # address = CitySerializer()
-    #
-    # group = serializers.SlugField(source="groupmember_set.first.group.slug",
-    #                               read_only=True)
-    # club = serializers.SlugField(
-    #     source="groupmember_set.first.group.club_set.first.slug",
-    #     read_only=True)
+    group = serializers.SlugField(source="groupmember_set.first.group.slug",
+                                  read_only=True)
+    club = serializers.SlugField(
+        source="groupmember_set.first.group.club_set.first.slug",
+        read_only=True)
 
     class Meta:
         model = Profile
@@ -40,6 +37,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             "slug",
             "rank",
             "next_rank",
+            "club",
+            "group",
             "user",
             "phones",
             "photos"
