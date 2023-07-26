@@ -11,7 +11,7 @@ function Dropdown({title, children, defaultShow}: DropdownProps) {
 	const [show, setShow] = useState(defaultShow)
 
 	return (
-		<div className="w-full flex flex-col items-center">
+		<div className="w-full flex flex-col items-center bg-white shadow-md">
 			<button
 				className="group w-full py-1 flex flex-row justify-center items-center px-2 border-b-2 border-sky-500"
 				onClick={() => setShow((prev) => !show)}
@@ -27,7 +27,7 @@ function Dropdown({title, children, defaultShow}: DropdownProps) {
 			<div
 				className={`${
 					show ? null : "hidden"
-				} w-full p-1`}
+				} w-full p-2`}
 			>
 				{children}
 			</div>

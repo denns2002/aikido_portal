@@ -123,7 +123,7 @@ function EventParticipants() {
                             const rankProps = getRankProps(member.rank)
 
 							return (
-								<div key={index} className="w-full shadow-md flex flex-row">
+								<div key={index} className="w-full bg-white shadow-md flex flex-row">
 									<div className="p-2 flex-1 border-r-[1px] border-sky-500 text-xl font-medium">
 										{member.last_name} {member.first_name} {member.mid_name}
 									</div>

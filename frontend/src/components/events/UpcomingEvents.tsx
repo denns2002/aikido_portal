@@ -121,8 +121,8 @@ function UpcomingEvents({ profile, isAuthenticated }: EventsProps) {
 				</div>
 			</div>
 			<NavLink
-				to="#"
-				className="group mt-[2rem] py-1 w-[60rem] flex flex-row justify-center items-center px-2 border-b-2 border-sky-500"
+				to="/events/add"
+				className="bg-white shadow-md group mt-[2rem] py-1 w-[60rem] flex flex-row justify-center items-center px-2 border-b-2 border-sky-500"
 			>
 				<span className="font-medium text-2xl">
 					Добавить мероприятие:

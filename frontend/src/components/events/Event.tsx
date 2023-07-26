@@ -63,25 +63,20 @@ function Event({ profile, isAuthenicated }: EventProps) {
 					</Dropdown>
 				</div>
 				<div className="flex flex-row mt-4 gap-4">
-					<button
-						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1"
-						onClick={() =>
-							openInNewTab(`${location.pathname}/participants`)
-						}
+					<NavLink
+						to={`/events/${slug}/participants`}
+						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1 text-center"
 					>
 						Посмотреть участников
-					</button>
-					<button
-						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1"
-						onClick={() =>
-							openInNewTab(`${location.pathname}/application`)
-						}
+					</NavLink>
+					<NavLink
+						to={`/events/${slug}/application`}
+						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1 text-center"
 					>
 						Изменить заявку
-					</button>
+					</NavLink>
 				</div>
-				<button className="mt-4 p-1 px-4 bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 rounded-md text-lg font-medium flex-1"
-				>
+				<button className="mt-4 p-1 px-4 bg-slate-600 hover:bg-slate-500 text-white transition-all duration-300 rounded-md text-lg font-medium flex-1">
 					Редактировать мероприятие
 				</button>
 			</div>
@@ -111,14 +106,12 @@ function Event({ profile, isAuthenicated }: EventProps) {
 					</Dropdown>
 				</div>
 				<div className="flex flex-row mt-4 gap-4">
-					<button
-						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1"
-						onClick={() =>
-							openInNewTab(`${location.pathname}/participants`)
-						}
+					<NavLink
+						to={`/events/${slug}/participants`}
+						className="p-1 bg-sky-900 hover:bg-sky-800 transition-all duration-300 text-white rounded-md text-lg font-medium flex-1 text-center"
 					>
 						Посмотреть участников
-					</button>
+					</NavLink>
 				</div>
 			</div>
 		</div>

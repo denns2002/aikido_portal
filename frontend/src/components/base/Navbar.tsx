@@ -20,7 +20,7 @@ function Navbar({ isAuthenticated, profile }: NavbarProps) {
 			<img src={logo} alt="" className="h-16 w-16" />
 			<div className="mx-8 w-[50rem] h-full flex flex-row">
 				<div className="dropdown z-10">
-					<div className="dropdown-content flex-col text-base bg-sky-600 font-medium gap-1 rounded-b-md border-x-2 border-b-2 border-sky-700 p-1">
+					<div className="dropdown-content flex-col text-base bg-sky-800 font-medium gap-1 shadow-md p-1">
 						<NavLink to="/events" className="hover:text-lg transform transition-all duration-200">
 							Главная
 						</NavLink>
@@ -45,7 +45,7 @@ function Navbar({ isAuthenticated, profile }: NavbarProps) {
 				{isAuthenticated ? (
 					<div className="flex flex-row justify-center items-center">
 						<NavLink
-							to="/profile/me"
+							to="/profile/my-profile"
 							className={({ isActive }) =>
 								`h-full flex flex-row transform transition-all duration-200 justify-center items-center font-medium text-lg hover:text-xl ${
 									isActive ? "underline" : null
@@ -56,8 +56,8 @@ function Navbar({ isAuthenticated, profile }: NavbarProps) {
 								{profile.last_name} {profile.first_name}
 							</span>
 							<FaUser className="h-10 w-10 rounded-full border-4 bg-white border-white text-sky-700 mr-2" />
-							<FaBell className="h-5 w-5" />
 						</NavLink>
+						<FaBell className="h-5 w-5" />
 					</div>
 				) : (
 					<div className="flex flex-row justify-center items-center">

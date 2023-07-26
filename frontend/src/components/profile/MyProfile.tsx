@@ -5,7 +5,7 @@ import {
 	useGetGroupBySlugQuery,
 	useGetMyProfileQuery,
 } from "../../store/apis"
-import { getCorrectDate } from "../../functions"
+import { getCorrectDate, getRankProps } from "../../functions"
 import { TbPhotoCancel } from "react-icons/tb"
 import { useState } from "react"
 import Dropdown from "../custom/Dropdown"
@@ -32,6 +32,8 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 	// const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(
 	// 	profile?.group ? profile?.group : ""
 	// )
+
+	const rankProps = getRankProps(profile?.rank?.name || "")
 
 	const {logOut} = useActions()
 
@@ -73,10 +75,18 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 							</div>
 							<div className="flex flex-col">
 								<span className="text-lg font-medium">
+									Ранг:
+								</span>
+								{
+									rankProps ?  <div className={`w-[10rem] ${rankProps.backgroundColor} ${rankProps.textColor} font-medium text-lg text-center rounded-md`}>{rankProps.text}</div> : <span className="text-red-500">Еще не установлен</span>
+								}
+							</div>
+							{/* <div className="flex flex-col">
+								<span className="text-lg font-medium">
 									Лицензия:
 								</span>
 								<span className="text-base">...</span>
-							</div>
+							</div> */}
 						</div>
 					</div>
 					<div className="w-[18rem] flex flex-col">
@@ -98,9 +108,6 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 							</div>
 						</div>
 					</div>
-				</div>
-				<div className="w-[10rem] text-center bg-slate-300">
-
 				</div>
 				<Dropdown title="Моя группа" defaultShow={false}>
 					<>{"..."}</>

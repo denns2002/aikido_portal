@@ -132,7 +132,7 @@ function App() {
 					}
 				/>
 				<Route
-					path="/profile/me"
+					path="/profile/my-profile"
 					element={
 						<PrivateRoute accessRoles={["Тренер", "Студент"]}>
 							<MyProfile />

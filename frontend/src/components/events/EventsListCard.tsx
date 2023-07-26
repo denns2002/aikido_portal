@@ -11,7 +11,7 @@ function EventsListCard({event}: EventsListCardProps) {
     const dateEndArray = getCorrectDate(event.date_end).split(" ")
 
     return (
-    <NavLink to={`/events/${event.slug}`} className="w-full shadow-md flex flex-row">
+    <NavLink to={`/events/${event.slug}`} className="w-full shadow-md flex flex-row bg-white">
         <div className="flex flex-col p-2 w-[2.5rem] border-r-[1px] border-sky-500 text-2xl font-medium">
             <span>{dateStartArray[0]}</span>
             <span>{dateEndArray[0]}</span>

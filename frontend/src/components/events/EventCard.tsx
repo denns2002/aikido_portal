@@ -11,7 +11,7 @@ interface EventCardProps {
 
 function EventCard({ name, slug, image }: EventCardProps) {
 	return (
-		<div className="border-[1px] border-sky-700 rounded-md transition-all duration-200 w-[18rem] p-3">
+		<div className="bg-white transition-all duration-200 w-[18rem] p-3 shadow-md">
 			<div className="h-[16rem] w-[16.5rem] bg-slate-300 flex justify-center items-center">
 				<TbPhotoCancel className="text-white h-20 w-20" />
 			</div>

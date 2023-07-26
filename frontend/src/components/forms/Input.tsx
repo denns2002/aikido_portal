@@ -25,7 +25,7 @@ function Input({ label, errors, touched, disabled, ...inputProps }: InputProps) 
 				{...inputProps}
 				id={inputProps.name}
 				disabled={disabled}
-				className={`py-1 px-2.5 h-12 mt-2 peer transition-all placeholder-transparent w-full border-solid border-2 rounded-md focus:outline-none ${
+				className={`p-1 h-12 mt-2 peer transition-all placeholder-transparent w-full border-solid border-b-2 focus:outline-none ${
 					filterdErrors
 						? (!touched && filterdErrors.length > 0) ||
 						  (!touched && filterdErrors.length === 0) ||
@@ -33,11 +33,11 @@ function Input({ label, errors, touched, disabled, ...inputProps }: InputProps) 
 							? "border-sky-700 hover:border-sky-500 focus:border-sky-300"
 							: "border-red-700 hover:border-red-500 focus:border-red-300"
 						: "border-sky-700 hover:border-sky-500 focus:border-sky-300"
-				} disabled:border-slate-300 bg-white disabled:text-slate-300`}
+				} disabled:border-slate-300 disabled:text-slate-300`}
 			/>
 			<label
 				htmlFor={inputProps.name}
-				className={`absolute left-2 -top-0.5 bg-white text-sm transition-all px-0.5 peer-placeholder-shown:text-base peer-placeholder-shown:top-5 peer-focus:-top-0.5 ${disabled ? "peer-focus:text-slate-300 peer-placeholder-shown:text-slatte-300 text-slate-300" : "peer-placeholder-shown:text-black peer-focus:text-black"} peer-focus:text-sm`}
+				className={`absolute left-1 -top-0.5 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-5 peer-focus:-top-0.5 ${disabled ? "peer-focus:text-slate-300 peer-placeholder-shown:text-slatte-300 text-slate-300" : "peer-placeholder-shown:text-black peer-focus:text-black"} peer-focus:text-sm`}
 			>
 				{label}
 			</label>
