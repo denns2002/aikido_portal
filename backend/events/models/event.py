@@ -37,6 +37,12 @@ class Event(models.Model):
         blank=True, null=True, verbose_name=translate_ru("Seminar date", "Дата и время семинара")
     )
     slug = models.SlugField(max_length=55, blank=True, verbose_name=translate_ru("URL", "Ссылка"))
+    members = models.ManyToManyField(
+        get_user_model(),
+        blank=True,
+        related_name="members",
+        verbose_name=translate_ru("Members", "Участники"),
+    )
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:

@@ -1,10 +1,14 @@
 from datetime import date
 
+import django_filters
+from django.db import models as models
 from django.contrib.auth import get_user_model
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import (GenericAPIView, ListAPIView,
                                      RetrieveUpdateDestroyAPIView,
                                      UpdateAPIView, ListCreateAPIView)
 from rest_framework.permissions import AllowAny
+from rest_framework import filters
 
 from clubs_groups.models.group import Group
 from events.models.event import Event, PlannedEvents
@@ -12,6 +16,26 @@ from events.serializers.event_serializer import (EventOrganizersSerializer,
                                                  EventSerializer,
                                                  PlannedEventSerializer,
                                                  EventCoOrganizersSerializer)
+
+
+# class RegEndGTEFilterBacked(filters.BaseFilterBackend):
+#     def filter_queryset(self, request, queryset, view):
+#         return queryset.filter(reg_end__gte=datetime.datetime.today())
+#
+#
+# class RegEndLTEFilterBacked(filters.BaseFilterBackend):
+#     def filter_queryset(self, request, queryset, view):
+#         return queryset.filter(reg_end__lte=datetime.datetime.today())
+
+class EventFilter(django_filters.FilterSet):
+    reg_end_gte = django_filters.DateFilter(field_name="reg_end", lookup_expr='gte')
+    reg_end_lte = django_filters.DateFilter(field_name="reg_end", lookup_expr='lte')
+    date_end_gte = django_filters.DateFilter(field_name="date_end", lookup_expr='gte')
+    date_end_lte = django_filters.DateFilter(field_name="date_end", lookup_expr='lte')
+
+    class Meta:
+        model = Event
+        fields = ['is_attestation', 'is_seminar', 'reg_end_gte', 'reg_end_lte', 'date_end_gte']
 
 
 class EventMixin(GenericAPIView):
@@ -26,6 +50,12 @@ class EventListCreateAPIView(ListCreateAPIView, EventMixin):
     """
 
     permission_classes = [AllowAny]
+    filterset_class = EventFilter
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ['name', 'address']
+    filterset_fields = ["is_attestation", "is_seminar", "reg_end", "date_end"]
+    ordering_fields = ['reg_end']
+    ordering = ['reg_end']
 
 
 class EventDetailAPIView(RetrieveUpdateDestroyAPIView, EventMixin):
