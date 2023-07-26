@@ -112,13 +112,12 @@ class TrainerRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(read_only=True)
 
     def create(self, validated_data):
-        username = get_random_string(length=10)
-        password = get_random_string(length=10)
+        string = get_random_string(length=10)
         user = get_user_model().objects.create(
-            username=username,
+            username=string,
             is_verified=True,
         )
-        user.set_password(password)
+        user.set_password(string)
         user.save()
 
         profile = Profile.objects.create(**validated_data)
@@ -130,8 +129,8 @@ class TrainerRegisterSerializer(serializers.ModelSerializer):
             "last_name": profile.last_name,
             "mid_name": profile.mid_name,
             "birth_date": profile.birth_date,
-            "username": username,
-            "password": password,
+            "username": string,
+            "password": string,
         }
 
     class Meta:
@@ -144,3 +143,7 @@ class TrainerRegisterSerializer(serializers.ModelSerializer):
             "username",
             "password"
         )
+
+
+class TrainerListRegisterSerializer(serializers.ListSerializer):
+    child = TrainerRegisterSerializer()

@@ -32,12 +32,12 @@ INSTALLED_APPS = [
     "profiles.apps.ProfilesConfig",
     "mailings.apps.MailingsConfig",
     # "cities.apps.CitiesConfig",
-    # "clubs.apps.ClubsConfig",
-    # "events.apps.EventsConfig",
+    "clubs_groups.apps.ClubsGroupsConfig",
+    "events.apps.EventsConfig",
     "phones.apps.PhonesConfig",
     "photos.apps.PhotosConfig",
     # "notifications.apps.NotificationsConfig",
-    # "statements.apps.StatementsConfig",
+    "statements.apps.StatementsConfig",
     "corsheaders",
 ]
 

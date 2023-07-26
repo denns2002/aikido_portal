@@ -4,8 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from profiles.models.profile import Profile
-from profiles.serializers.profile_serializer import ProfileSerializer, \
-    TrainerRegisterSerializer
+from profiles.serializers.profile_serializer import ProfileSerializer, TrainerListRegisterSerializer
 
 
 class UserProfileAPIView(APIView):
@@ -52,7 +51,7 @@ class ProfileDetailAPIView(RetrieveUpdateAPIView):
 
 
 class TrainerRegisterAPIView(CreateAPIView):
-    serializer_class = TrainerRegisterSerializer
+    serializer_class = TrainerListRegisterSerializer
     queryset = Profile.objects.all()
 
     def post(self, request, *args, **kwargs):

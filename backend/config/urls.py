@@ -12,6 +12,9 @@ urlpatterns = [
     path(api + "admin/", include("admincustom.urls")),  # Admin
     path(api + "users/", include("users.urls")),  # Users, reg, login etc.
     path(api + "profiles/", include("profiles.urls")),  # Users profiles
+    path(api + "", include("clubs_groups.urls")),  # Groups and Clubs
+    path(api + "events/", include("events.urls")),  # Events
+    path(api + "statements/", include("statements.urls")),  # Statements
 ]
 
 if settings.DEBUG:
