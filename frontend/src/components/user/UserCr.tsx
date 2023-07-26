@@ -10,7 +10,7 @@ import {
 } from "../../store/apis"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile, monthes } from "../../store/types"
+import { IProfile } from "../../store/types"
 import { FaUser } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 
@@ -38,9 +38,6 @@ function User({ profile }: ITrainerProps) {
 							last_name: "Дубил",
 							user: {
 								id: 0,
-								password: "",
-								last_login: "",
-								is_superuser: false,
 								username: "fuckMyUesername",
 								email: "",
 								is_staff: false,
@@ -48,8 +45,6 @@ function User({ profile }: ITrainerProps) {
 								is_verified: false,
 								created_at: "",
 								updated_at: "",
-								groups: [],
-								user_permisions: []
 							},
 							phones: [],
 							photos: []

@@ -1,6 +1,6 @@
 import { profileActions } from "../reducers/profile"
 import { AppDispatch } from "../store"
-import { IProfile } from "../types/profile"
+import { IProfile } from "../types/profiles"
 import { api } from "./api"
 
 export function loadUserProfile() {
@@ -12,6 +12,8 @@ export function loadUserProfile() {
 
 			dispatch(profileActions.userProfileLoadingSuccess(response.data))
 		} catch (e) {
+			console.log(e);
+
 			dispatch(
 				profileActions.userProfileLoadingFail(
 					"Произошла ошибка при загрузку вашего профиля"

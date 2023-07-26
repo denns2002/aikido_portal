@@ -19,6 +19,7 @@ import Club from "./components/clubs/Club"
 import EditClub from "./components/clubs/EditClub"
 import AddClub from "./components/clubs/AddClub"
 import NotFound from "./components/base/NotFound"
+import UserRegister from "./components/user/UserRegister"
 
 function App() {
 	return (
@@ -99,9 +100,7 @@ function App() {
 				<Route
 					path="/trainer/add-user"
 					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
-							<AddUser />
-						</PrivateRoute>
+						<AddUser />
 					}
 				/>
 				<Route
@@ -131,6 +130,10 @@ function App() {
 				<Route
 					path="/uc"
 					element={<User />}
+				/>
+				<Route
+					path="/ureg"
+					element={<UserRegister />}
 				/>
 				<Route
 					path="*"

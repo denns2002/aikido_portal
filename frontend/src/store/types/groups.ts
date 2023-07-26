@@ -1,4 +1,4 @@
-import { IProfile } from './profile';
+import { IProfile } from './profiles';
 export interface IGroup {
     id: number
     name: string

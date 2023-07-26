@@ -1,20 +1,4 @@
-import React from "react"
-
-export interface IUser {
-	id: number | undefined
-	password: string
-	last_login: string
-	is_superuser: boolean
-	username: string
-	email: string
-	is_staff: boolean
-	is_active: boolean
-	is_verified: boolean
-	created_at: string
-	updated_at: string
-	groups: number[]
-	user_permisions: number[]
-}
+import { IUser } from "./users"
 
 export interface IProfile {
 	first_name: string

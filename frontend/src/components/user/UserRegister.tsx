@@ -1,77 +1,79 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetClubBySlugQuery, usePatchClubBySlugMutation, usePostClubMutation } from "../../store/apis";
-import { IClub, IInputAttributes } from "../../store/types";
+import { useNavigate } from "react-router-dom";
+import { usePostRegisterUserMutation } from "../../store/apis";
+import { IInputAttributes, IUserRegister } from "../../store/types";
 import { FormEvent, useState } from "react";
 import Input from "../forms/Input";
-import TextArea from "../forms/TextArea";
 
-function AddClub() {
+function UserRegister() {
 
-    const [addClub] = usePostClubMutation()
+    const [registerUser] = usePostRegisterUserMutation()
     const navigate = useNavigate()
 
-    const [inputsValues, setInputValues] = useState<IClub>(
+    const [inputsValues, setInputValues] = useState<IUserRegister>(
         {
-            id: 0,
-            name: "",
-            info: "",
-            slug:"",
-            is_active: false,
-            addresses: [],
-            groups: [],
-            photos: []
+            first_name:"",
+            last_name: "",
+            mid_name: "",
+            birth_date: "",
+            username: "",
+            password: "",
         }
     )
     const [errors, setErrors] = useState({
-            id: 0,
-            name: "Это поле необходимо заполнить!",
-            info: "Это поле необходимо заполнить!",
-            slug:"",
-            is_active: false,
-            addresses: [],
-            groups: [],
-            photos: []
+        first_name:"Это поле необходимо заполнить!",
+        last_name: "Это поле необходимо заполнить!",
+        mid_name: "",
+        birth_date: "",
+        username: "",
+        password: ""
     })
     const [touched, setTouched] = useState({
-		id: false,
-        name: false,
-        info: false,
-        slug:false,
-        is_active: false,
-        addresses: false,
-        groups: false,
-        photos: false
+		    first_name:false,
+            last_name: false,
+            mid_name: false,
+            birth_date: false,
+            username: false,
+            password: false
 	})
 
     const formInputs: IInputAttributes[] = [
         {
-            label: "Название",
+            label: "Имя",
 			type: "text",
-			placeholder: "name",
-			name: "name",
-			value: inputsValues.name,
+			placeholder: "first_name",
+			name: "first_name",
+			value: inputsValues.first_name,
 			required: true,
-			touched: touched.name,
+			touched: touched.first_name,
         },
         {
-            label: "Информация",
+            label: "Фамилия",
 			type: "text",
-			placeholder: "info",
-			name: "info",
-			value: inputsValues.info,
+			placeholder: "last_name",
+			name: "last_name",
+			value: inputsValues.last_name,
 			required: true,
-			touched: touched.info,
+			touched: touched.last_name
+        },
+        {
+            label: "Отчество",
+			type: "text",
+			placeholder: "mid_name",
+			name: "mid_name",
+			value: inputsValues.mid_name,
+			required: false,
+			touched: touched.mid_name
+        },
+        {
+            label: "День рождения",
+			type: "date",
+			placeholder: "birth_date",
+			name: "birth_date",
+			value: inputsValues.birth_date,
+			required: false,
+			touched: touched.birth_date
         }
     ]
-
-    const [settings, setSettings] = useState(
-        {
-            is_active: false,
-            addresses: [],
-            groups: [],
-            photos: []
-        }
-    )
 
     function handleChange(event: 
         React.ChangeEvent<HTMLInputElement> | 
@@ -105,13 +107,18 @@ function AddClub() {
         async function handleSubmit(event: FormEvent<HTMLFormElement>) {
             event.preventDefault()
 
-            await addClub({
-                ...inputsValues,
-                name: inputsValues.name, 
-                info: inputsValues.info, 
-                is_active: settings.is_active}).unwrap()
 
-            navigate(`/clubs`)
+            // if (!inputsValues.birth_date) {
+            //     setInputValues((prev) => {
+            //         delete prev.birth_date
+
+            //         return prev
+            //     })
+            // }
+            console.log(inputsValues)
+            await registerUser(inputsValues)
+            console.log({registerUser})
+            navigate(`/popo`)
 
         }
     
@@ -119,9 +126,9 @@ function AddClub() {
         <div className="relative my-auto">
             <div className="z-5 border-2 border-sky-700 relative top-0 left-0 bottom-0 right-0 mx-auto flex flex-col items-center rounded-xl px-8 py-7">
                 <label className="font-bold text-2xl">
-					Создать клуб
+					Создать пользователя
 				</label>
-                <form
+                <form autoComplete="off"
 					className="flex flex-col gap-2 mt-6 w-[30rem]"
 					onSubmit={handleSubmit}
 				>
@@ -129,44 +136,38 @@ function AddClub() {
                         {...formInputs[0]}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        errors={[errors.name]}
+                        errors={[errors.first_name]}
                     />
-                    <TextArea 
+                    <Input 
                         {...formInputs[1]}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        errors={[errors.info]}
+                        errors={[errors.last_name]}
                     />
-                    <button
-                        className={`${
-                            settings.is_active
-                                ? "bg-green-500 hover:bg-green-300"
-                                : "bg-slate-500 hover:bg-slate-300"
-                        } flex-1 font-semibold rounded-md p-1 h-9 text-white transition-all duration-200`}
-                        type="button"
-                        onClick={() => {
-                            setSettings((prev) => ({
-                                ...prev,
-                                is_active: !prev.is_active
-                            }))
-                        }}
-                    >
-                        {settings.is_active ? "Клуб активен" : "Клуб не активен"}
-                    </button>
+                    <Input 
+                        {...formInputs[2]}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    <Input 
+                        {...formInputs[3]}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
                     <div className="">
-                        {(errors.name && touched.name) || (errors.info && touched.info) ?
+                        {(errors.first_name && touched.first_name) || (errors.last_name && touched.last_name) ?
                         (<span className="text-red-700">
                             Заполните все необходимые поля!
                         </span>) : null}
                     </div>
-                    <div className="peer-pla flex justify-center flex-row gap-4">
+                    <div className=" flex justify-center flex-row gap-4">
 						<button
 							className="transition-all duration-200 font-semibold rounded-md p-1 w-28 h-9 mt-2 enabled:hover:bg-sky-300 enabled:bg-sky-500 disabled:bg-sky-100 text-white"
 							type="submit"
 							disabled={
 								!(
-									!errors.name &&
-                                    !errors.info
+									!errors.first_name &&
+                                    !errors.last_name
 								)
 							}
 						>
@@ -186,4 +187,4 @@ function AddClub() {
     );
 }
 
-export default AddClub;
+export default UserRegister;

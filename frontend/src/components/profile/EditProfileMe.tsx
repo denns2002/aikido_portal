@@ -7,7 +7,7 @@ import TextArea from "../forms/TextArea"
 import { IInputAttributes } from "../../store/types/components"
 import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
-import { IProfile } from "../../store/types/profile"
+import { IProfile } from "../../store/types/profiles"
 
 interface EditProfileMeProps {
     profile: IProfile
@@ -82,7 +82,7 @@ function EditProfileMe({profile}: EditProfileMeProps) {
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
-		await editProfile({ slug: profile.slug ? profile.slug : "", profile: inputsValues }).unwrap()
+		await editProfile({ slug: profile.slug ? profile.slug : "", profile: {...profile, ...inputsValues} }).unwrap()
 
 		navigate("/profile/me")
 	}

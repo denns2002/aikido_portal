@@ -14,7 +14,7 @@ import { IRootState } from "../../store/store"
 import { connect } from "react-redux"
 import { INavLink } from "../../store/types/components"
 import { useActions } from "../../hooks/useActions"
-import { IProfile } from "../../store/types/profile"
+import { IProfile } from "../../store/types/profiles"
 
 interface SidebarProps {
 	isAuthenticated: boolean

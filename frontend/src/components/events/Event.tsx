@@ -4,14 +4,13 @@ import {
 	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
 } from "../../store/apis"
-import { TbPlus, TbSettings } from "react-icons/tb"
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io"
-import { monthes } from "../../store/types/events"
+import { TbSettings } from "react-icons/tb"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
-import { IProfile, RanksKey, ranks } from "../../store/types/profile"
+import { IProfile, RanksKey, ranks } from "../../store/types/profiles"
 import { RxCross2 } from "react-icons/rx"
+import { getCorrectDate } from "../../functions"
 
 interface EventProps {
 	profile: IProfile
@@ -41,28 +40,6 @@ function Event({ profile, isAuthenicated }: EventProps) {
 	console.log(error)
 
 	const [showList, setShowList] = useState(false)
-
-	function getCorrectDate(date: string) {
-		const arr = date.split("-")
-
-		const time = arr[2].split("T").length > 1 ? arr[2].split("T")[1] : ""
-
-		type ObjectKey = keyof typeof monthes
-
-		return (
-			[
-				time
-					? arr[2][0] === "0"
-						? arr[2][1]
-						: arr[2].slice(0, 2)
-					: arr[2][0] === "0"
-					? arr[2][1]
-					: arr[2],
-				monthes[arr[1] as ObjectKey],
-				arr[0],
-			].join(" ") + (time ? `, ${time.slice(0, 5)}` : "")
-		)
-	}
 
 	function haveAccessRole(accessRoles: string[]) {
 		// for (let index = 0; index < profile.roles.length; index++) {
