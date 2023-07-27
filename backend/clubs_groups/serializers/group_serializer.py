@@ -6,19 +6,21 @@ from profiles.models.profile import Profile
 from profiles.serializers.profile_serializer import ProfileSerializer
 
 
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = "__all__"
-
-
 class GroupMemberSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
-    group = GroupSerializer()
 
     class Meta:
         model = GroupMember
         fields = ["profile", "group"]
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    groupmembers = GroupMemberSerializer(many=True, source='groupmember_set')
+    trainers = ProfileSerializer(many=True)
+
+    class Meta:
+        model = Group
+        fields = ['name', 'slug', 'trainers', 'groupmembers']
 
 
 # class DebtsSerializer(serializers.ModelSerializer):
