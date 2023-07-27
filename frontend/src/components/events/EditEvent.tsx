@@ -2,7 +2,6 @@ import { FormEvent, useState } from "react"
 import {
 	useDeleteEventBySlugMutation,
 	useGetEventBySlugQuery,
-	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
 	usePatchEventBySlugMutation,
 } from "../../store/apis"

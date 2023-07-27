@@ -133,7 +133,7 @@ function AddEvent() {
 		await addEvent(inputsValues).unwrap()
 
 		if (!error) {
-			navigate("/events")
+			navigate("/events/upcoming")
 		}
 	}
 

@@ -20,6 +20,19 @@ export const eventsApi = createApi({
 					  ]
 					: [{ type: "Events", id: "LIST" }],
 		}),
+		getEventsByFilter: builder.query<IEventList, {filter: string, date: string}>({
+			query: ({filter, date}) => ({ url: `/events/?${filter}=${date}`, method: "GET" }),
+			providesTags: (result) =>
+				result
+					? [
+							...result.results.map(({ id }) => ({
+								type: "Events" as const,
+								id,
+							})),
+							{ type: "Events", id: "LIST" },
+					  ]
+					: [{ type: "Events", id: "LIST" }],
+		}),	
 		postEvent: builder.mutation<
 			IEvent,
 			IEvent
@@ -83,4 +96,5 @@ export const {
 	usePatchEventBySlugMutation,
 	usePatchOrganizersToEventMutation,
 	usePostEventMutation,
+	useGetEventsByFilterQuery,
 } = eventsApi

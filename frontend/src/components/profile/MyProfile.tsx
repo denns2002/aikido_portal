@@ -24,9 +24,13 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 	const { data: club, isLoading: clubIsLoading } = useGetClubBySlugQuery(
 		profile?.club ? profile?.club : ""
 	)
-	// const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(
-	// 	profile?.group ? profile?.group : ""
-	// )
+
+	const { data: group, isLoading: groupIsLoading } = useGetGroupBySlugQuery(
+		profile?.group ? profile?.group : ""
+	)
+
+	console.log(club, group);
+	
 
 	const rankProps = getRankProps(profile?.rank?.name || "")
 
@@ -96,7 +100,7 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 								<span className="text-lg font-medium">
 									Клуб:
 								</span>
-								<span className="text-base">...</span>
+								<span className="text-base">{club ? club.name : "..."}</span>
 							</div>
 							<div className="h-[9rem] w-[9rem] bg-slate-300 flex justify-center items-center">
 								<TbPhotoCancel className="text-white h-14 w-14" />

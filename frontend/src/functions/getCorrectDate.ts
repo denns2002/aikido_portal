@@ -14,6 +14,10 @@ export const monthes = {
 }
 
 export function getCorrectDate(date: string) {
+    if (!date) {
+        return ""
+    }
+
     const arr = date.split("-")
 
     const time = arr[2].split("T").length > 1 ? arr[2].split("T")[1] : ""

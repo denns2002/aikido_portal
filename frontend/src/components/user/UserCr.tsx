@@ -3,7 +3,6 @@ import {
 	useGetMyProfileQuery,
 	useGetProfileBySlugQuery,
 	useGetProfileListQuery,
-	useGetTrainerGroupQuery,
 	useGetTrainerGroupsQuery,
 	usePatchProfileBySlugMutation,
 	usePostRegisterUserMutation,

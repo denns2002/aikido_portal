@@ -14,7 +14,7 @@ export const groupsApi = createApi({
 	baseQuery: customFetchBase,
 	endpoints: (builder) => ({
 		getGroups: builder.query<IGroupList, number>({
-			query: (page) => ({ url: `/clubs/group/?page=${page}`, method: "GET" }),
+			query: (page) => ({ url: `/groups/?page=${page}`, method: "GET" }),
 			providesTags: (result) =>
 				result
 					? [
@@ -27,22 +27,22 @@ export const groupsApi = createApi({
 					: [{ type: "Groups", id: "LIST" }],
 		}),
 		postGroup: builder.mutation<IGroup, IGroup>({
-			query: (group) => ({ url: "/clubs/group/", method: "POST", body: group }),
+			query: (group) => ({ url: "/group/", method: "POST", body: group }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		deleteGroup: builder.mutation<void, string>({
-			query: (slug) => ({ url: `/clubs/group/${slug}/`, method: "DELETE" }),
+			query: (slug) => ({ url: `/groups/${slug}/`, method: "DELETE" }),
 			invalidatesTags: [{ type: "Groups", id: "LIST" }],
 		}),
 		getGroupBySlug: builder.query<IGroup, string>({
-			query: (slug) => ({ url: `/clubs/group/${slug}/`, method: "GET" }),
+			query: (slug) => ({ url: `/groups/${slug}/`, method: "GET" }),
 		}),
 		patchGroupBySlug: builder.mutation<
 			IGroup,
 			{ slug: string; group: IGroup }
 		>({
 			query: ({ slug, group }) => ({
-				url: `/clubs/group/${slug}/`,
+				url: `/groups/${slug}/`,
 				method: "PATCH",
 				body: group,
 			}),
@@ -53,7 +53,7 @@ export const groupsApi = createApi({
 			{ groupSlug: string; trainer: number }
 		>({
 			query: ({ groupSlug, trainer }) => ({
-				url: `/clubs/group-trainer-change/${groupSlug}/`,
+				url: `/groups/group-trainer-change/${groupSlug}/`,
 				method: "PATCH",
 				body: { trainer: trainer },
 			}),
@@ -71,17 +71,17 @@ export const groupsApi = createApi({
 		}),
 		getTrainerGroups: builder.query<ITrainerGroupList, number>({
 			query: (page) => ({
-				url: `/clubs/trainer-groups/?page=${page}`,
+				url: `/trainer-groups/?page=${page}`,
 				method: "GET",
 			}),
 			providesTags: [{ type: "Groups", id: "LIST" }],
 		}),
-		getTrainerGroup: builder.query<
+		getTrainerGroupBySlug: builder.query<
 			ITrainerGroupMembersList,
 			{ slug: string; page: number }
 		>({
 			query: ({ slug, page }) => ({
-				url: `/clubs/trainer-groups/${slug}?page=${page}`,
+				url: `/trainer-groups/${slug}?page=${page}`,
 				method: "GET",
 			}),
 			providesTags: [{ type: "Groups", id: "LIST" }],
@@ -102,6 +102,6 @@ export const {
 	usePatchChangeGroupTrainerMutation,
 	useGetGroupTrainerQuery,
 	useGetTrainerGroupsQuery,
-	useGetTrainerGroupQuery,
+	useGetTrainerGroupBySlugQuery,
 	useDeleteGroupMemberMutation
 } = groupsApi

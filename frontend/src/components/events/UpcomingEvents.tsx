@@ -1,12 +1,13 @@
 import { connect } from "react-redux"
 import { IRootState } from "../../store/store"
 import EventCard from "./EventCard"
-import { useGetEventsQuery } from "../../store/apis"
+import { useGetEventBySlugQuery, useGetEventsByFilterQuery } from "../../store/apis"
 import { IProfile } from "../../store/types"
 import { HiPlus } from "react-icons/hi"
 import { NavLink } from "react-router-dom"
 import { useState } from "react"
 import EventsListCard from "./EventsListCard"
+import { getDateFilter } from "../../functions"
 
 interface EventsProps {
 	profile: IProfile
@@ -16,73 +17,73 @@ interface EventsProps {
 function UpcomingEvents({ profile, isAuthenticated }: EventsProps) {
 	const [toggle, setToggle] = useState(false)
 
-	const { data, isLoading } = useGetEventsQuery(1)
+	const { data: events, isLoading } = useGetEventsByFilterQuery({filter: "date_end_gte", date: getDateFilter()})
 
-	const events = [
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-09-12",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		},
-		{
-			about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
-			name: "XI Центральный семинар по прикладному айкидо",
-			date_start: "2023-01-02",
-			date_end: "2023-01-03",
-			reg_start: "2023-01-01",
-			reg_end: "2023-01-01",
-			slug: "upcoming-test"
-		}
-	]
+	// const events = [
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-09-12",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	},
+	// 	{
+	// 		about: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, consectetur! Aperiam accusamus assumenda error fugit! Debitis eius natus labore earum. Nisi harum laudantium, mollitia iure pariatur voluptatem quaerat fuga dolor dolorem aspernatur doloremque sed officiis exercitationem doloribus qui, at adipisci, minus officia! Adipisci animi dolores eaque molestias!",
+	// 		name: "XI Центральный семинар по прикладному айкидо",
+	// 		date_start: "2023-01-02",
+	// 		date_end: "2023-01-03",
+	// 		reg_start: "2023-01-01",
+	// 		reg_end: "2023-01-01",
+	// 		slug: "upcoming-test"
+	// 	}
+	// ]
 
 	return isLoading ? (
 		<div className="font-semibold text-lg">Идет загрузка</div>
@@ -107,7 +108,7 @@ function UpcomingEvents({ profile, isAuthenticated }: EventsProps) {
 					</button>
 				</div>
 				<div className={`flex flex-row flex-wrap mt-6 ${toggle ? "gap-[3rem]" : "gap-4"}`}>
-					{events?.map((event, index) => {
+					{events?.results?.map((event, index) => {
 						if (toggle) {
 							return (
 								<EventCard name={event.name} slug="upcoming-test" image="" />

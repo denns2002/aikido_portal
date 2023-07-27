@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom"
-import { getAge, getCorrectDate } from "../../functions"
+import { getAge, getCorrectDate, isEventOpen } from "../../functions"
 import { IEvent } from "../../store/types"
 import Dropdown from "../custom/Dropdown"
 import { useState } from "react"
@@ -23,19 +23,19 @@ function EventParticipants() {
 
 	const groups = [
 		{
-			name: "Бебрики1",
+			name: "Группа1",
 		},
 		{
-			name: "Бебрики2",
+			name: "Группа2",
 		},
 		{
-			name: "Бебрики3",
+			name: "Группа3",
 		},
 		{
-			name: "Бебрики4",
+			name: "Группа4",
 		},
 		{
-			name: "Бебрики5",
+			name: "Группа5",
 		},
 	]
 
@@ -84,7 +84,7 @@ function EventParticipants() {
 		},
 	]
 
-	return slug === "upcoming-test" ? (
+	return isEventOpen(event.date_end) ? (
 		<div className="h-full w-full flex flex-col items-center -mt-[2rem] relative">
 			<div className="w-full bg-sky-500 p-5 pl-[20%] flex flex-col">
 				<h1 className="text-white font-bold text-3xl">{event?.name}</h1>
