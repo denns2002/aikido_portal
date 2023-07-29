@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from clubs_groups.models.club import Club
 from clubs_groups.serializers.club_serializer import ClubSerializer, \
     ClubMenagerSerializer
+from profiles.models.profile import Profile
 
 
 class ClubListAPIView(ListCreateAPIView):

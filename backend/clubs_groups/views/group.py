@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from clubs_groups.models.group import Group, GroupMember
 from clubs_groups.serializers.group_serializer import GroupSerializer, GroupMemberChangeSerializer, TrainerChangeSerializer
 from clubs_groups.serializers.trainer_groups_serializer import TrainerGroupsSerializer, TrainerGroupDetailSerializer
+from profiles.models.profile import Profile
 
 
 class GroupListAPIView(ListCreateAPIView):
@@ -27,7 +28,7 @@ class TrainerGroupListAPIView(ListAPIView):
     serializer_class = TrainerGroupsSerializer
 
     def get_queryset(self):
-        trainer = get_user_model().objects.get(id=self.request.user.id)
+        trainer = Profile.objects.get(user=self.request.user.id)
         groups = Group.objects.filter(trainers__id=trainer.id)
 
         return groups

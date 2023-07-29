@@ -70,6 +70,12 @@ class TrainerChangeSerializer(serializers.ModelSerializer):
                     instance.trainers.remove(Profile.objects.get(slug=validated_data['trainers']).id)
                 else:
                     instance.trainers.add(Profile.objects.get(slug=validated_data['trainers']).id)
+                if Group.objects.filter(trainers__id=trainer.id):
+                    trainer.is_trainer = True
+                else:
+                    trainer.is_trainer = False
+                trainer.save()
+
             else:
                 raise ValueError()
 

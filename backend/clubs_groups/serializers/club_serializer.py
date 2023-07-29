@@ -27,6 +27,12 @@ class ClubMenagerSerializer(serializers.ModelSerializer):
                     print('re')
                 else:
                     instance.managers.add(Profile.objects.get(slug=validated_data['managers']).id)
+                if Club.objects.filter(managers__id=manager.id):
+                    manager.is_manager = True
+                else:
+                    manager.is_manager = False
+                manager.save()
+
             else:
                 raise ValueError()
 
