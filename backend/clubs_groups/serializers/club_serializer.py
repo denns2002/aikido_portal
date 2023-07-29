@@ -2,13 +2,24 @@ from rest_framework import serializers
 
 from clubs_groups.models.club import Club
 from profiles.models.profile import Profile
+from profiles.serializers.profile_serializer import ProfileSerializer
 
 
 class ClubSerializer(serializers.ModelSerializer):
-    # группы должы отображаться лучше
+    managers = ProfileSerializer(many=True, read_only=True)
+
     class Meta:
         model = Club
-        fields = "__all__"
+        fields = [
+            "name",
+            "info",
+            "address",
+            "slug",
+            "groups",
+            "managers",
+            "photos",
+            "is_active",
+        ]
 
 
 class ClubMenagerSerializer(serializers.ModelSerializer):

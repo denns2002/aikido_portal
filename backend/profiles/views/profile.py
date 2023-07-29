@@ -1,7 +1,8 @@
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 from profiles.models.profile import Profile
 from profiles.serializers.profile_serializer import ProfileSerializer, TrainerListRegisterSerializer
@@ -34,6 +35,16 @@ class ProfileListAPIView(ListAPIView):
     """
 
     serializer_class = ProfileSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = [
+        'first_name',
+        'last_name',
+        'mid_name',
+        'phones__number'
+    ]
+    filterset_fields = ["is_trainer", "is_manager"]
+    ordering_fields = ['first_name']
+    ordering = ['first_name']
 
     def get_queryset(self):
         queryset = Profile.objects.filter(user__is_verified=True)
