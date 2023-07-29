@@ -4,6 +4,7 @@ export interface IGroup {
     name: string
     slug: string
     trainers: number[]
+    groupmembers: IGroupMember[]
 }
 
 export interface IGroupList {
@@ -58,4 +59,9 @@ export interface ITrainerGroupMembersList {
     next: string
     previous: string
     results: ITrainerGroupMembers[]
+}
+
+export interface IGroupMember {
+    profile: IProfile
+    group?: number
 }

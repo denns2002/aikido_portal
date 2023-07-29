@@ -5,7 +5,7 @@ import {
 	useGetGroupBySlugQuery,
 	useGetMyProfileQuery,
 } from "../../store/apis"
-import { getCorrectDate, getRankProps } from "../../functions"
+import { getAge, getCorrectDate, getRankProps } from "../../functions"
 import { TbPhotoCancel } from "react-icons/tb"
 import { useState } from "react"
 import Dropdown from "../custom/Dropdown"
@@ -36,7 +36,7 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 
 	const {logOut} = useActions()
 
-	return profileIsLoading ? (
+	return profileIsLoading || groupIsLoading ? (
 		<div className="font-semibold text-lg">Идет загрузка</div>
 	) : (
 		<div className="h-full w-full flex flex-col items-center">
@@ -108,8 +108,30 @@ function MyProfile({ isAuthenticated }: MyProfileProps) {
 						</div>
 					</div>
 				</div>
-				<Dropdown title="Моя группа" defaultShow={false}>
-					<>{"..."}</>
+				<Dropdown title="Моя группа" defaultShow={true}>
+					<div className="w-full flex flex-col gap-4">
+						{group?.groupmembers?.map((member, index) => {
+							const memberProfile = member.profile
+
+                            const rankProps = getRankProps(memberProfile.rank?.name ? memberProfile.rank?.name : "")
+
+							return (
+								<div key={index} className="w-full shadow-md flex flex-row">
+									<div className="p-2 flex-1 border-r-[1px] border-sky-500 text-xl font-medium">
+										{memberProfile.last_name} {memberProfile.first_name} {memberProfile.mid_name}
+									</div>
+									<div className="flex flex-col p-2 w-[10rem] border-x-[1px] border-sky-500 text-xl gap-1">
+										<div className={`${rankProps.backgroundColor} ${rankProps.textColor} text-lg rounded-md text-center font-medium`}>
+                                            {rankProps.text}
+                                        </div>
+									</div>
+									<div className="p-2 w-[5rem] border-l-[1px] border-sky-500 text-xl font-medium">
+										{getAge(memberProfile?.birth_date ? memberProfile.birth_date : "")} лет
+									</div>
+								</div>
+							)
+						})}
+					</div>
 				</Dropdown>
 				<Dropdown title="Мои мероприятия" defaultShow={true}>
 					<>{"..."}</>
