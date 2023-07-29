@@ -40,6 +40,8 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         verbose_name=translate_ru("User", "Пользователь"),
     )
+    is_trainer = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)
     first_name = models.CharField(
         max_length=255,
         verbose_name=translate_ru("First Name", "Имя")

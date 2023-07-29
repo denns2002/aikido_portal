@@ -28,6 +28,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            "is_trainer",
+            "is_manager",
             "first_name",
             "last_name",
             "mid_name",
