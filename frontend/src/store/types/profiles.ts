@@ -15,6 +15,8 @@ export interface IProfile {
 	user: IUser
 	phones: IPhone[]
 	photos: number[]
+	is_trainer?: boolean
+	is_manager?: boolean
 }
 
 export interface IUserRegister {

@@ -3,11 +3,13 @@ import { connect } from "react-redux/es/exports"
 import { Navigate, useLocation } from "react-router-dom"
 import { IRootState } from "../../store/store"
 import { IProfile } from "../../store/types/profiles"
+import { IAccessRoles } from "../../store/types"
+import { doesHaveAccessRole } from "../../functions"
 
 interface PrivateRouteProps {
 	isAuthenticated: boolean
 	profileIsLoading: boolean
-	accessRoles: string[]
+	accessRoles?: IAccessRoles
 	profile: IProfile
 	children: React.ReactElement
 }
@@ -15,23 +17,11 @@ interface PrivateRouteProps {
 function PrivateRoute({ isAuthenticated, children, accessRoles, profile, profileIsLoading }: PrivateRouteProps) {
 	const location = useLocation()
 
-	function haveAccessRole(accessRoles: string[]) {
-		// for (let index = 0; index < profile.roles.length; index++) {
-		// 	if (accessRoles.includes(profile.roles[index].name)) {
-		// 		return true
-		// 	}
-		// }
-
-		return true
-	}
-
-	console.log("private", isAuthenticated, accessRoles, haveAccessRole(accessRoles), profile);
-
 	if (profileIsLoading) {
 		return <div className="font-semibold">Идет загрузка...</div>
 	}
 
-	return isAuthenticated && haveAccessRole(accessRoles) ? (
+	return (accessRoles ? isAuthenticated && doesHaveAccessRole(profile, accessRoles) : isAuthenticated) ? (
 		children
 	) : (
 		<Navigate

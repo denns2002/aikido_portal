@@ -29,30 +29,42 @@ function App() {
 	return (
 		<Layout>
 			<Routes>
-				<Route
-					path="/"
-					element={<Home />}
-				/>
+				<Route path="/" element={<Home />} />
 				<Route
 					path="/clubs"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: false,
+								is_manager: true,
+							}}
+						>
 							<Clubs />
 						</PrivateRoute>
 					}
 				/>
 				<Route
 					path="/clubs/:slug"
-					element= {
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+					element={
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: false,
+								is_manager: true,
+							}}
+						>
 							<Club />
 						</PrivateRoute>
-					}	
+					}
 				/>
 				<Route
 					path="/clubs/:slug/edit"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: false,
+								is_manager: true,
+							}}
+						>
 							<EditClub />
 						</PrivateRoute>
 					}
@@ -60,7 +72,12 @@ function App() {
 				<Route
 					path="/clubs/add"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: false,
+								is_manager: true,
+							}}
+						>
 							<AddClub />
 						</PrivateRoute>
 					}
@@ -68,51 +85,52 @@ function App() {
 				<Route
 					path="/group"
 					element={
-						<PrivateRoute accessRoles={["Студент", "Тренер", "Руководитель"]}>
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: true,
+								is_manager: false,
+							}}
+						>
 							<Group />
 						</PrivateRoute>
 					}
 				/>
-				<Route
-					path="/signin"
-					element={<SignIn />}
-				/>
-				<Route
-					path="/events"
-					element={<Events />}
-				/>
+				<Route path="/signin" element={<SignIn />} />
+				<Route path="/events" element={<Events />} />
 				<Route
 					path="/events/add"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+						<PrivateRoute
+							accessRoles={{
+								is_trainer: false,
+								is_manager: true,
+							}}
+						>
 							<AddEvent />
 						</PrivateRoute>
 					}
 				/>
-				<Route
-					path="/events/upcoming"
-					element={<UpcomingEvents />}
-				/>
-				<Route
-					path="/events/past"
-					element={<PastEvents />}
-				/>
-				<Route
-					path="/events/:slug"
-					element={<Event />}
-				/>
+				<Route path="/events/upcoming" element={<UpcomingEvents />} />
+				<Route path="/events/past" element={<PastEvents />} />
+				<Route path="/events/:slug" element={<Event />} />
 				<Route
 					path="/events/:slug/participants"
 					element={<EventParticipants />}
 				/>
 				<Route
 					path="/events/:slug/application"
-					element={<EventApplicaition />}
+					element={
+						<PrivateRoute
+							accessRoles={{ is_trainer: true, is_manager: true }}
+						>
+							<EventApplicaition />
+						</PrivateRoute>
+					}
 				/>
 				<Route
 					path="/events/:slug/edit"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Руководитель"]}>
+						<PrivateRoute accessRoles={{is_trainer: false, is_manager: true}}>
 							<EditEvent />
 						</PrivateRoute>
 					}
@@ -120,21 +138,16 @@ function App() {
 				<Route
 					path="/trainer"
 					element={
-						<PrivateRoute accessRoles={["Тренер"]}>
+						<PrivateRoute accessRoles={{is_trainer: true, is_manager: false}}>
 							<Trainer />
 						</PrivateRoute>
 					}
 				/>
-				<Route
-					path="/trainer/add-user"
-					element={
-						<AddUser />
-					}
-				/>
+				<Route path="/trainer/add-user" element={<AddUser />} />
 				<Route
 					path="/profile/my-profile"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Студент"]}>
+						<PrivateRoute>
 							<MyProfile />
 						</PrivateRoute>
 					}
@@ -142,23 +155,14 @@ function App() {
 				<Route
 					path="/profile/me/edit"
 					element={
-						<PrivateRoute accessRoles={["Тренер", "Студент"]}>
+						<PrivateRoute>
 							<EditMyProfile />
 						</PrivateRoute>
 					}
 				/>
-				<Route
-					path="/uc"
-					element={<User />}
-				/>
-				<Route
-					path="/ureg"
-					element={<UserRegister />}
-				/>
-				<Route
-					path="*"
-					element={<NotFound />}
-				/>
+				<Route path="/uc" element={<User />} />
+				<Route path="/ureg" element={<UserRegister />} />
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Layout>
 	)

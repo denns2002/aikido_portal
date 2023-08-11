@@ -29,26 +29,6 @@ export const usersApi = createApi({
 				}),
 			}
 		),
-		// putActivatingId: builder.mutation<
-		// 	{ is_active: boolean },
-		// 	{ id: number; is_active: boolean }
-		// >({
-		// 	query: ({ id, is_active }) => ({
-		// 		url: `/users/activating/${id}/`,
-		// 		method: "PUT",
-		// 		body: { is_active: is_active },
-		// 	}),
-		// }),
-		// patchActivatingId: builder.mutation<
-		// 	{ is_active: boolean },
-		// 	{ id: number; is_active: boolean }
-		// >({
-		// 	query: ({ id, is_active }) => ({
-		// 		url: `/users/activating/${id}/`,
-		// 		method: "PATCH",
-		// 		body: { is_active: is_active },
-		// 	}),
-		// }),
 		postRefreshToken: builder.mutation<ITokens, { refresh: string }>({
 			query: (tokens) => ({
 				url: `/auth/refresh/`,
@@ -117,6 +97,4 @@ export const {
 	usePostSignOutMutation,
 	usePostRefreshTokenMutation,
 	usePostVerifyTokenMutation,
-	// usePatchActivatingIdMutation,
-	// usePutActivatingIdMutation,
 } = usersApi

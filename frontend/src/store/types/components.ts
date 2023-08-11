@@ -19,3 +19,8 @@ export interface INavLink {
 export interface ILocationState {
 	from: string
 }
+
+export interface IAccessRoles {
+	is_trainer: boolean
+	is_manager: boolean
+}
