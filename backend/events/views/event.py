@@ -6,7 +6,8 @@ from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import (GenericAPIView, ListAPIView,
                                      RetrieveUpdateDestroyAPIView,
-                                     UpdateAPIView, ListCreateAPIView)
+                                     UpdateAPIView, ListCreateAPIView,
+                                     RetrieveAPIView)
 from rest_framework.permissions import AllowAny
 from rest_framework import filters
 
@@ -16,6 +17,8 @@ from events.serializers.event_serializer import (EventOrganizersSerializer,
                                                  EventSerializer,
                                                  PlannedEventSerializer,
                                                  EventCoOrganizersSerializer)
+from statements.models.statement import Statement
+from statements.serializers.statement import DownloadStatementSerializer
 
 
 # class RegEndGTEFilterBacked(filters.BaseFilterBackend):
@@ -105,3 +108,13 @@ class PlannedEventsAPIView(ListAPIView):
         planned_events = PlannedEvents.objects.filter(group__in=groups, event__date_end__gte=date.today())
 
         return planned_events
+
+
+class EventStatementAPIView(RetrieveAPIView):
+
+    def get_object(self):
+        return Statement.objects.filter(event=self.kwargs['event_id']).last()
+
+    serializer_class = DownloadStatementSerializer
+    lookup_field = "event_id"
+

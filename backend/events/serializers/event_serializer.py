@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from events.models.event import Event, PlannedEvents
+from statements.models.statement import Statement
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -27,3 +28,4 @@ class PlannedEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlannedEvents
         fields = ["event"]
+
