@@ -25,4 +25,4 @@ class StatementCreateEventAPIView(CreateAPIView):
 class StatementDownloadAPIView(RetrieveAPIView):
     serializer_class = DownloadStatementSerializer
     queryset = Statement.objects.all()
-    lookup_field = "event__slug"
+    lookup_field = "id"

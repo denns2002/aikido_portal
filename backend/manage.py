@@ -9,10 +9,15 @@ from dotenv import load_dotenv
 def main():
     load_dotenv()
     """Run administrative tasks."""
-    if os.environ["DJANGO_DEVELOPMENT"] == "true":
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
-    else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.prod")
+    try:
+        if os.environ["DJANGO_DEVELOPMENT"] == "true":
+            os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
+        else:
+            os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.prod")
+    except KeyError as exc:
+        raise KeyError(
+            f"Env key {exc} not found! Maybe you forgot of env."
+        )
 
     try:
         from django.core.management import execute_from_command_line

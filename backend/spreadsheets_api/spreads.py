@@ -72,7 +72,13 @@ def get_spreadsheet(spreadsheet_id, service):
     return spreadsheet
 
 
-# structure_data = {"requests": []}
+def get_spreadsheet_data(spreadsheet_id, service):
+    spreadsheet = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id,
+                                                      range='Лист1',
+                                                      valueRenderOption='FORMATTED_VALUE',
+                                                      dateTimeRenderOption='FORMATTED_STRING').execute()
+    values_data = spreadsheet['values']
+    return values_data
 
 
 def update_spreadsheet_structure(spreadsheet_id, serv, structure_data):
@@ -212,6 +218,29 @@ def prepare_background_color_request(
     structure_data["requests"].append(cells_request)
 
 
+def prepare_filter_set_basic_request(structure_data):
+    filter_request = {
+            'setBasicFilter': {
+                'filter': {
+                    'range': {
+                        "sheetId": 0,
+                        "startRowIndex": 5,
+                        #  "endRowIndex": 20,
+                        "startColumnIndex": 0,
+                        "endColumnIndex": 12
+                    },
+                    'sortSpecs': [
+                        {
+                            'dimensionIndex': 1,
+                            'sortOrder': 'ASCENDING'
+                        }
+                    ]
+                }
+            }
+    }
+    structure_data["requests"].append(filter_request)
+
+
 def update_spreadsheet_values(spreadsheet_id, service, batch_update_values_data):
     service.spreadsheets().values().batchUpdate(
         spreadsheetId=spreadsheet_id,
@@ -241,9 +270,9 @@ def edit_ranges(grid_range):
     return [int(start_row) - 1, int(end_row), start_column, end_column]
 
 
-def create_sample(title, service, drive_serv, row_count, values_data, structure_data):
+def create_sample(title, service, drive_serv, row_count, values_data, structure_data, city, club_name):
     spreadsheet_id = create_sheet(title, service, row_count)
-    set_permissions_anyone(spreadsheet_id, "reader", drive_serv)
+    set_permissions_anyone(spreadsheet_id, "writer", drive_serv)
     prepare_merge_request("A1:I1", structure_data)
     prepare_merge_request("A2:B2", structure_data)
     prepare_changing_width(0, 1, 50, structure_data)
@@ -277,8 +306,8 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
         values=[
             ["Ведомость на семинар", ""],
             ["2023 Год", ""],
-            ["клуб", "детский"],
-            ["город", "Екб"],
+            ["клуб", club_name],
+            ["город", city],
         ],
     )
     prepare_background_color_request("A6:L6", [0.28, 0.45, 0.9], structure_data)
@@ -286,6 +315,21 @@ def create_sample(title, service, drive_serv, row_count, values_data, structure_
     prepare_font_size_request("A1:A1", 32, structure_data)
     prepare_text_format_request("A1:A1", True, structure_data)
     prepare_changing_height(0, 1, 60, structure_data)
+    prepare_filter_set_basic_request(structure_data)
     update_spreadsheet_values(spreadsheet_id, service, values_data)
     update_spreadsheet_structure(spreadsheet_id, service, structure_data)
     return spreadsheet_id
+
+
+def unite_data_spreads(list_links, service):
+    united_data = []
+    for spread in list_links:
+        link = spread.split('/')
+        for step in range (len(link)):
+            if link[step] == 'd':
+                cur_data = get_spreadsheet_data(link[step+1], service)
+                for row_num in range(len(cur_data)):
+                    if row_num > 5:
+                        united_data.append(cur_data[row_num])
+                break
+    return united_data

@@ -11,6 +11,7 @@ class Statement(models.Model):
         ("Мероприятие", "Мероприятие"),
     ]
 
+    fio = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     link = models.CharField(max_length=255, null=True, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)

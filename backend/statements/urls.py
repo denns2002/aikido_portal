@@ -9,5 +9,5 @@ urlpatterns = [
     path("free/", StatementCreateFreeAPIView.as_view(), name="statement-create-free"),
     path("group/", StatementCreateGroupAPIView.as_view(), name="statement-create-group"),
     path("event/", StatementCreateEventAPIView.as_view(), name="statement-create-event"),
-    path("<slug:slug>/download/", StatementDownloadAPIView.as_view(), name="statement-download"),
+    path("<int:id>/download/", StatementDownloadAPIView.as_view(), name="statement-download"),
 ]

@@ -68,3 +68,4 @@ class Event(models.Model):
 class PlannedEvents(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
